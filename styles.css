@@ -1,0 +1,336 @@
+/* ============================================
+   RESET & BASE STYLES
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+
+/* ============================================
+   ANIMATED BACKGROUND CYCLE
+   ============================================ */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    animation: cycleBackgrounds 104s linear infinite;
+}
+
+@keyframes cycleBackgrounds {
+    0% { background-image: url('images/IMG_1.JPEG'); }
+    7.69% { background-image: url('images/IMG_2.JPEG'); }
+    15.38% { background-image: url('images/IMG_3.JPEG'); }
+    23.07% { background-image: url('images/IMG_4.JPEG'); }
+    30.76% { background-image: url('images/IMG_5.JPEG'); }
+    38.45% { background-image: url('images/IMG_6.JPEG'); }
+    46.14% { background-image: url('images/IMG_7.JPEG'); }
+    53.83% { background-image: url('images/IMG_8.JPEG'); }
+    61.52% { background-image: url('images/IMG_9.JPEG'); }
+    69.21% { background-image: url('images/IMG_10.JPEG'); }
+    76.9% { background-image: url('images/IMG_11.JPEG'); }
+    84.59% { background-image: url('images/IMG_12.JPEG'); }
+    92.28% { background-image: url('images/IMG_13.JPEG'); }
+    100% { background-image: url('images/IMG_1.JPEG'); }
+}
+
+/* ============================================
+   GLASSMORPHISM CONTAINER
+   ============================================ */
+.splash-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    padding: 20px;
+}
+
+.glass-card {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(200px);
+    -webkit-backdrop-filter: blur(200px);
+    border-radius: 20px;
+    padding: 60px 40px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(102, 126, 234, 0.4),
+                0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 550px;
+    width: 100%;
+    animation: fadeIn 1.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+.title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8),
+                 0 0 20px rgba(102, 126, 234, 0.5),
+                 0 0 40px rgba(102, 126, 234, 0.3);
+    letter-spacing: 3px;
+    animation: titleGlow 3s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+    0%, 100% {
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8),
+                     0 0 20px rgba(102, 126, 234, 0.5),
+                     0 0 40px rgba(102, 126, 234, 0.3);
+    }
+    50% {
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8),
+                     0 0 30px rgba(102, 126, 234, 0.7),
+                     0 0 60px rgba(102, 126, 234, 0.5);
+    }
+}
+
+.subtitle {
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 45px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+    letter-spacing: 1px;
+    font-weight: 300;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 35px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 16px 45px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    z-index: 1;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+/* ============================================
+   LINKS
+   ============================================ */
+.links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.link {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    position: relative;
+    padding-bottom: 3px;
+}
+
+.link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transition: width 0.3s ease;
+}
+
+.link:hover {
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8),
+                 0 0 10px rgba(102, 126, 234, 0.6);
+}
+
+.link:hover::after {
+    width: 100%;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+    .glass-card {
+        padding: 45px 35px;
+    }
+    
+    .title {
+        font-size: 2.5rem;
+        letter-spacing: 2px;
+    }
+    
+    .subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 35px;
+    }
+    
+    .btn {
+        padding: 14px 35px;
+        font-size: 1rem;
+    }
+    
+    .button-group {
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+    
+    .links {
+        gap: 20px;
+    }
+    
+    .link {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .glass-card {
+        padding: 35px 25px;
+    }
+    
+    .title {
+        font-size: 2rem;
+        letter-spacing: 1px;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+        margin-bottom: 30px;
+    }
+    
+    .btn {
+        padding: 12px 30px;
+        font-size: 0.95rem;
+    }
+    
+    .button-group {
+        gap: 12px;
+    }
+    
+    .links {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus styles for keyboard navigation */
+.btn:focus,
+.link:focus {
+    outline: 2px solid rgba(102, 126, 234, 0.8);
+    outline-offset: 4px;
+}
+
+/* ============================================
+   LOADING STATE (optional)
+   ============================================ */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.loading .glass-card {
+    animation: pulse 2s ease-in-out infinite;
+}
