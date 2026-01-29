@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../db/db');
+const { authenticateAdmin } = require('../middleware/auth');
+const { analyticsRateLimiter, statsRateLimiter, strictRateLimiter } = require('../middleware/rateLimiter');
 
 /**
  * POST /analytics/visit
  * Track page visits with detailed metadata
  */
-router.post('/visit', async (req, res) => {
+router.post('/visit', analyticsRateLimiter, async (req, res) => {
     try {
         const { 
             page, 
@@ -16,6 +18,14 @@ router.post('/visit', async (req, res) => {
             screenWidth,
             screenHeight 
         } = req.body;
+
+        // Validate required fields
+        if (!page) {
+            return res.status(400).json({
+                success: false,
+                error: 'Missing required field: page'
+            });
+        }
 
         // Get IP address (behind proxy support)
         const ipAddress = req.headers['x-forwarded-for']?.split(',')[0] || 
@@ -64,9 +74,17 @@ router.post('/visit', async (req, res) => {
  * POST /analytics/click
  * Track button/link clicks with destination
  */
-router.post('/click', async (req, res) => {
+router.post('/click', analyticsRateLimiter, async (req, res) => {
     try {
         const { button, page, destination, timestamp } = req.body;
+
+        // Validate required fields
+        if (!button || !page) {
+            return res.status(400).json({
+                success: false,
+                error: 'Missing required fields: button and page'
+            });
+        }
 
         const query = `
             INSERT INTO button_clicks (
@@ -104,9 +122,25 @@ router.post('/click', async (req, res) => {
  * POST /analytics/time-spent
  * Track how long users spend on page
  */
-router.post('/time-spent', async (req, res) => {
+router.post('/time-spent', analyticsRateLimiter, async (req, res) => {
     try {
         const { page, timeSpent, timestamp } = req.body;
+
+        // Validate required fields
+        if (!page || timeSpent === undefined) {
+            return res.status(400).json({
+                success: false,
+                error: 'Missing required fields: page and timeSpent'
+            });
+        }
+
+        // Validate timeSpent is a number
+        if (typeof timeSpent !== 'number' || timeSpent < 0) {
+            return res.status(400).json({
+                success: false,
+                error: 'timeSpent must be a positive number'
+            });
+        }
 
         const query = `
             INSERT INTO time_tracking (
@@ -140,9 +174,9 @@ router.post('/time-spent', async (req, res) => {
 /**
  * GET /analytics/stats
  * Get comprehensive analytics statistics
- * NOTE: Add authentication middleware in production!
+ * 🔒 PROTECTED - Requires admin API key
  */
-router.get('/stats', async (req, res) => {
+router.get('/stats', authenticateAdmin, statsRateLimiter, async (req, res) => {
     try {
         // Total visits
         const totalVisitsQuery = `
@@ -266,8 +300,9 @@ router.get('/stats', async (req, res) => {
 /**
  * GET /analytics/live
  * Get real-time analytics (last 24 hours)
+ * 🔒 PROTECTED - Requires admin API key
  */
-router.get('/live', async (req, res) => {
+router.get('/live', authenticateAdmin, statsRateLimiter, async (req, res) => {
     try {
         const liveQuery = `
             SELECT 
@@ -300,28 +335,48 @@ router.get('/live', async (req, res) => {
 /**
  * DELETE /analytics/clear
  * Clear old analytics data (older than specified days)
- * NOTE: Add authentication middleware in production!
+ * 🔒 PROTECTED - Requires admin API key
+ * ⚠️ FIXED: SQL injection vulnerability
  */
-router.delete('/clear', async (req, res) => {
+router.delete('/clear', authenticateAdmin, strictRateLimiter, async (req, res) => {
     try {
         const { olderThanDays = 90 } = req.body;
         
+        // Validate input
+        const days = parseInt(olderThanDays);
+        if (isNaN(days) || days < 1 || days > 3650) {
+            return res.status(400).json({
+                success: false,
+                error: 'olderThanDays must be a number between 1 and 3650'
+            });
+        }
+        
+        // Use parameterized queries to prevent SQL injection
         const queries = [
-            `DELETE FROM page_visits WHERE visited_at < NOW() - INTERVAL '${olderThanDays} days'`,
-            `DELETE FROM button_clicks WHERE clicked_at < NOW() - INTERVAL '${olderThanDays} days'`,
-            `DELETE FROM time_tracking WHERE tracked_at < NOW() - INTERVAL '${olderThanDays} days'`
+            {
+                text: 'DELETE FROM page_visits WHERE visited_at < NOW() - INTERVAL \'1 day\' * $1',
+                values: [days]
+            },
+            {
+                text: 'DELETE FROM button_clicks WHERE clicked_at < NOW() - INTERVAL \'1 day\' * $1',
+                values: [days]
+            },
+            {
+                text: 'DELETE FROM time_tracking WHERE tracked_at < NOW() - INTERVAL \'1 day\' * $1',
+                values: [days]
+            }
         ];
         
         let totalDeleted = 0;
         for (const query of queries) {
-            const result = await pool.query(query);
+            const result = await pool.query(query.text, query.values);
             totalDeleted += result.rowCount;
         }
         
         res.json({
             success: true,
             deletedRecords: totalDeleted,
-            olderThanDays
+            olderThanDays: days
         });
     } catch (error) {
         console.error('Error clearing old data:', error);
