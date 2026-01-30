@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>into the mystic…</title>
+
+  <!-- Only preload first image for fast initial load -->
+  <link rel="preload" href="../images/HummingBow.jpg" as="image">
+
+  <!-- EXTERNAL STYLESHEET -->
+  <link rel="stylesheet" href="style.css">
+  
+    <style>
+    /* Basic styles for the access denied modal */
+    #access-denied-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: none; /* Initially hidden */
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      color: white;
+      text-align: center;
+    }
+    .modal-content {
+      background: #1a1a1a;
+      padding: 40px;
+      border-radius: 10px;
+      border: 1px solid #333;
+    }
+    #login-redirect-btn {
+      background-color: #ff424d; /* Patreon brand color */
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="content-wrapper">
+    <div class="container" id="home-view">
+      <div class="header">
+        <h1>into the mystic…</h1>
+        <h2>this Life is such a Journey of Spirit</h2>
+      </div>
+
+      <div class="book-img">
+        <!-- Open Book Image -->
+      </div>
+
+      <div class="columns">
+        <div class="col">
+          <div class="blurb">
+            ...In which our hero rediscovers a connection with the primal matrix and comes a little closer to figuring out what it really means to die.<br><br>
+            Some of the characters' names have been changed to protect their identities.<br><br>
+            This situation will hopefully soon be remedied.<br><br>
+            We apologize for any inconvenience that <em>entheogenic suppression and prohibition</em> may have caused.
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="latest">
+            <h3><a href="#" id="latest-title" class="latest-title-link">Latest installment</a> <span class="rainbow-date" id="latest-date"></span></h3>
+            <p id="latest-excerpt">Begin your journey...</p>
+            <a href="#" id="read-more">read more</a>
+          </div>
+
+          <div class="further-info">
+            <h3>Further Information</h3>
+            <div id="info-list">
+              <span class="write-btn" onclick="openWriteModal()">+ Write Post or Info</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contents-section">
+        <div class="tab">Contents</div>
+        <div class="tab-content" id="post-list"></div>
+      </div>
+
+      <div class="posts" id="posts-container"></div>
+
+    </div>
+
+    <div class="container" id="single-post" style="display:none;">
+      <div id="single-content"></div>
+      <div class="post-nav">
+        <a href="#" id="prev-post" class="nav-link">← Previous</a>
+        <a href="#" onclick="showHome()" class="nav-link home-link">Back to Blog</a>
+        <a href="#" id="next-post" class="nav-link">Next →</a>
+      </div>
+    </div>
+
+    <div class="container" id="info-page" style="display:none;">
+      <div id="info-content"></div>
+      <div class="post-nav">
+        <a href="#" onclick="showHome()" class="nav-link home-link">Back to Blog</a>
+      </div>
+    </div>
+
+    <div id="write-modal">
+      <div class="modal-box">
+        <h2>Create New</h2>
+        <button onclick="openBlogEditor()">Blog Post</button>
+        <button onclick="openInfoEditor()">Info Page</button>
+        <br><br>
+        <button style="background:#666;" onclick="closeWriteModal()">Cancel</button>
+      </div>
+    </div>
+
+    <div id="editor">
+      <div class="editor-box">
+        <h2 id="editor-title">Write Blog Post</h2>
+        <input type="text" id="post-title" placeholder="Title...">
+        <div class="editor-toolbar">
+          <button type="button" onclick="formatText('bold')" title="Bold"><b>B</b></button>
+          <button type="button" onclick="formatText('italic')" title="Italic"><i>I</i></button>
+          <button type="button" onclick="formatText('underline')" title="Underline"><u>U</u></button>
+          <span class="toolbar-divider"></span>
+          <button type="button" onclick="formatText('h2')" title="Heading">H</button>
+          <button type="button" onclick="formatText('h3')" title="Subheading">h</button>
+          <span class="toolbar-divider"></span>
+          <button type="button" onclick="formatText('ul')" title="Bullet List">•</button>
+          <button type="button" onclick="formatText('ol')" title="Numbered List">1.</button>
+          <span class="toolbar-divider"></span>
+          <button type="button" onclick="formatText('link')" title="Insert Link">🔗</button>
+          <button type="button" onclick="formatText('quote')" title="Quote">❝</button>
+          <button type="button" onclick="formatText('hr')" title="Divider">―</button>
+        </div>
+        <div id="post-content" class="rich-editor" contenteditable="true" placeholder="Your journey..."></div>
+        <button onclick="savePost()">Publish</button>
+        <button class="delete-btn" id="delete-btn" style="display:none;" onclick="deletePost()">Delete</button>
+        <button onclick="closeEditor()">Close</button>
+      </div>
+    </div>
+
+    <div id="info-editor">
+      <div class="editor-box">
+        <h2 id="info-title">Add Info Page</h2>
+        <input type="text" id="info-name" placeholder="Page name...">
+        <div class="editor-toolbar">
+          <button type="button" onclick="formatInfoText('bold')" title="Bold"><b>B</b></button>
+          <button type="button" onclick="formatInfoText('italic')" title="Italic"><i>I</i></button>
+          <button type="button" onclick="formatInfoText('underline')" title="Underline"><u>U</u></button>
+          <span class="toolbar-divider"></span>
+          <button type="button" onclick="formatInfoText('h2')" title="Heading">H</button>
+          <button type="button" onclick="formatInfoText('h3')" title="Subheading">h</button>
+          <span class="toolbar-divider"></span>
+          <button type="button" onclick="formatInfoText('ul')" title="Bullet List">•</button>
+          <button type="button" onclick="formatInfoText('ol')" title="Numbered List">1.</button>
+          <span class="toolbar-divider"></span>
+          <button type="button" onclick="formatInfoText('link')" title="Insert Link">🔗</button>
+          <button type="button" onclick="formatInfoText('quote')" title="Quote">❝</button>
+          <button type="button" onclick="formatInfoText('hr')" title="Divider">―</button>
+        </div>
+        <div id="info-body" class="rich-editor" contenteditable="true" placeholder="Content..."></div>
+        <button onclick="saveInfo()">Save</button>
+        <button class="delete-btn" id="info-delete" style="display:none;" onclick="deleteInfo()">Delete</button>
+        <button onclick="closeInfoEditor()">Close</button>
+      </div>
+    </div>
+</div>
+
+<!-- This modal is shown by blook.js if the user is NOT a patron -->
+<div id="access-denied-modal">
+    <div class="modal-content">
+      <h2>Access Denied</h2>
+      <p>This content is exclusive to my Patreon members.</p>
+      <p>Please log in with Patreon to continue.</p>
+      <button id="login-redirect-btn">Become a Member</button>
+    </div>
+</div>
+
+<script src="blook.js"></script>
+
+</body>
+</html>
