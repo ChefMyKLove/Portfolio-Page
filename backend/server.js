@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const session = require('express-session');
 const pool = require('./db/db');
 
 const app = express();
@@ -8,6 +9,7 @@ const PORT = process.env.PORT || 3002;
 
 // Import routes
 const analyticsRoutes = require('./routes/analytics');
+const authRoutes = require('./routes/auth');
 
 // ============================================
 // STARTUP VALIDATION
@@ -69,6 +71,18 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Session configuration
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'your-secret-key-change-in-production',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production', // HTTPS only in production
+        httpOnly: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    }
+}));
+
 // Request logging middleware
 app.use((req, res, next) => {
     const timestamp = new Date().toISOString();
@@ -87,6 +101,9 @@ app.use((req, res, next) => {
 // ============================================
 // ROUTES
 // ============================================
+
+// Authentication routes
+app.use('/auth', authRoutes);
 
 // Analytics routes
 app.use('/analytics', analyticsRoutes);
