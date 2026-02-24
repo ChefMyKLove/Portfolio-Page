@@ -48,7 +48,15 @@ pool.query('SELECT NOW()', (err, res) => {
 // ============================================
 
 // CORS configuration
-const allowedOrigins = process.env.FRONTEND_URL.split(',').map(url => url.trim());
+const allowedOrigins = process.env.FRONTEND_URL.split(',').map(url => {
+    // Extract just the origin (domain) part, removing any paths
+    try {
+        const urlObj = new URL(url.trim());
+        return `${urlObj.protocol}//${urlObj.host}`;
+    } catch (e) {
+        return url.trim();
+    }
+});
 
 app.use(cors({
     origin: (origin, callback) => {
@@ -58,7 +66,7 @@ app.use(cors({
         if (allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
-            console.warn(`\u26a0\ufe0f  CORS blocked request from: ${origin}`);
+            console.warn(`⚠️  CORS blocked request from: ${origin}`);
             callback(new Error('Not allowed by CORS'));
         }
     },
