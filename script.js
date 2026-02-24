@@ -2,7 +2,7 @@
 // CONFIGURATION
 // ============================================
 const CONFIG = {
-    API_BASE_URL: 'http://localhost:3002',
+    API_BASE_URL: 'https://portfolio-and-blog-production.up.railway.app',
     ENABLE_ANALYTICS: true,
     PRELOAD_IMAGES: true,
     DEBUG: false
@@ -82,29 +82,42 @@ async function trackButtonClick(buttonName, destination) {
 function preloadBackgroundImages() {
     if (!CONFIG.PRELOAD_IMAGES) return;
     
-    const imageCount = 13;
-    const images = [];
+    // Actual image files in the images directory
+    const imageNames = [
+        'IMG_6794.JPEG',
+        'IMG_6795.JPEG',
+        'IMG_6796.JPEG',
+        'IMG_6797.JPEG',
+        'IMG_6906.JPEG',
+        'IMG_6907.JPEG',
+        'IMG_6908.JPEG',
+        'IMG_6909.JPEG',
+        'IMG_6910.JPEG',
+        'IMG_6911.JPEG',
+        'IMG_6912.JPEG',
+        'TunnelBow.JPEG',
+        'HummingBow.jpg'
+    ];
+    
     let loadedCount = 0;
     
     log('Preloading background images...');
     
-    for (let i = 1; i <= imageCount; i++) {
+    imageNames.forEach((imageName, idx) => {
         const img = new Image();
-        img.src = `images/IMG_${i}.JPEG`;
+        img.src = `images/${imageName}`;
         img.onload = () => {
             loadedCount++;
-            log(`Image ${i} loaded (${loadedCount}/${imageCount})`);
-            if (loadedCount === imageCount) {
+            log(`Image ${idx + 1} loaded (${loadedCount}/${imageNames.length})`);
+            if (loadedCount === imageNames.length) {
                 log('All images preloaded successfully');
                 document.body.classList.remove('loading');
             }
         };
         img.onerror = () => {
-            logError(`Failed to load image ${i}`);
+            logError(`Failed to load image: ${imageName}`);
         };
-        images.push(img);
-    }
-    return images;
+    });
 }
 
 // ============================================

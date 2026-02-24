@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notes App – Portfolio Project</title>
+  <style>
+    /* ── Reset & Base ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0f1117;
+      --surface:   #1a1d27;
+      --border:    #2e3147;
+      --accent:    #6c63ff;
+      --accent-h:  #8a84ff;
+      --text:      #e2e4f0;
+      --muted:     #7b7f96;
+      --tag-bg:    #23263a;
+      --radius:    14px;
+      --shadow:    0 8px 32px rgba(0,0,0,.45);
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 24px 80px;
+      line-height: 1.6;
+    }
+
+    /* ── Page Header ──────────────────────────────── */
+    header {
+      text-align: center;
+      margin-bottom: 52px;
+    }
+    header .label {
+      font-size: .75rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    header h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff 30%, var(--accent-h));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    header p {
+      color: var(--muted);
+      margin-top: 10px;
+      font-size: .95rem;
+    }
+
+    /* ── Two-column grid ──────────────────────────── */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      width: 100%;
+      max-width: 1080px;
+    }
+    @media (max-width: 720px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Card ─────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-badge {
+      display: inline-block;
+      font-size: .7rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      background: var(--tag-bg);
+      color: var(--accent-h);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 4px 12px;
+      margin-bottom: 16px;
+      width: fit-content;
+    }
+
+    .card h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    /* ── Overview Card ────────────────────────────── */
+    .overview-card .section-title {
+      font-size: .7rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 18px 0 6px;
+    }
+    .overview-card .section-title:first-of-type { margin-top: 0; }
+
+    .overview-card p, .overview-card li {
+      font-size: .9rem;
+      color: #bbbdd4;
+    }
+
+    .overview-card .situation p { color: #d0d2e8; font-size: .95rem; }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 4px;
+    }
+    .tag {
+      font-size: .75rem;
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      color: var(--accent-h);
+      border-radius: 50px;
+      padding: 3px 10px;
+    }
+
+    .outcome-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .outcome-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .outcome-list li::before {
+      content: '✓';
+      color: #4ade80;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── Demo Card ────────────────────────────────── */
+    .demo-card {
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .demo-card .description {
+      font-size: .9rem;
+      color: #bbbdd4;
+      flex: 1;
+    }
+
+    .demo-card .description li {
+      margin-left: 18px;
+      margin-bottom: 4px;
+    }
+
+    .preview-thumb {
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .preview-thumb svg {
+      opacity: .18;
+      width: 80px;
+      height: 80px;
+    }
+    .preview-thumb .thumb-label {
+      position: absolute;
+      font-size: .75rem;
+      color: var(--muted);
+      bottom: 12px;
+      letter-spacing: .06em;
+    }
+
+    /* ── Launch Button ────────────────────────────── */
+    .btn-launch {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: inherit;
+      background: linear-gradient(135deg, var(--accent), #9370ff);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(108,99,255,.4);
+      transition: transform .15s, box-shadow .15s, filter .15s;
+      text-decoration: none;
+      margin-top: auto;
+    }
+    .btn-launch:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(108,99,255,.55);
+      filter: brightness(1.08);
+    }
+    .btn-launch:active { transform: translateY(0); }
+    .btn-launch svg { flex-shrink: 0; }
+
+    /* ── Modal Overlay ────────────────────────────── */
+    #modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      background: rgba(0,0,0,.82);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: fadeIn .2s ease;
+    }
+    #modal-overlay.open { display: flex; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .modal-window {
+      background: #13141e;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.8);
+      width: 100%;
+      max-width: 1180px;
+      height: min(88vh, 860px);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: slideUp .22s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: .5; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+
+    .modal-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px;
+      background: #1a1d27;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .modal-bar .dots {
+      display: flex;
+      gap: 7px;
+    }
+    .modal-bar .dot {
+      width: 13px; height: 13px;
+      border-radius: 50%;
+    }
+    .dot-red   { background: #ff5f57; }
+    .dot-amber { background: #ffbd2e; }
+    .dot-green { background: #28c840; }
+
+    .modal-url {
+      flex: 1;
+      text-align: center;
+      font-size: .78rem;
+      color: var(--muted);
+      font-family: 'Consolas', monospace;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding: 0 12px;
+    }
+
+    .btn-close-modal {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 8px;
+      width: 32px; height: 32px;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .15s, color .15s;
+      flex-shrink: 0;
+    }
+    .btn-close-modal:hover { background: #2e3147; color: #fff; }
+
+    .modal-frame {
+      flex: 1;
+      border: none;
+      width: 100%;
+      background: #fff;
+    }
+
+    /* ── Footer ───────────────────────────────────── */
+    footer {
+      margin-top: 60px;
+      color: var(--muted);
+      font-size: .78rem;
+      text-align: center;
+    }
+    footer a {
+      color: var(--accent-h);
+      text-decoration: none;
+    }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <!-- ── Page Header ──────────────────────────────── -->
+  <header>
+    <div class="label">Portfolio Project</div>
+    <h1>Notes App with Accessibility Features</h1>
+    <p>A WCAG 2.1 Level AA compliant note-taking application built for everyone.</p>
+  </header>
+
+  <!-- ── Two-column grid ──────────────────────────── -->
+  <div class="grid">
+
+    <!-- Box 1 · Project Overview -->
+    <div class="card overview-card">
+      <span class="card-badge">Case Study</span>
+      <h2>Project Overview</h2>
+
+      <div class="situation">
+        <div class="section-title">Situation</div>
+        <p>Many note-taking applications fail to serve users with disabilities, language barriers, or alternative input preferences. There was a need for an inclusive, accessible note-taking solution that complies with modern web accessibility standards (WCAG 2.1 Level AA) while remaining performant and user-friendly.</p>
+      </div>
+
+      <div class="section-title">Key Features Built</div>
+      <div class="tag-row">
+        <span class="tag">Text-to-Speech (4 languages)</span>
+        <span class="tag">Dark Mode</span>
+        <span class="tag">Zoom 50–300%</span>
+        <span class="tag">Offline Voice Input</span>
+        <span class="tag">Full Keyboard Nav</span>
+        <span class="tag">Screen Reader Support</span>
+        <span class="tag">ARIA Labels</span>
+        <span class="tag">Rich Text Editor</span>
+      </div>
+
+      <div class="section-title">Technical Stack</div>
+      <p style="font-size:.88rem;color:#bbbdd4;">Vanilla JavaScript · Web Speech API · Vosk-Browser · CSS Custom Properties · contentEditable · localStorage · Semantic HTML5</p>
+
+      <div class="section-title">Results</div>
+      <ul class="outcome-list">
+        <li>100 / 100 Lighthouse Accessibility score</li>
+        <li>WCAG 2.1 Level AA verified — automated &amp; manual testing</li>
+        <li>4 languages — voice input &amp; text-to-speech</li>
+        <li>100 % keyboard accessible — no mouse required</li>
+        <li>&lt;2 s load time on 3G connection</li>
+        <li>Zero critical violations on axe DevTools scan</li>
+        <li>4.5:1 contrast ratio maintained in dark mode</li>
+        <li>All core actions achievable in ≤ 3 keystrokes</li>
+      </ul>
+    </div>
+
+    <!-- Box 2 · Live Demo -->
+    <div class="card demo-card">
+      <span class="card-badge">Live Demo</span>
+      <h2>Try the Application</h2>
+
+      <!-- Fake browser screenshot placeholder -->
+      <div class="preview-thumb" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="3" width="20" height="14" rx="2" stroke="white" stroke-width="1.5"/>
+          <path d="M8 21h8M12 17v4" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M5 7h14M5 10h14M5 13h8" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span class="thumb-label">notes-app-dusky-one.vercel.app</span>
+      </div>
+
+      <div class="description" style="margin-top:20px;">
+        <p style="margin-bottom:12px;">The fully deployed application demonstrates every accessibility feature described in this case study. Explore the live build without leaving this page:</p>
+        <ul>
+          <li>Switch between light &amp; dark mode</li>
+          <li>Use the built-in text-to-speech in English, French, Portuguese, or Mandarin</li>
+          <li>Record a note hands-free with offline voice recognition</li>
+          <li>Test full keyboard navigation with visible focus indicators</li>
+          <li>Adjust zoom from 50 % to 300 %</li>
+        </ul>
+      </div>
+
+      <!-- Launch button -->
+      <button class="btn-launch" id="btn-open-app" aria-haspopup="dialog">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 8V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-2" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <rect x="2" y="10" width="14" height="12" rx="2" stroke="white" stroke-width="2"/>
+        </svg>
+        Open Notes App
+      </button>
+    </div>
+
+  </div><!-- /.grid -->
+
+  <footer>
+    Built with semantic HTML, vanilla JS &amp; CSS · <a href="https://notes-app-dusky-one.vercel.app/" target="_blank" rel="noopener">Open in new tab ↗</a>
+  </footer>
+
+  <!-- ── Modal ──────────────────────────────────────── -->
+  <div id="modal-overlay" role="dialog" aria-modal="true" aria-label="Notes App – Live Preview">
+    <div class="modal-window">
+
+      <!-- Fake browser chrome -->
+      <div class="modal-bar">
+        <div class="dots" aria-hidden="true">
+          <div class="dot dot-red"></div>
+          <div class="dot dot-amber"></div>
+          <div class="dot dot-green"></div>
+        </div>
+        <div class="modal-url">https://notes-app-dusky-one.vercel.app/</div>
+        <button class="btn-close-modal" id="btn-close-modal" aria-label="Close preview">✕</button>
+      </div>
+
+      <!-- App iframe -->
+      <iframe
+        id="app-frame"
+        class="modal-frame"
+        src=""
+        title="Notes App Live Preview"
+        allow="microphone; speech-recognition"
+        loading="lazy"
+      ></iframe>
+    </div>
+  </div>
+
+  <!-- ── Scripts ────────────────────────────────────── -->
+  <script>
+    const APP_URL     = 'https://notes-app-dusky-one.vercel.app/';
+    const overlay     = document.getElementById('modal-overlay');
+    const frame       = document.getElementById('app-frame');
+    const btnOpen     = document.getElementById('btn-open-app');
+    const btnClose    = document.getElementById('btn-close-modal');
+
+    // Track last focused element so we can restore focus on close
+    let lastFocus = null;
+
+    function openModal() {
+      lastFocus = document.activeElement;
+      frame.src = APP_URL;            // load on demand
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      btnClose.focus();
+    }
+
+    function closeModal() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+      frame.src = '';                 // unload to stop any audio / video
+      if (lastFocus) lastFocus.focus();
+    }
+
+    btnOpen.addEventListener('click', openModal);
+    btnClose.addEventListener('click', closeModal);
+
+    // Close on backdrop click
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeModal();
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) {
+        closeModal();
+      }
+    });
+
+    // Trap focus inside modal while open
+    overlay.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      const focusable = overlay.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      const first = focusable[0];
+      const last  = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+  </script>
+</body>
+</html>

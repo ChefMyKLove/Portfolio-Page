@@ -1,3 +1,15 @@
+// ===== GLOBAL BLOG CLICK HANDLER =====
+// Handles when user clicks the Blog button
+window.handleBlogClick = function() {
+    console.log('✅ Blog button clicked via onclick handler!');
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const backendUrl = isLocalhost 
+        ? 'http://localhost:3002/auth/patreon'
+        : 'https://portfolio-and-blog-production.up.railway.app/auth/patreon';
+    console.log('🚀 Redirecting to:', backendUrl);
+    window.location.href = backendUrl;
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   // Firefox detection
   const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
@@ -672,6 +684,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  // ===== BLOG BUTTON - MAIN NAVIGATION =====
+  // Set up Blog button from navigation
+  (() => {
+    console.log('🔍 Looking for patreonLoginBtn...');
+    const loginBtn = document.getElementById('patreonLoginBtn');
+    console.log('Button found:', loginBtn);
+    
+    if (!loginBtn) {
+      console.warn('❌ patreonLoginBtn not found in DOM');
+      return;
+    }
+
+    const handleBlogClick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('✅ Blog button clicked!');
+      const backendUrl = 'https://portfolio-and-blog-production.up.railway.app/auth/patreon';
+      console.log('🚀 Redirecting to:', backendUrl);
+      window.location.href = backendUrl;
+    };
+
+    loginBtn.addEventListener('click', handleBlogClick);
+    console.log('✓ Blog button event listener attached');
+  })();
+
   // ===== MEMBERS-ONLY BLOG MODAL (safe to drop into existing project) =====
   (() => {
     // Bail if the elements don't exist yet (in case this script loads before the HTML)
@@ -680,21 +717,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const modal = document.getElementById('blogModal');
     const closeBtn = modal.querySelector('.close');
-    const loginBtn = document.getElementById('patreonLoginBtn');
 
     // Open
     openBtn.addEventListener('click', () => modal.style.display = 'flex');
 
     // Close with ×
     closeBtn?.addEventListener('click', () => modal.style.display = 'none');
-
-    // Login with Patreon
-    loginBtn?.addEventListener('click', () => {
-      console.log('Patreon login clicked');
-      const backendUrl = 'https://portfolio-and-blog-production.up.railway.app/auth/patreon';
-      console.log('Redirecting to:', backendUrl);
-      window.location.href = backendUrl;
-    });
 
     // Close when clicking backdrop
     window.addEventListener('click', (e) => {

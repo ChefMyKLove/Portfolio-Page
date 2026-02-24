@@ -7,6 +7,15 @@
  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
  <link rel="stylesheet" href="carousel.css">
+ <script>
+    // Define blog click handler early so it's available for onclick
+    window.handleBlogClick = function() {
+        console.log('✅ Blog button clicked!');
+        const backendUrl = 'https://portfolio-and-blog-production.up.railway.app/auth/patreon';
+        console.log('🚀 Redirecting to:', backendUrl);
+        window.location.href = backendUrl;
+    };
+ </script>
 </head>
 <body>
   
@@ -32,9 +41,9 @@
  
  <li><a href="#projects" class="nav-button"><h4>Projects</h4></a></li>
  <li><a href="#about-me" class="nav-button"><h4>About Me</h4></a></li>
- <li><a href="#art-portal" class="nav-button"><h4>Art Portal</h4></a></li>
  <li><a href="#contact" class="nav-button"><h4>Contact</h4></a></li>
  <li><a href="#ordinal-rainbows" class="nav-button"><h4>ORDINAL RAINBOWS</h4></a></li>
+ <li><button id="patreonLoginBtn" class="nav-button" style="background: none; border: none; cursor: pointer; padding: 0;" onclick="handleBlogClick(); return false;"><h4>Blog Access</h4></button></li>
  </ul>
  </nav>
             </div>
@@ -61,7 +70,7 @@
                 </div>
                 <div class="section-content-box">
                         <h3>Accessibility Pad</h3>
-                        <p>Notepad app with accessibility features including screen reader support, high contrast mode, and keyboard navigation.  Voice to text functionality in four different languages.</p> <p>To give hands-free note taking a try, <a href="https://notes-app-dusky-one.vercel.app/" target="_blank" rel="noopener noreferrer">Visit Accessibility Pad</a></p>
+                        <p>Notepad app with accessibility features including screen reader support, high contrast mode, and keyboard navigation.  Voice to text functionality in four different languages.</p> <p>To give hands-free note taking a try, <a href="notes-app.html" target="_blank" rel="noopener noreferrer">Visit Accessibility Pad Project </a></p>
                 </div> 
                 <div class="section-content-box">
                         <h3>YouTunes</h3>
@@ -218,6 +227,7 @@
     <img src="images/IMG_6912.JPEG" alt="preload">
 </div>
 <script src="script.js"></script>
+<script src="interactivity.js"></script>
 
 </body>
 <footer>

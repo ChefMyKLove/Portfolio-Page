@@ -5,18 +5,62 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('images-loaded');
   }, 100);
 
-  const params = new URLSearchParams(window.location.search);
-  const isPatron = params.get('patron') === 'true';
-
   const contentWrapper = document.getElementById('content-wrapper');
   const accessDeniedModal = document.getElementById('access-denied-modal');
   const loginRedirectBtn = document.getElementById('login-redirect-btn');
 
+  // Determine backend URL based on environment
+  const BACKEND_URL = 'https://portfolio-and-blog-production.up.railway.app';
+  const API_BASE = `${BACKEND_URL}/api/blog`;
+
+  // Verify authentication status
+  async function verifyAuth() {
+    try {
+      const res = await fetch(`${BACKEND_URL}/auth/verify`, {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = await res.json();
+      
+      // If not authenticated, show access denied modal
+      if (!data.authenticated || !data.isPatron) {
+        showAccessDenied();
+        return false;
+      }
+
+      // User is authenticated and is a patron
+      return true;
+    } catch (error) {
+      console.error('Auth verification error:', error);
+      showAccessDenied();
+      return false;
+    }
+  }
+
+  function showAccessDenied() {
+    if (contentWrapper) contentWrapper.style.display = 'none';
+    if (accessDeniedModal) accessDeniedModal.style.display = 'flex';
+  }
+
+  function showContent() {
+    if (contentWrapper) contentWrapper.style.display = 'block';
+    if (accessDeniedModal) accessDeniedModal.style.display = 'none';
+  }
+
+  // Handle login button click
+  if (loginRedirectBtn) {
+    loginRedirectBtn.addEventListener('click', () => {
+      console.log('Blog login clicked');
+      window.location.href = `${BACKEND_URL}/auth/patreon`;
+    });
+  }
+
   // --- Start of original inline script logic ---
   let posts = [];
   let infoPages = [];
-  // Helper: API base URL (adjust if needed)
-  const API_BASE = 'https://portfolio-and-blog-production.up.railway.app/api/blog';
 
   // Fetch posts and info pages from backend
   async function fetchPosts() {
@@ -28,8 +72,13 @@ document.addEventListener('DOMContentLoaded', () => {
     infoPages = await res.json();
   }
 
-  // Initial load
+  // Initial load - verify auth first
   async function loadBlogData() {
+    const isAuthed = await verifyAuth();
+    if (!isAuthed) {
+      return;
+    }
+    showContent();
     await fetchPosts();
     await fetchInfoPages();
     render();
@@ -353,23 +402,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   // --- End of original inline script logic ---
 
-
-  // Main logic to check patron status
-  if (isPatron) {
-    // User is a patron, so show the content and hide the modal.
-    if (contentWrapper) contentWrapper.style.display = 'block';
-    if (accessDeniedModal) accessDeniedModal.style.display = 'none';
-    loadBlogData(); // Fetch and render blog content
-  } else {
-    // User is not a patron, so hide the content and show the modal.
-    if (contentWrapper) contentWrapper.style.display = 'none';
-    if (accessDeniedModal) accessDeniedModal.style.display = 'flex';
-
-    // Make the "OK" button in the modal redirect to the login page.
-    if (loginRedirectBtn) {
-      loginRedirectBtn.addEventListener('click', () => {
-        window.location.href = 'https://portfolio-and-blog-production.up.railway.app/auth/patreon';
-      });
-    }
-  }
+  // Initialize blog on page load
+  loadBlogData();
 });
