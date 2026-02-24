@@ -174,6 +174,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const cityInput = document.getElementById('city-input');
       const randomCityBtn = document.getElementById('random-city-btn');
 
+      // Skip if weather widget elements don't exist
+      if (!weatherInfo || !geolocationBtn || !randomCityBtn) return;
+
       weatherInfo.innerHTML = '<p>Loading weather...</p>';
       this.getWeatherByGeolocation();
 
