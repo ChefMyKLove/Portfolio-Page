@@ -31,7 +31,7 @@ router.get('/patreon', (req, res) => {
     authUrl.searchParams.append('client_id', clientId);
     authUrl.searchParams.append('redirect_uri', redirectUri);
     authUrl.searchParams.append('response_type', 'code');
-    authUrl.searchParams.append('scope', 'identity identity.email campaigns.members');
+    authUrl.searchParams.append('scope', 'identity identity.email');
     authUrl.searchParams.append('state', Math.random().toString(36).substring(7));
 
     res.redirect(authUrl.toString());
@@ -63,7 +63,7 @@ router.get('/patreon/callback', async (req, res) => {
             code: code,
             grant_type: 'authorization_code',
             redirect_uri: process.env.PATREON_REDIRECT_URI,
-            scope: 'identity identity.email campaigns.members'
+            scope: 'identity identity.email'
         });
 
         const accessToken = tokenResponse.data.access_token;
@@ -87,7 +87,7 @@ router.get('/patreon/callback', async (req, res) => {
         // Check for at least one active membership with non-zero pledge
         const isPatron = memberships.some(membership => 
             membership.type === 'member' &&
-            membership.attributes.status === 'active_patron' &&
+            membership.attributes.patron_status === 'active_patron' &&
             membership.attributes.currently_entitled_amount_cents > 0
         );
 
