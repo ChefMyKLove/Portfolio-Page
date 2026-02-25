@@ -101,20 +101,23 @@ router.get('/patreon/callback', async (req, res) => {
             },
             params: {
                 'include': 'memberships',
-                'fields[user]': 'email,first_name,last_name,full_name,social_connections',
-                'fields[member]': 'currently_entitled_amount_cents,pledge_relationship_start,status'
+                'fields[user]': 'full_name,vanity',
+                'fields[member]': 'patron_status,currently_entitled_amount_cents,pledge_relationship_start'
             }
         });
+        console.log('👤 Identity response:', JSON.stringify(userResponse.data, null, 2));
 
         const user = userResponse.data.data;
         const memberships = userResponse.data.included || [];
 
         // Verify if user is an active patron
         // Check for at least one active membership with non-zero pledge
+        console.log('🎭 Memberships found:', memberships.length);
+        memberships.forEach(m => console.log(' -', m.type, JSON.stringify(m.attributes)));
+
         const isPatron = memberships.some(membership => 
             membership.type === 'member' &&
-            membership.attributes.patron_status === 'active_patron' &&
-            membership.attributes.currently_entitled_amount_cents > 0
+            membership.attributes.patron_status === 'active_patron'
         );
 
         if (!isPatron) {
@@ -124,16 +127,13 @@ router.get('/patreon/callback', async (req, res) => {
         // Store user session
         req.session.user = {
             id: user.id,
-            email: user.attributes.email,
-            firstName: user.attributes.first_name,
-            lastName: user.attributes.last_name,
             fullName: user.attributes.full_name,
             isPatron: true,
             accessToken: accessToken,
             authenticatedAt: new Date().toISOString()
         };
 
-        console.log(`✅ Patreon auth successful: ${user.attributes.email}`);
+        console.log(`✅ Patreon auth successful: ${user.attributes.full_name} (${user.id})`);
 
         // Redirect to blog with token
         res.redirect(`${process.env.FRONTEND_URL}/blog/blook.html?patron=true&token=${Buffer.from(JSON.stringify(req.session.user)).toString('base64')}`);
