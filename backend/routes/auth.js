@@ -123,6 +123,8 @@ router.get('/patreon/callback', async (req, res) => {
             membership.attributes.patron_status === 'active_patron'
         );
 
+        console.log(`👤 User ${user.id} | memberships: ${memberships.length} | isPatron: ${isPatron}`);
+
         if (!isPatron) {
             return res.redirect(`${process.env.FRONTEND_URL}?auth=notpatron`);
         }
