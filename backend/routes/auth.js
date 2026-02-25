@@ -68,11 +68,13 @@ router.get('/patreon', (req, res) => {
  * Verifies membership and creates session
  */
 router.get('/patreon/callback', async (req, res) => {
+    console.log('📥 Callback query params:', JSON.stringify(req.query));
     const { code, error } = req.query;
 
     // Handle user denying access
     if (error) {
-        return res.redirect(`${process.env.FRONTEND_URL}?auth=denied`);
+        console.log('❌ Patreon returned error:', error, req.query.error_description);
+        return res.redirect(`${process.env.FRONTEND_URL}?auth=denied&reason=${encodeURIComponent(error)}`);
     }
 
     if (!code) {

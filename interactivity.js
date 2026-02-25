@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const authStatus = urlParams.get('auth');
   if (authStatus) {
     const messages = {
-      'denied':     '❌ Patreon access was denied.',
+      'denied':     `❌ Patreon access was denied. (${urlParams.get('reason') || 'access_denied'})`,
       'notpatron':  '🔒 Blog access requires an active Patreon membership.',
       'error':      `⚠️ Auth error: ${urlParams.get('message') || 'Unknown error'}`
     };
