@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Me – Michael Needham</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="stylesheet" href="carousel.css">
+  <style>
+    :root {
+      --am-surface:  #13141f;
+      --am-border:   #252740;
+      --am-muted:    #6b7099;
+      --am-tag-bg:   #1c1e30;
+      --am-radius:   14px;
+      --am-shadow:   0 8px 40px rgba(0,0,0,.55);
+      --am-rainbow:  linear-gradient(135deg, #f97316, #eab308, #22c55e, #06b6d4, #6366f1, #a855f7, #ec4899);
+    }
+
+    /* Suppress cascade's body::before animation — replaced by JS crossfade */
+    body::before { animation: none !important; opacity: 0 !important; }
+
+    /* ── JS crossfade slideshow ─────────────────────── */
+    #am-slideshow {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+    }
+    #am-slideshow .am-slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+    #am-slideshow .am-slide.active { opacity: 1; }
+
+    /* ── Page layout ───────────────────────────────── */
+    .am-page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 24px 60px;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    .am-header {
+      text-align: center;
+      margin-bottom: 28px;
+      padding: 12px 0 0;
+    }
+    .am-header .label {
+      display: block;
+      font-size: .75rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      background: var(--am-rainbow);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    .am-header h1 {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+    }
+    .am-header p {
+      margin-top: 10px;
+      font-size: .95rem;
+      background: var(--am-rainbow);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Two-column grid ───────────────────────────── */
+    .am-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      width: 100%;
+      max-width: 1080px;
+    }
+    @media (max-width: 720px) {
+      .am-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Card ──────────────────────────────────────── */
+    .am-card {
+      background: var(--am-surface);
+      border: 1px solid var(--am-border);
+      border-radius: var(--am-radius);
+      padding: 32px 28px;
+      box-shadow: var(--am-shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .am-card::before {
+      content: '';
+      display: block;
+      height: 3px;
+      background: var(--am-rainbow);
+      margin: -32px -28px 8px;
+      border-radius: calc(var(--am-radius) - 1px) calc(var(--am-radius) - 1px) 0 0;
+    }
+    .am-card h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #fff;
+    }
+    .am-card p {
+      font-size: 1rem;
+      color: #b8bbda;
+      line-height: 1.65;
+    }
+    .am-card a {
+      background: var(--am-rainbow);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .am-card a:hover { text-decoration: underline; }
+
+    /* ── List ──────────────────────────────────────── */
+    .am-card ul {
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .am-card li {
+      font-size: 1rem;
+      color: #b8bbda;
+      line-height: 1.55;
+    }
+    .am-card li strong {
+      color: #e8eaf6;
+    }
+
+    /* ── Section divider label ─────────────────────── */
+    .am-section-title {
+      font-size: .7rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--am-muted);
+      margin-top: 4px;
+      margin-bottom: -4px;
+    }
+
+    /* ── Footer ────────────────────────────────────── */
+    .am-footer {
+      margin-top: 40px;
+      color: var(--am-muted);
+      font-size: .78rem;
+      text-align: center;
+    }
+    .am-footer a {
+      background: var(--am-rainbow);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .am-footer a:hover { text-decoration: underline; }
+
+    /* ── Back button ───────────────────────────────── */
+    .am-back-row {
+      position: fixed;
+      top: 16px;
+      left: 24px;
+      z-index: 100;
+    }
+    .am-back-row .nav-button h4 {
+      font-size: 0.9rem;
+      margin: 0;
+      padding: 0;
+    }
+    .am-back-row .nav-button {
+      padding: 8px 14px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Crossfade slideshow -->
+  <div id="am-slideshow"></div>
+
+  <!-- Back to portfolio -->
+  <div class="am-back-row">
+    <a href="https://chefmyklove.github.io/Portfolio-Page/" class="nav-button"><h4>← Portfolio</h4></a>
+  </div>
+
+  <div class="am-page">
+
+    <header class="am-header">
+      <span class="label">Portfolio</span>
+      <h1>About Me</h1>
+      <p>Developer · Artist · Activist</p>
+    </header>
+
+    <div class="am-grid">
+
+      <!-- Card 1 · My Journey -->
+      <div class="am-card">
+        <h2>My Journey</h2>
+        <p>A lifelong creative exploring media as diverse as sound sculpture, fibre art, painting, poetry, and soap making, my practice currently exists at the intersection of photography, digital manipulation, and blockchain-based community art. After three decades as a professional chef, a career-ending injury pushed me into software development—a shift that fundamentally changed my creative practice and kick-started an incredible new artistic odyssey.</p>
+        <p>I discovered that debugging code, like recipe development, is about transformation: taking ideas and raw materials and reshaping them into something new that provides a nourishing experience. Software development offered something my earlier media couldn't—the ability to create work that scales, persists, and invites participation. Code lets me turn ideas into interactive experiences. Now I work creatively in this digital realm, treating technology as both medium and collaborator in building more inclusive digital spaces.</p>
+        <p>What excites me is that this technology is a studio, a megaphone, and a toolkit all in one. It amplifies creativity, connects communities, and opens sustainable paths for artists who've been shut out of traditional systems. I'm building tools and experiences that let marginalized creators own their work, reach audiences directly, and thrive on their own terms—using code and blockchain as levers for real equity.</p>
+        <p><a href="https://chefmyklove.github.io/Portfolio-Page/#projects">See what I'm cooking up →</a></p>
+      </div>
+
+      <!-- Card 2 · Skills & Values -->
+      <div class="am-card">
+        <h2>Skills &amp; Background</h2>
+        <p>My career has spanned over 30 years in culinary arts, where I honed creativity and precision under pressure. The kitchen taught me invaluable lessons that translate directly to software development:</p>
+
+        <div class="am-section-title">From the kitchen to the codebase</div>
+        <ul>
+          <li><strong>Systems Thinking:</strong> Keeping the entirety of the project in mind, and how all components interact.</li>
+          <li><strong>Emotional Intelligence:</strong> Understanding and managing emotions in both personal and professional contexts.</li>
+          <li><strong>Adaptability:</strong> Adjusting to new environments, challenges, and evolving requirements.</li>
+        </ul>
+
+        <p>Transitioning into software development has allowed me to apply these same principles to digital creation, where I now build interactive experiences and tools that empower creators and communities. As an artist and developer committed to social justice, I see technology as a way to dismantle gatekeeping and redistribute power.</p>
+
+        <div class="am-section-title">What that looks like in practice</div>
+        <ul>
+          <li><strong>Creative Advocacy:</strong> Art and tech projects that amplify marginalized voices and challenge inequity.</li>
+          <li><strong>Inclusive Design:</strong> Tools and platforms built for accessibility, ensuring people of all abilities and backgrounds can participate.</li>
+          <li><strong>Alternative Economics:</strong> Community-driven platforms and revenue models that empower creators and redistribute resources.</li>
+          <li><strong>Civic Technology:</strong> Projects that advocate for environmental justice, equitable access, and inclusive public spaces.</li>
+          <li><strong>Community Empowerment:</strong> Collaborative spaces where diverse groups co-create solutions for a more just future.</li>
+        </ul>
+      </div>
+
+    </div><!-- /.am-grid -->
+
+    <footer class="am-footer">
+      <a href="https://chefmyklove.github.io/Portfolio-Page/">Portfolio</a> · Michael Needham · Developer · Artist · Activist
+    </footer>
+
+  </div><!-- /.am-page -->
+
+  <!-- Crossfade slideshow script -->
+  <script>
+    (function() {
+      const images = [
+        'images/HummingBow.jpg',
+        'images/IMG_6794.JPEG',
+        'images/IMG_6795.JPEG',
+        'images/IMG_6796.JPEG',
+        'images/IMG_6797.JPEG',
+        'images/TunnelBow.JPEG',
+        'images/IMG_6906.JPEG',
+        'images/IMG_6907.JPEG',
+        'images/IMG_6908.JPEG',
+        'images/IMG_6909.JPEG',
+        'images/IMG_6910.JPEG',
+        'images/IMG_6911.JPEG',
+        'images/IMG_6912.JPEG',
+      ];
+      const container = document.getElementById('am-slideshow');
+      const slides = images.map(src => {
+        const div = document.createElement('div');
+        div.className = 'am-slide';
+        div.style.backgroundImage = `url('${src}')`;
+        container.appendChild(div);
+        return div;
+      });
+      let current = 0;
+      slides[current].classList.add('active');
+      setInterval(() => {
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+      }, 8000);
+    })();
+  </script>
+</body>
+</html>

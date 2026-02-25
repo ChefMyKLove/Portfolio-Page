@@ -18,12 +18,31 @@
       --or-shadow:   0 8px 40px rgba(0,0,0,.55);
       --or-rainbow:  linear-gradient(135deg, #f97316, #eab308, #22c55e, #06b6d4, #6366f1, #a855f7, #ec4899);
     }
+    /* Suppress cascade's body::before animation — replaced by JS crossfade */
+    body::before { animation: none !important; opacity: 0 !important; }
+
+    /* ── JS crossfade slideshow ───────────────────── */
+    #or-slideshow {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+    }
+    #or-slideshow .or-slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+    #or-slideshow .or-slide.active { opacity: 1; }
+
     /* ── Page layout ──────────────────────────────── */
     .or-page {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 120px 24px 80px;
+      padding: 24px 24px 40px;
       min-height: 100vh;
       position: relative;
       z-index: 1;
@@ -31,7 +50,11 @@
 
     .or-header {
       text-align: center;
-      margin-bottom: 52px;
+      margin-bottom: 24px;
+      padding: 12px 0 0;
+    }
+    .or-header h1 {
+      font-size: clamp(1.4rem, 3vw, 2rem);
     }
     .or-header .label {
       display: block;
@@ -46,9 +69,12 @@
       font-weight: 700;
     }
     .or-header p {
-      color: var(--or-muted);
       margin-top: 10px;
       font-size: .95rem;
+      background: var(--or-rainbow);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     /* ── Two-column grid ──────────────────────────── */
@@ -109,7 +135,7 @@
     }
     .or-section-title:first-of-type { margin-top: 0; }
     .or-card p, .or-card li {
-      font-size: .9rem;
+      font-size: 1rem;
       color: #b8bbda;
     }
 
@@ -167,41 +193,8 @@
     }
     .or-status-text { font-size: .82rem; color: #eab308; }
 
-    /* ── Preview thumb ────────────────────────────── */
-    .or-preview-thumb {
-      border-radius: 10px;
-      height: 175px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative;
-      background: linear-gradient(135deg,
-        rgba(249,115,22,.15), rgba(234,179,8,.12), rgba(34,197,94,.10),
-        rgba(6,182,212,.12), rgba(99,102,241,.15), rgba(168,85,247,.18),
-        rgba(236,72,153,.15));
-      border: 1px solid rgba(168,85,247,.25);
-    }
-    .or-preview-thumb .arch {
-      width: 130px; height: 65px;
-      border-radius: 65px 65px 0 0;
-      border: 10px solid transparent;
-      box-shadow:
-        0 0 0 10px rgba(249,115,22,.35),
-        0 10px 0 10px rgba(234,179,8,.3),
-        0 20px 0 10px rgba(34,197,94,.25),
-        0 30px 0 10px rgba(6,182,212,.2);
-      opacity: .55;
-    }
-    .or-preview-thumb .thumb-label {
-      position: absolute;
-      font-size: .72rem;
-      color: var(--or-muted);
-      bottom: 10px;
-      letter-spacing: .06em;
-    }
     .or-demo-card { justify-content: space-between; gap: 24px; }
-    .or-demo-card .or-description { font-size: .9rem; color: #b8bbda; flex: 1; }
+    .or-demo-card .or-description { font-size: 1rem; color: #b8bbda; flex: 1; }
     .or-demo-card .or-description li { margin-left: 18px; margin-bottom: 4px; }
 
     /* ── Launch button ────────────────────────────── */
@@ -223,7 +216,7 @@
       box-shadow: 0 4px 24px rgba(168,85,247,.4);
       transition: transform .15s, box-shadow .15s, filter .15s;
       text-decoration: none;
-      margin-top: auto;
+      margin-top: 16px;
       letter-spacing: .02em;
     }
     .or-btn-launch:hover {
@@ -337,10 +330,19 @@
       left: 24px;
       z-index: 100;
     }
+    .or-back-row .nav-button h4 {
+      font-size: 0.9rem;
+      margin: 0;
+      padding: 0;
+    }
+    .or-back-row .nav-button {
+      padding: 8px 14px;
+    }
   </style>
 </head>
 <body>
-  <div class="background-container"></div>
+  <!-- Crossfade slideshow replaces CSS background-image keyframes -->
+  <div id="or-slideshow"></div>
 
   <!-- Back to portfolio -->
   <div class="or-back-row">
@@ -389,7 +391,7 @@
 
         <div class="or-status-row">
           <div class="or-status-dot"></div>
-          <span class="or-status-text">Active Development — Season 1 mint target: Q2 2026</span>
+          <span class="or-status-text">Active Development:  Vol. 1 launched.  Minting platform coming soon.</span>
         </div>
       </div>
 
@@ -398,21 +400,6 @@
         <span class="or-card-badge">Live Preview</span>
         <h2>Browse the Collection</h2>
 
-        <div class="or-preview-thumb" aria-hidden="true">
-          <div class="arch"></div>
-          <span class="thumb-label">chefmyklove.github.io/ORDINALRAINBOWS-Vol.1</span>
-        </div>
-
-        <div class="or-description" style="margin-top:20px;">
-          <p style="margin-bottom:12px;">Prints from Volume 1 are available to browse and purchase now. Open the site right here to explore the full gallery without leaving this page:</p>
-          <ul>
-            <li>Browse the full Vol. 1 rainbow art gallery</li>
-            <li>See the original harvested light photography</li>
-            <li>Order prints direct through the storefront</li>
-            <li>Get a feel for the aesthetic ahead of the NFT drop</li>
-          </ul>
-        </div>
-
         <button class="or-btn-launch" id="btn-open-app" aria-haspopup="dialog">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 8V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-2" stroke="white" stroke-width="2" stroke-linecap="round"/>
@@ -420,6 +407,16 @@
           </svg>
           Open ORDINAL RAINBOWS
         </button>
+
+        <div class="or-description" style="margin-top:16px;">
+          <p style="margin-bottom:12px;">Prints from Volume 1 are available to browse and purchase now. Open the site right here to explore the full gallery without leaving this page:</p>
+          <ul>
+            <li>Browse the full Vol. 1 rainbow art gallery</li>
+            <li>See the original harvested light photography</li>
+            <li>Order prints direct through the storefront</li>
+            <li>Get a feel for the aesthetic of the site and how it works (full wallet integration and claiming requires a browser with YoursWallet extension)</li>
+          </ul>
+        </div>
       </div>
 
     </div><!-- /.or-grid -->
@@ -445,6 +442,44 @@
       <iframe id="app-frame" class="or-modal-frame" src="" title="ORDINAL RAINBOWS Vol. 1 Live Preview" loading="lazy"></iframe>
     </div>
   </div>
+
+  <!-- ── Background crossfade slideshow ───────────────── -->
+  <script>
+    (function() {
+      const images = [
+        'images/HummingBow.jpg',
+        'images/IMG_6794.JPEG',
+        'images/IMG_6795.JPEG',
+        'images/IMG_6796.JPEG',
+        'images/IMG_6797.JPEG',
+        'images/TunnelBow.JPEG',
+        'images/IMG_6906.JPEG',
+        'images/IMG_6907.JPEG',
+        'images/IMG_6908.JPEG',
+        'images/IMG_6909.JPEG',
+        'images/IMG_6910.JPEG',
+        'images/IMG_6911.JPEG',
+        'images/IMG_6912.JPEG',
+      ];
+      const container = document.getElementById('or-slideshow');
+      const slides = images.map(src => {
+        const div = document.createElement('div');
+        div.className = 'or-slide';
+        div.style.backgroundImage = `url('${src}')`;
+        container.appendChild(div);
+        return div;
+      });
+
+      let current = 0;
+      slides[current].classList.add('active');
+
+      setInterval(() => {
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+      }, 8000); // 8s per image, 1.5s crossfade
+    })();
+  </script>
 
   <!-- ── Scripts ────────────────────────────────────── -->
   <script>
