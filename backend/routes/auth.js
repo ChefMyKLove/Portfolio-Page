@@ -25,7 +25,7 @@ router.get('/debug', (req, res) => {
     authUrl.searchParams.append('client_id', clientId);
     authUrl.searchParams.append('redirect_uri', redirectUri);
     authUrl.searchParams.append('response_type', 'code');
-    authUrl.searchParams.append('scope', 'identity identity.email');
+    authUrl.searchParams.append('scope', 'identity identity.memberships');
     authUrl.searchParams.append('state', 'debugstate');
     res.json({
         clientId_preview: clientId?.substring(0, 12) + '...',
@@ -50,7 +50,7 @@ router.get('/patreon', (req, res) => {
     authUrl.searchParams.append('client_id', clientId);
     authUrl.searchParams.append('redirect_uri', redirectUri);
     authUrl.searchParams.append('response_type', 'code');
-    authUrl.searchParams.append('scope', 'identity identity.email');
+    authUrl.searchParams.append('scope', 'identity identity.memberships');
     authUrl.searchParams.append('state', Math.random().toString(36).substring(7));
 
     const finalUrl = authUrl.toString();
@@ -89,7 +89,7 @@ router.get('/patreon/callback', async (req, res) => {
             code: code,
             grant_type: 'authorization_code',
             redirect_uri: process.env.PATREON_REDIRECT_URI,
-            scope: 'identity identity.email'
+            scope: 'identity identity.memberships'
         });
 
         const accessToken = tokenResponse.data.access_token;
