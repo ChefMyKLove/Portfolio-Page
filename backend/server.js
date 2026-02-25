@@ -2,7 +2,13 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
+const mongoose = require('mongoose');
 const pool = require('./db/db');
+
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch(err => console.error('❌ MongoDB connection error:', err.message));
 
 const app = express();
 const PORT = process.env.PORT || 3002;
@@ -10,6 +16,7 @@ const PORT = process.env.PORT || 3002;
 // Import routes
 const analyticsRoutes = require('./routes/analytics');
 const authRoutes = require('./routes/auth');
+const blogRoutes = require('./routes/blog');
 
 // ============================================
 // STARTUP VALIDATION
@@ -113,6 +120,9 @@ app.use((req, res, next) => {
 
 // Authentication routes
 app.use('/auth', authRoutes);
+
+// Blog routes
+app.use('/api/blog', blogRoutes);
 
 // Analytics routes
 app.use('/analytics', analyticsRoutes);
