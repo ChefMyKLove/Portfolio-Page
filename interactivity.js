@@ -13,7 +13,23 @@ window.handleBlogClick = function() {
 document.addEventListener('DOMContentLoaded', () => {
   // Firefox detection
   const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-  
+
+  // ===== AUTH CALLBACK HANDLING =====
+  const urlParams = new URLSearchParams(window.location.search);
+  const authStatus = urlParams.get('auth');
+  if (authStatus) {
+    const messages = {
+      'denied':     '❌ Patreon access was denied.',
+      'notpatron':  '🔒 Blog access requires an active Patreon membership.',
+      'error':      `⚠️ Auth error: ${urlParams.get('message') || 'Unknown error'}`
+    };
+    const msg = messages[authStatus] || `Auth status: ${authStatus}`;
+    // Show after a brief delay so the notification system is ready
+    setTimeout(() => showNotification(msg), 300);
+    // Clean the URL
+    window.history.replaceState({}, '', window.location.pathname);
+  }
+
   // ===== NOTIFICATION SYSTEM =====
   function showNotification(message) {
     // Remove any existing notifications first
