@@ -15,6 +15,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Verify authentication status
   async function verifyAuth() {
+    // Check URL token first (passed after OAuth redirect)
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    if (token) {
+      try {
+        const userData = JSON.parse(atob(token));
+        if (userData && userData.isPatron) {
+          // Clean token from URL without reload
+          window.history.replaceState({}, '', window.location.pathname);
+          return true;
+        }
+      } catch (e) { /* invalid token, fall through to session check */ }
+    }
+
     try {
       const res = await fetch(`${BACKEND_URL}/auth/verify`, {
         credentials: 'include',
@@ -25,13 +39,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const data = await res.json();
       
-      // If not authenticated, show access denied modal
       if (!data.authenticated || !data.isPatron) {
         showAccessDenied();
         return false;
       }
 
-      // User is authenticated and is a patron
       return true;
     } catch (error) {
       console.error('Auth verification error:', error);
