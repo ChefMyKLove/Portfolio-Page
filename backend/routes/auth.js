@@ -82,14 +82,16 @@ router.get('/patreon/callback', async (req, res) => {
     }
 
     try {
-        // Exchange code for access token
-        const tokenResponse = await axios.post('https://www.patreon.com/api/oauth2/token', {
-            client_id: process.env.PATREON_CLIENT_ID,
-            client_secret: process.env.PATREON_CLIENT_SECRET,
-            code: code,
-            grant_type: 'authorization_code',
-            redirect_uri: process.env.PATREON_REDIRECT_URI,
-            scope: 'identity identity.memberships'
+        // Exchange code for access token — Patreon requires form-encoded body
+        const tokenParams = new URLSearchParams();
+        tokenParams.append('client_id', process.env.PATREON_CLIENT_ID);
+        tokenParams.append('client_secret', process.env.PATREON_CLIENT_SECRET);
+        tokenParams.append('code', code);
+        tokenParams.append('grant_type', 'authorization_code');
+        tokenParams.append('redirect_uri', process.env.PATREON_REDIRECT_URI);
+
+        const tokenResponse = await axios.post('https://www.patreon.com/api/oauth2/token', tokenParams, {
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         });
 
         const accessToken = tokenResponse.data.access_token;
