@@ -117,7 +117,8 @@ router.get('/patreon/callback', async (req, res) => {
         console.log('🎭 Memberships found:', memberships.length);
         memberships.forEach(m => console.log(' -', m.type, JSON.stringify(m.attributes)));
 
-        const isPatron = memberships.some(membership => 
+        // Grant access to any active member (free tier included — active_patron with 0 cents)
+        const isPatron = memberships.some(membership =>
             membership.type === 'member' &&
             membership.attributes.patron_status === 'active_patron'
         );
