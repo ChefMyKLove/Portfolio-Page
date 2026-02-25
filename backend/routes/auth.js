@@ -117,10 +117,12 @@ router.get('/patreon/callback', async (req, res) => {
         console.log('🎭 Memberships found:', memberships.length);
         memberships.forEach(m => console.log(' -', m.type, JSON.stringify(m.attributes)));
 
-        // Grant access to any active member (free tier included — active_patron with 0 cents)
+        // Grant access to any campaign member (free followers have patron_status: null)
+        // Exclude only former/declined patrons who are no longer members
         const isPatron = memberships.some(membership =>
             membership.type === 'member' &&
-            membership.attributes.patron_status === 'active_patron'
+            membership.attributes.patron_status !== 'former_patron' &&
+            membership.attributes.patron_status !== 'declined_patron'
         );
 
         console.log(`👤 User ${user.id} | memberships: ${memberships.length} | isPatron: ${isPatron}`);

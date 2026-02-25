@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (authStatus) {
     const messages = {
       'denied':     `❌ Patreon access was denied. (${urlParams.get('reason') || 'access_denied'})`,
-      'notpatron':  '🔒 Blog access requires an active Patreon membership.',
+      'notpatron':  '🔒 Blog access requires a Patreon membership.<br><br><a href="https://www.patreon.com/chefmyklove" target="_blank" style="color:#a78bfa;text-decoration:underline;">Join for free on Patreon →</a>',
       'error':      `⚠️ Auth error: ${urlParams.get('message') || 'Unknown error'}`
     };
     const msg = messages[authStatus] || `Auth status: ${authStatus}`;
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Create message
     const messageEl = document.createElement('div');
-    messageEl.textContent = message;
+    messageEl.innerHTML = message;
     messageEl.style.cssText = `
       color: #fff;
       font-size: 1.6em;
