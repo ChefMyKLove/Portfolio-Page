@@ -16,6 +16,25 @@ const router = express.Router();
  * Initiates Patreon OAuth flow
  * Redirects user to Patreon authorization endpoint
  */
+// Debug endpoint — remove after testing
+router.get('/debug', (req, res) => {
+    const clientId = process.env.PATREON_CLIENT_ID;
+    const redirectUri = process.env.PATREON_REDIRECT_URI;
+    const frontendUrl = process.env.FRONTEND_URL;
+    const authUrl = new URL('https://www.patreon.com/oauth2/authorize');
+    authUrl.searchParams.append('client_id', clientId);
+    authUrl.searchParams.append('redirect_uri', redirectUri);
+    authUrl.searchParams.append('response_type', 'code');
+    authUrl.searchParams.append('scope', 'identity identity.email');
+    authUrl.searchParams.append('state', 'debugstate');
+    res.json({
+        clientId_preview: clientId?.substring(0, 12) + '...',
+        redirectUri,
+        frontendUrl,
+        authUrl: authUrl.toString()
+    });
+});
+
 router.get('/patreon', (req, res) => {
     const clientId = process.env.PATREON_CLIENT_ID;
     const redirectUri = process.env.PATREON_REDIRECT_URI;
@@ -34,7 +53,12 @@ router.get('/patreon', (req, res) => {
     authUrl.searchParams.append('scope', 'identity identity.email');
     authUrl.searchParams.append('state', Math.random().toString(36).substring(7));
 
-    res.redirect(authUrl.toString());
+    const finalUrl = authUrl.toString();
+    console.log('🔐 Patreon auth URL:', finalUrl);
+    console.log('🔐 Client ID:', clientId?.substring(0, 10) + '...');
+    console.log('🔐 Redirect URI:', redirectUri);
+
+    res.redirect(finalUrl);
 });
 
 /**
