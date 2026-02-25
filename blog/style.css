@@ -4,6 +4,26 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 20px; }
 
+.blog-back-btn {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: background 0.2s ease;
+}
+.blog-back-btn:hover {
+  background: rgba(0, 0, 0, 0.75);
+}
+
 body, h1, h2, h3, p, a, button, input, textarea {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
