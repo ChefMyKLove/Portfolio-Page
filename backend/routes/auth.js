@@ -31,7 +31,7 @@ router.get('/patreon', (req, res) => {
     authUrl.searchParams.append('client_id', clientId);
     authUrl.searchParams.append('redirect_uri', redirectUri);
     authUrl.searchParams.append('response_type', 'code');
-    authUrl.searchParams.append('scope', 'identity identity.email campaigns.members campaigns.members.address');
+    authUrl.searchParams.append('scope', 'identity identity.email campaigns.members');
     authUrl.searchParams.append('state', Math.random().toString(36).substring(7));
 
     res.redirect(authUrl.toString());
@@ -63,7 +63,7 @@ router.get('/patreon/callback', async (req, res) => {
             code: code,
             grant_type: 'authorization_code',
             redirect_uri: process.env.PATREON_REDIRECT_URI,
-            scope: 'identity identity.email campaigns.members campaigns.members.address'
+            scope: 'identity identity.email campaigns.members'
         });
 
         const accessToken = tokenResponse.data.access_token;
