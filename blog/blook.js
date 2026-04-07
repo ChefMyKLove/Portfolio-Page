@@ -77,11 +77,23 @@ document.addEventListener('DOMContentLoaded', () => {
   // Fetch posts and info pages from backend
   async function fetchPosts() {
     const res = await fetch(`${API_BASE}/posts`);
-    posts = await res.json();
+    const data = await res.json();
+    if (!res.ok || !Array.isArray(data)) {
+      console.error('Failed to fetch posts:', data);
+      posts = [];
+      return;
+    }
+    posts = data;
   }
   async function fetchInfoPages() {
     const res = await fetch(`${API_BASE}/info`);
-    infoPages = await res.json();
+    const data = await res.json();
+    if (!res.ok || !Array.isArray(data)) {
+      console.error('Failed to fetch info pages:', data);
+      infoPages = [];
+      return;
+    }
+    infoPages = data;
   }
 
   // Initial load - verify auth first
@@ -91,9 +103,13 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     showContent();
-    await fetchPosts();
-    await fetchInfoPages();
-    render();
+    try {
+      await fetchPosts();
+      await fetchInfoPages();
+      render();
+    } catch (err) {
+      console.error('Failed to load blog data:', err);
+    }
   }
   let editingPost = null;
   let editingInfo = null;
