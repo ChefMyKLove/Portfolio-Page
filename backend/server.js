@@ -39,12 +39,10 @@ if (!process.env.ADMIN_API_KEY) {
     console.warn('   Generate one with: node -e "console.log(require(\'crypto\').randomBytes(32).toString(\'hex\'))"\n');
 }
 
-// Test database connection on startup
+// Test database connection on startup (non-fatal — db.js already tests on init)
 pool.query('SELECT NOW()', (err, res) => {
     if (err) {
-        console.error('\u274c Failed to connect to database:', err.message);
-        console.error('\nPlease check your DATABASE_URL in .env file.');
-        process.exit(1);
+        console.warn('\u26a0\ufe0f  Startup DB ping failed:', err.message);
     } else {
         console.log('\u2705 Database connection established');
     }

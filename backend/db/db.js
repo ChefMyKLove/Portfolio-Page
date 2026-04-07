@@ -8,7 +8,7 @@ const pool = new Pool({
     } : false,
     max: 20, // Maximum number of clients in the pool
     idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
-    connectionTimeoutMillis: 2000, // Fail fast if connection takes > 2 seconds
+    connectionTimeoutMillis: 10000, // Allow extra time for Railway cold starts
 });
 
 // Test database connection
