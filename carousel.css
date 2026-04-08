@@ -1840,6 +1840,22 @@ footer {
   z-index: 1;
   text-align: center;
   padding: 10px 20px;
+  pointer-events: auto;
+}
+
+.bottom-blur-overlay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  -webkit-backdrop-filter: blur(100px);
+  backdrop-filter: blur(100px);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
+  -webkit-mask-image: linear-gradient(to top, black 0%, black 8%, black 16%, rgba(0,0,0,0.9) 24%, rgba(0,0,0,0.8) 32%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.6) 48%, rgba(0,0,0,0.5) 56%, rgba(0,0,0,0.4) 64%, rgba(0,0,0,0.3) 72%, rgba(0,0,0,0.2) 80%, rgba(0,0,0,0.1) 88%, rgba(0,0,0,0.05) 96%, transparent 100%);
+  mask-image: linear-gradient(to top, black 0%, black 8%, black 16%, rgba(0,0,0,0.9) 24%, rgba(0,0,0,0.8) 32%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.6) 48%, rgba(0,0,0,0.5) 56%, rgba(0,0,0,0.4) 64%, rgba(0,0,0,0.3) 72%, rgba(0,0,0,0.2) 80%, rgba(0,0,0,0.1) 88%, rgba(0,0,0,0.05) 96%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .footer-content {
