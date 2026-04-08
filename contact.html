@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Michael Needham</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="stylesheet" href="carousel.css">
+  <style>
+    body::before { animation: none !important; opacity: 0 !important; }
+
+    #am-slideshow {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+    }
+    #am-slideshow .am-slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+    #am-slideshow .am-slide.active { opacity: 1; }
+
+    .ct-page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 24px 80px;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    .ct-header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding: 12px 0 0;
+    }
+    .ct-header .label {
+      display: block;
+      font-size: .75rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #f97316, #eab308, #22c55e, #06b6d4, #6366f1, #a855f7, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    .ct-header h1 {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      color: #fff;
+    }
+
+    .am-back-row {
+      position: fixed;
+      top: 16px;
+      left: 24px;
+      z-index: 100;
+    }
+    .am-back-row .nav-button h4 {
+      font-size: 0.9rem;
+      margin: 0;
+      padding: 0;
+    }
+    .am-back-row .nav-button { padding: 8px 14px; }
+
+    .ct-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      width: 100%;
+      max-width: 900px;
+    }
+    @media (max-width: 640px) {
+      .ct-grid { grid-template-columns: 1fr; }
+    }
+
+    .ct-footer {
+      margin-top: 48px;
+      color: rgba(255,255,255,0.35);
+      font-size: .78rem;
+      text-align: center;
+    }
+    .ct-footer a {
+      background: linear-gradient(135deg, #f97316, #eab308, #22c55e, #06b6d4, #6366f1, #a855f7, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .ct-footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div id="am-slideshow"></div>
+
+  <div class="am-back-row">
+    <a href="index.html" class="nav-button"><h4>← Home</h4></a>
+  </div>
+
+  <div class="ct-page">
+    <header class="ct-header">
+      <span class="label">Portfolio</span>
+      <h1>Get in Touch</h1>
+    </header>
+
+    <div class="ct-grid">
+      <!-- Social Media Box -->
+      <div class="section-content-box">
+        <h3>Social Media</h3>
+        <p>Follow me on X: <a href="https://x.com/ordinalrainbows">@ordinalrainbows</a></p>
+        <p>Instagram: <a href="https://instagram.com/ordinalrainbows">ORDINAL RAINBOWS</a></p>
+        <p>LinkedIn: <a href="https://www.linkedin.com/in/chefmyklove">Michael A. Needham</a></p>
+        <p>Reddit: <a href="https://www.reddit.com/user/myklovenotwar">ChefMyKLove</a></p>
+        <p>TikTok: <a href="https://www.tiktok.com/@ordinalrainbows">OrdinalRainbows</a></p>
+        <p>blue sky: <a href="https://bsky.app/profile/chefmyklove.bsky.social">@ChefMyKLove.bsky.social</a></p>
+        <p>Patreon: <a href="https://www.patreon.com/chefmyklove">Support me on Patreon</a></p>
+      </div>
+
+      <!-- Contact Form Box -->
+      <div class="section-content-box">
+        <h3>Send a Message</h3>
+        <p>Want to collaborate or have a question?</p>
+        <div class="contact-animation-image"></div>
+        <p class="email-click" data-email="chefmyklove@gmail.com" id="emailTrigger">
+          Click to copy email or double-click to send a message
+        </p>
+      </div>
+    </div>
+
+    <footer class="ct-footer">
+      <a href="index.html">Home</a> · Michael Needham · Developer · Artist · Activist
+    </footer>
+  </div>
+
+  <!-- Modal for contact form -->
+  <div id="contactModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>Send me a message</h3>
+      <form id="contactForm" action="https://submit-form.com/lrddY0Mbk" method="POST">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="interactivity.js"></script>
+  <script>
+    (function() {
+      const images = [
+        'images/HummingBow.jpg','images/IMG_6794.JPEG','images/IMG_6795.JPEG',
+        'images/IMG_6796.JPEG','images/IMG_6797.JPEG','images/TunnelBow.JPEG',
+        'images/IMG_6906.JPEG','images/IMG_6907.JPEG','images/IMG_6908.JPEG',
+        'images/IMG_6909.JPEG','images/IMG_6910.JPEG','images/IMG_6911.JPEG','images/IMG_6912.JPEG',
+      ];
+      const container = document.getElementById('am-slideshow');
+      const slides = images.map(src => {
+        const div = document.createElement('div');
+        div.className = 'am-slide';
+        div.style.backgroundImage = `url('${src}')`;
+        container.appendChild(div);
+        return div;
+      });
+      let current = 0;
+      slides[current].classList.add('active');
+      setInterval(() => {
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+      }, 8000);
+    })();
+  </script>
+</body>
+</html>

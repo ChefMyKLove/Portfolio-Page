@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessibility Pad — Michael Needham</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #050d1f 0%, #0a1628 50%, #091020 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+      padding: 48px 20px 80px;
+    }
+    .detail-container { max-width: 780px; margin: 0 auto; }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 0.88rem;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+      margin-bottom: 36px;
+    }
+    .back-link:hover { color: #fff; }
+    .detail-card {
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      border-radius: 24px;
+      padding: 56px 60px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 8px 48px rgba(0,0,0,0.5), 0 0 80px rgba(29, 78, 216, 0.12);
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+      color: #4ade80;
+      background: rgba(74,222,128,0.12);
+      border: 1px solid rgba(74,222,128,0.3);
+    }
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 30px rgba(29, 78, 216, 0.5);
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+    }
+    .tagline {
+      font-size: 1.12rem;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 32px;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+      line-height: 1.5;
+    }
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(29, 78, 216, 0.6), transparent);
+      margin-bottom: 32px;
+    }
+    .detail-body p {
+      color: rgba(255,255,255,0.78);
+      font-size: 0.98rem;
+      line-height: 1.85;
+      margin-bottom: 20px;
+    }
+    .detail-body h3 {
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      margin-top: 32px;
+      letter-spacing: 0.5px;
+    }
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-bottom: 20px;
+    }
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: rgba(255,255,255,0.72);
+      font-size: 0.93rem;
+      line-height: 1.55;
+    }
+    .feature-list li::before {
+      content: '→';
+      color: #60a5fa;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .detail-links { margin-top: 44px; display: flex; gap: 16px; flex-wrap: wrap; }
+    .visit-btn {
+      display: inline-block;
+      padding: 14px 36px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 18px rgba(29, 78, 216, 0.4);
+    }
+    .visit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(29, 78, 216, 0.6);
+      color: #fff;
+    }
+    @media (max-width: 600px) {
+      .detail-card { padding: 36px 24px; }
+      h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="detail-container">
+    <a href="../index.html" class="back-link">← Back to Portfolio</a>
+    <div class="detail-card">
+      <div class="status-badge">Live</div>
+      <h1>Accessibility Pad</h1>
+      <p class="tagline">A notepad application designed from the ground up with disability justice at its core — voice-powered, screen-reader ready, and fully navigable without a mouse.</p>
+      <div class="divider"></div>
+      <div class="detail-body">
+        <p>Accessibility Pad was built on a simple premise: productivity tools should work for everyone, not just people whose bodies and abilities match the assumed default. Rather than retrofitting accessibility onto an existing app, every feature was designed with inclusion as the primary requirement from day one.</p>
+        <p>The app supports users with visual impairments through full screen reader compatibility, users with motor disabilities through complete keyboard navigation and hands-free voice input, and users across language backgrounds through multilingual speech recognition. It's a working demonstration that accessibility and usability are not in tension — they reinforce each other.</p>
+        <h3>What It Does</h3>
+        <ul class="feature-list">
+          <li>Full screen reader support with ARIA-compliant markup throughout</li>
+          <li>High contrast mode and adjustable font sizes for low vision users</li>
+          <li>Complete keyboard navigation — no mouse required for any function</li>
+          <li>Voice-to-text input in four languages: English, French, Spanish, and Mandarin</li>
+          <li>Hands-free operation mode for users with limited motor control</li>
+          <li>Persistent notes with local storage — no account or login required</li>
+        </ul>
+      </div>
+      <div class="detail-links">
+        <a href="../notes-app.html" class="visit-btn">Try Accessibility Pad →</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

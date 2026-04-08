@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio &amp; Blog — Michael Needham</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0d0520 0%, #150830 50%, #0d0520 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+      padding: 48px 20px 80px;
+    }
+    .detail-container { max-width: 780px; margin: 0 auto; }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 0.88rem;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+      margin-bottom: 36px;
+    }
+    .back-link:hover { color: #fff; }
+    .detail-card {
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      border-radius: 24px;
+      padding: 56px 60px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 8px 48px rgba(0,0,0,0.5), 0 0 80px rgba(102, 26, 234, 0.15);
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+      color: #4ade80;
+      background: rgba(74,222,128,0.12);
+      border: 1px solid rgba(74,222,128,0.3);
+    }
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 30px rgba(102, 26, 234, 0.5);
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+    }
+    .tagline {
+      font-size: 1.12rem;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 32px;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+      line-height: 1.5;
+    }
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(102, 26, 234, 0.6), rgba(167, 139, 250, 0.4), transparent);
+      margin-bottom: 32px;
+    }
+    .detail-body p {
+      color: rgba(255,255,255,0.78);
+      font-size: 0.98rem;
+      line-height: 1.85;
+      margin-bottom: 20px;
+    }
+    .detail-body h3 {
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      margin-top: 32px;
+      letter-spacing: 0.5px;
+    }
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-bottom: 20px;
+    }
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: rgba(255,255,255,0.72);
+      font-size: 0.93rem;
+      line-height: 1.55;
+    }
+    .feature-list li::before {
+      content: '→';
+      color: #a78bfa;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .detail-links { margin-top: 44px; display: flex; gap: 16px; flex-wrap: wrap; }
+    .visit-btn {
+      display: inline-block;
+      padding: 14px 36px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 18px rgba(102, 126, 234, 0.4);
+    }
+    .visit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(102, 126, 234, 0.6);
+      color: #fff;
+    }
+    .visit-btn-secondary {
+      display: inline-block;
+      padding: 14px 36px;
+      border-radius: 50px;
+      background: rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(255,255,255,0.18);
+      transition: transform 0.3s, background 0.3s;
+    }
+    .visit-btn-secondary:hover {
+      transform: translateY(-3px);
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+    }
+    @media (max-width: 600px) {
+      .detail-card { padding: 36px 24px; }
+      h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="detail-container">
+    <a href="../index.html" class="back-link">← Back to Portfolio</a>
+    <div class="detail-card">
+      <div class="status-badge">Live</div>
+      <h1>Portfolio &amp; Blog</h1>
+      <p class="tagline">A full-stack portfolio site with a Patreon-integrated authentication system gating an exclusive members-only blog for paying supporters.</p>
+      <div class="divider"></div>
+      <div class="detail-body">
+        <p>This site is itself one of the projects — a full-stack web application that serves as both a professional portfolio and a publishing platform. The front end is a glassmorphism UI with animated background carousels, smooth scroll sections, and an art gallery, all built with accessibility as a core requirement rather than an afterthought.</p>
+        <p>The back end runs on Railway and handles the more interesting piece: a Patreon OAuth integration that gates blog content behind membership tiers. Supporters who join on Patreon can authenticate through the site and access exclusive posts. Session management, OAuth flows, and content delivery are all handled server-side, keeping credentials and tokens out of the client.</p>
+        <h3>What It Does</h3>
+        <ul class="feature-list">
+          <li>Glassmorphism UI with animated background image carousel</li>
+          <li>Patreon OAuth integration for tiered blog access control</li>
+          <li>Node.js backend deployed on Railway with session management</li>
+          <li>Interactive art gallery with print ordering via Printify integration</li>
+          <li>Accessibility-first design with full keyboard navigation and screen reader support</li>
+          <li>Analytics and performance monitoring for visit tracking and engagement data</li>
+          <li>Responsive layout across desktop, tablet, and mobile</li>
+        </ul>
+      </div>
+      <div class="detail-links">
+        <a href="../index.html" class="visit-btn">You're Already Here →</a>
+        <a href="https://www.patreon.com/chefmyklove" target="_blank" rel="noopener noreferrer" class="visit-btn-secondary">Join on Patreon →</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Not Just Covid — Michael Needham</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #060d0a 0%, #0a1a12 50%, #071410 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+      padding: 48px 20px 80px;
+    }
+    .detail-container { max-width: 780px; margin: 0 auto; }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 0.88rem;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+      margin-bottom: 36px;
+    }
+    .back-link:hover { color: #fff; }
+    .detail-card {
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      border-radius: 24px;
+      padding: 56px 60px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 8px 48px rgba(0,0,0,0.5), 0 0 80px rgba(4, 120, 87, 0.12);
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+      color: #a78bfa;
+      background: rgba(167,139,250,0.12);
+      border: 1px solid rgba(167,139,250,0.3);
+    }
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 30px rgba(4, 120, 87, 0.4);
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+    }
+    .tagline {
+      font-size: 1.12rem;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 32px;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+      line-height: 1.5;
+    }
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(4, 120, 87, 0.5), transparent);
+      margin-bottom: 32px;
+    }
+    .detail-body p {
+      color: rgba(255,255,255,0.78);
+      font-size: 0.98rem;
+      line-height: 1.85;
+      margin-bottom: 20px;
+    }
+    .detail-body h3 {
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      margin-top: 32px;
+      letter-spacing: 0.5px;
+    }
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-bottom: 20px;
+    }
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: rgba(255,255,255,0.72);
+      font-size: 0.93rem;
+      line-height: 1.55;
+    }
+    .feature-list li::before {
+      content: '→';
+      color: #34d399;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .detail-links { margin-top: 44px; display: flex; gap: 16px; flex-wrap: wrap; }
+    .coming-soon-btn {
+      display: inline-block;
+      padding: 14px 36px;
+      border-radius: 50px;
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(255,255,255,0.12);
+      cursor: default;
+    }
+    @media (max-width: 600px) {
+      .detail-card { padding: 36px 24px; }
+      h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="detail-container">
+    <a href="../index.html" class="back-link">← Back to Portfolio</a>
+    <div class="detail-card">
+      <div class="status-badge">Coming Soon</div>
+      <h1>Not Just Covid</h1>
+      <p class="tagline">A web portal connecting clean air advocates, researchers, and disability justice communities around shared environmental health goals.</p>
+      <div class="divider"></div>
+      <div class="detail-body">
+        <p>Not Just Covid is a community-driven platform built at the intersection of public health, accessibility, and grassroots organizing. The name is a direct challenge to the ongoing minimization of airborne disease and environmental pollutants — asserting that clean air is not a pandemic-era concern but a permanent, urgent need for millions of disabled and immunocompromised people.</p>
+        <p>The platform provides tools and resources that support air quality monitoring, policy advocacy, and mutual aid within disability justice communities. It centers the voices and expertise of people most harmed by poor air quality — those with chronic illness, respiratory conditions, and environmental sensitivities — and positions them as leaders rather than afterthoughts in conversations about environmental health.</p>
+        <h3>What It Does</h3>
+        <ul class="feature-list">
+          <li>Community-driven air quality data platform with crowdsourced monitoring and reporting</li>
+          <li>Educational resource hub covering air quality science, policy landscapes, and advocacy toolkits</li>
+          <li>Marketplace connecting clean air product and service providers with community members</li>
+          <li>Accessibility-first design built for users with disabilities, screen readers, and assistive technology</li>
+          <li>Campaign coordination tools for disability justice advocates and air quality organizers</li>
+          <li>Safe space community forums for people living with conditions affected by air quality</li>
+        </ul>
+      </div>
+      <div class="detail-links">
+        <span class="coming-soon-btn">Site Launching Soon</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

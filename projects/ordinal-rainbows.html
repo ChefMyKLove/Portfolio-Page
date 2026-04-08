@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ordinal Rainbows — Michael Needham</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0d0520 0%, #1a0a2e 40%, #200818 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+      padding: 48px 20px 80px;
+    }
+    .detail-container { max-width: 780px; margin: 0 auto; }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 0.88rem;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+      margin-bottom: 36px;
+    }
+    .back-link:hover { color: #fff; }
+    .detail-card {
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      border-radius: 24px;
+      padding: 56px 60px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 8px 48px rgba(0,0,0,0.5), 0 0 80px rgba(102, 26, 234, 0.12);
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+      color: #4ade80;
+      background: rgba(74,222,128,0.12);
+      border: 1px solid rgba(74,222,128,0.3);
+    }
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 30px rgba(167, 50, 234, 0.5);
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+    }
+    .tagline {
+      font-size: 1.12rem;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 32px;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+      line-height: 1.5;
+    }
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(190, 24, 93, 0.6), rgba(124, 58, 237, 0.6), transparent);
+      margin-bottom: 32px;
+    }
+    .detail-body p {
+      color: rgba(255,255,255,0.78);
+      font-size: 0.98rem;
+      line-height: 1.85;
+      margin-bottom: 20px;
+    }
+    .detail-body h3 {
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      margin-top: 32px;
+      letter-spacing: 0.5px;
+    }
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-bottom: 20px;
+    }
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: rgba(255,255,255,0.72);
+      font-size: 0.93rem;
+      line-height: 1.55;
+    }
+    .feature-list li::before {
+      content: '→';
+      color: #c084fc;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .detail-links { margin-top: 44px; display: flex; gap: 16px; flex-wrap: wrap; }
+    .visit-btn {
+      display: inline-block;
+      padding: 14px 36px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #7c3aed 0%, #be185d 100%);
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 18px rgba(124, 58, 237, 0.4);
+    }
+    .visit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(124, 58, 237, 0.6);
+      color: #fff;
+    }
+    .visit-btn-secondary {
+      display: inline-block;
+      padding: 14px 36px;
+      border-radius: 50px;
+      background: rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(255,255,255,0.18);
+      transition: transform 0.3s, background 0.3s;
+    }
+    .visit-btn-secondary:hover {
+      transform: translateY(-3px);
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+    }
+    @media (max-width: 600px) {
+      .detail-card { padding: 36px 24px; }
+      h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="detail-container">
+    <a href="../index.html" class="back-link">← Back to Portfolio</a>
+    <div class="detail-card">
+      <div class="status-badge">Live</div>
+      <h1>Ordinal Rainbows</h1>
+      <p class="tagline">A digital art ecosystem built around rainbow photography — minting original works as permanent, on-chain Ordinal NFTs on the BSV Blockchain.</p>
+      <div class="divider"></div>
+      <div class="detail-body">
+        <p>Ordinal Rainbows is a digital art project and ecosystem built around the beauty and symbolism of rainbow photography. The work uses the BSV Blockchain's Ordinals protocol to inscribe original photographs directly onto the blockchain — creating immutable, permanent records of each piece that exist independently of any centralized platform or server.</p>
+        <p>The project bridges fine art photography, Web3 infrastructure, and print-on-demand commerce. Collectors can own authenticated digital originals with verifiable on-chain provenance, while also ordering physical prints through the integrated Printify storefront. Each piece in the collection is a unique capture of naturally occurring rainbow light — no filters, no AI generation, just light and a lens.</p>
+        <h3>What It Does</h3>
+        <ul class="feature-list">
+          <li>Ordinal NFT minting platform inscribing artwork directly onto BSV Blockchain</li>
+          <li>Interactive gallery and collection explorer with full artwork details</li>
+          <li>Print-on-demand integration for ordering physical prints via Printify</li>
+          <li>Immutable on-chain provenance records for every piece in the collection</li>
+          <li>Original rainbow photography by Michael Needham — naturally captured, unfiltered</li>
+          <li>Educational content on BSV Blockchain, Ordinals protocol, and digital ownership</li>
+        </ul>
+      </div>
+      <div class="detail-links">
+        <a href="../ordinal-rainbows.html" class="visit-btn">Explore the Gallery →</a>
+        <a href="https://chefmyklove.github.io/ORDINALRAINBOWS-Vol.1/" target="_blank" rel="noopener noreferrer" class="visit-btn-secondary">Shop Prints →</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

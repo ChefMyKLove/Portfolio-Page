@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — Michael Needham</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="stylesheet" href="carousel.css">
+  <style>
+    body::before { animation: none !important; opacity: 0 !important; }
+
+    #am-slideshow {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+    }
+    #am-slideshow .am-slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+    #am-slideshow .am-slide.active { opacity: 1; }
+
+    .pg-page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 24px 80px;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pg-header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding: 12px 0 0;
+    }
+    .pg-header .label {
+      display: block;
+      font-size: .75rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #f97316, #eab308, #22c55e, #06b6d4, #6366f1, #a855f7, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    .pg-header h1 {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      color: #fff;
+    }
+
+    .am-back-row {
+      position: fixed;
+      top: 16px;
+      left: 24px;
+      z-index: 100;
+    }
+    .am-back-row .nav-button h4 {
+      font-size: 0.9rem;
+      margin: 0;
+      padding: 0;
+    }
+    .am-back-row .nav-button { padding: 8px 14px; }
+
+    .pg-footer {
+      margin-top: 48px;
+      color: rgba(255,255,255,0.35);
+      font-size: .78rem;
+      text-align: center;
+    }
+    .pg-footer a {
+      background: linear-gradient(135deg, #f97316, #eab308, #22c55e, #06b6d4, #6366f1, #a855f7, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .pg-footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div id="am-slideshow"></div>
+
+  <div class="am-back-row">
+    <a href="index.html" class="nav-button"><h4>← Home</h4></a>
+  </div>
+
+  <div class="pg-page">
+    <header class="pg-header">
+      <span class="label">Portfolio</span>
+      <h1>Projects</h1>
+    </header>
+
+    <div class="projects-grid">
+
+      <a href="projects/not-just-covid.html" class="project-card">
+        <div class="project-card-image">
+          <div class="project-card-placeholder ph-njc">
+            <span class="placeholder-icon">🌬️</span>
+            <span class="placeholder-label">Image Coming Soon</span>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <h3>Not Just Covid</h3>
+          <p>Clean air advocacy platform for disability justice communities</p>
+          <span class="project-card-status coming-soon">Coming Soon</span>
+        </div>
+      </a>
+
+      <a href="projects/ordinal-rainbows.html" class="project-card">
+        <div class="project-card-image">
+          <div class="project-card-placeholder ph-or">
+            <span class="placeholder-icon">🌈</span>
+            <span class="placeholder-label">Image Coming Soon</span>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <h3>Ordinal Rainbows</h3>
+          <p>Digital art ecosystem minting rainbow photography as Ordinals on BSV Blockchain</p>
+          <span class="project-card-status live">Live</span>
+        </div>
+      </a>
+
+      <a href="projects/accessibility-pad.html" class="project-card">
+        <div class="project-card-image">
+          <div class="project-card-placeholder ph-ap">
+            <span class="placeholder-icon">♿</span>
+            <span class="placeholder-label">Image Coming Soon</span>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <h3>Accessibility Pad</h3>
+          <p>Voice-powered notepad built with full accessibility support from the ground up</p>
+          <span class="project-card-status live">Live</span>
+        </div>
+      </a>
+
+      <a href="projects/youtunes.html" class="project-card">
+        <div class="project-card-image">
+          <div class="project-card-placeholder ph-yt">
+            <span class="placeholder-icon">🎵</span>
+            <span class="placeholder-label">Image Coming Soon</span>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <h3>YouTunes</h3>
+          <p>BSV Blockchain music streaming with direct micropayments per stream to artists</p>
+          <span class="project-card-status coming-soon">Coming Soon</span>
+        </div>
+      </a>
+
+      <a href="projects/stratos.html" class="project-card">
+        <div class="project-card-image">
+          <div class="project-card-placeholder ph-st">
+            <span class="placeholder-icon">🌍</span>
+            <span class="placeholder-label">Image Coming Soon</span>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <h3>Stratos</h3>
+          <p>Real-time global monitor for weather, earthquakes, and space weather</p>
+          <span class="project-card-status coming-soon">Coming Soon</span>
+        </div>
+      </a>
+
+      <a href="projects/portfolio-blog.html" class="project-card">
+        <div class="project-card-image">
+          <div class="project-card-placeholder ph-pb">
+            <span class="placeholder-icon">💻</span>
+            <span class="placeholder-label">Image Coming Soon</span>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <h3>Portfolio &amp; Blog</h3>
+          <p>Full-stack portfolio site with Patreon-gated members blog</p>
+          <span class="project-card-status live">Live</span>
+        </div>
+      </a>
+
+    </div>
+
+    <footer class="pg-footer">
+      <a href="index.html">Home</a> · Michael Needham · Developer · Artist · Activist
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      const images = [
+        'images/HummingBow.jpg','images/IMG_6794.JPEG','images/IMG_6795.JPEG',
+        'images/IMG_6796.JPEG','images/IMG_6797.JPEG','images/TunnelBow.JPEG',
+        'images/IMG_6906.JPEG','images/IMG_6907.JPEG','images/IMG_6908.JPEG',
+        'images/IMG_6909.JPEG','images/IMG_6910.JPEG','images/IMG_6911.JPEG','images/IMG_6912.JPEG',
+      ];
+      const container = document.getElementById('am-slideshow');
+      const slides = images.map(src => {
+        const div = document.createElement('div');
+        div.className = 'am-slide';
+        div.style.backgroundImage = `url('${src}')`;
+        container.appendChild(div);
+        return div;
+      });
+      let current = 0;
+      slides[current].classList.add('active');
+      setInterval(() => {
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+      }, 8000);
+    })();
+  </script>
+</body>
+</html>
