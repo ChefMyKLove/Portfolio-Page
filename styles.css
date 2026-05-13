@@ -143,8 +143,8 @@ body {
    ============================================ */
 .splash-circle {
     position: fixed;
-    top: 50%;
-    left: 38vw;
+    top: calc(50% - 50px);
+    left: calc(38vw - 100px);
     /* Start well off-screen to the left — individual property, compose with JS rotate */
     translate: calc(-50% - 120vw) -50%;
     width: min(60vmin, 576px);
@@ -316,14 +316,14 @@ body {
    ============================================ */
 .nav-bubble {
     position: fixed;
-    width: 68px;
-    height: 68px;
+    width: 88px;
+    height: 88px;
     border-radius: 50%;
-    background: rgba(0, 0, 0, 0.35);
+    background: rgba(255, 255, 255, 0.06);
     -webkit-backdrop-filter: blur(14px);
     backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 0 14px rgba(102, 126, 234, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.25);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -373,7 +373,7 @@ body {
 
 .nav-bubble.coming-soon:hover {
     transform: scale(1.35) !important;
-    background: rgba(0, 0, 0, 0.45) !important;
+    background: rgba(255, 255, 255, 0.12) !important;
     box-shadow: 0 0 22px rgba(102, 126, 234, 0.45) !important;
     opacity: 0.85 !important;
 }
@@ -390,7 +390,7 @@ body {
     letter-spacing: 0.05em;
     text-align: center;
     opacity: 0.8;
-    max-width: 58px;
+    max-width: 76px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -399,25 +399,25 @@ body {
 }
 
 /* Bubble positions.
-   Bubbles 2-5 (About Me, Contact, Ordinals, Blog) fan right of circle clockwise.
-   Bubble 1 (Projects) continues the arc naturally one step below bubble-5.
-   Bubbles 6-8 (placeholders) form a small downward arc from Projects. */
-#bubble-1 { left: calc(38vw + 248px); top: calc(50vh + 192px); }  /* natural arc after bubble-5 */
-#bubble-2 { left: calc(38vw + 248px); top: calc(50vh - 192px); }
-#bubble-3 { left: calc(38vw + 340px); top: calc(50vh - 104px); }
-#bubble-4 { left: calc(38vw + 370px); top: calc(50vh -   8px); }
-#bubble-5 { left: calc(38vw + 340px); top: calc(50vh + 104px); }
-#bubble-6 { left: calc(38vw + 160px); top: calc(50vh + 253px); }  /* lower-left of Projects */
-#bubble-7 { left: calc(38vw + 248px); top: calc(50vh + 269px); }  /* directly below Projects */
-#bubble-8 { left: calc(38vw + 356px); top: calc(50vh + 253px); }  /* lower-right of Projects */
+   All 5 main nav bubbles arc right of circle at consistent R=378 from center (288 radius + 44 bubble radius + 46 gap).
+   Angles evenly spaced -30°, -12°, 5°, 22°, 40° — so every bubble center sits exactly on the circumference.
+   Bubbles 6-8 (coming-soon) cluster just below Projects. */
+#bubble-1 { left: calc(38vw + 146px); top: calc(50vh + 149px); }  /* 40° */
+#bubble-2 { left: calc(38vw + 183px); top: calc(50vh - 283px); }  /* -30° */
+#bubble-3 { left: calc(38vw + 226px); top: calc(50vh - 173px); }  /* -12° */
+#bubble-4 { left: calc(38vw + 232px); top: calc(50vh -  61px); }  /*   5° */
+#bubble-5 { left: calc(38vw + 207px); top: calc(50vh +  48px); }  /*  22° */
+#bubble-6 { left: calc(38vw +  54px); top: calc(50vh + 253px); }  /* lower-left of Projects */
+#bubble-7 { left: calc(38vw + 146px); top: calc(50vh + 265px); }  /* directly below Projects */
+#bubble-8 { left: calc(38vw + 238px); top: calc(50vh + 253px); }  /* lower-right of Projects */
 
 /* ============================================
    SPLASH RING — expanding burst when circle breaks through
    ============================================ */
 .splash-ring {
     position: fixed;
-    top: 50%;
-    left: 38vw;
+    top: calc(50% - 50px);
+    left: calc(38vw - 100px);
     width: min(60vmin, 576px);
     height: min(60vmin, 576px);
     border-radius: 50%;
@@ -465,8 +465,7 @@ footer {
     left: 0;
     right: 0;
     z-index: 150;
-    text-align: center;
-    padding: 12px 20px;
+    padding: 10px 24px;
     background: rgba(255, 255, 255, 0.10);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
@@ -475,9 +474,10 @@ footer {
 
 .footer-content {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 5px;
+    justify-content: flex-end;
+    gap: 24px;
     color: rgba(255, 255, 255, 0.75);
     font-size: 0.8rem;
 }
@@ -522,11 +522,13 @@ footer {
    ============================================ */
 @media (max-width: 768px) {
     .splash-circle {
+        top: 50%;
         left: 50%;
         width: min(70vw, 384px);
         height: min(70vw, 384px);
     }
     .splash-ring {
+        top: 50%;
         left: 50%;
         width: min(70vw, 384px);
         height: min(70vw, 384px);
@@ -538,21 +540,21 @@ footer {
 
     /* Stack bubbles in 4×2 grid along the bottom */
     .nav-bubble {
-        width: 56px;
-        height: 56px;
+        width: 72px;
+        height: 72px;
         position: fixed;
         left: auto !important;
         top: auto !important;
     }
     /* bubble-1 (Projects) centered at bottom, 6/7/8 cluster below it */
-    #bubble-1 { bottom: 144px; left: 50% !important; transform: translateX(-50%); }
-    #bubble-2 { bottom: 148px; left: calc(10vw +   0px) !important; }
-    #bubble-3 { bottom: 148px; left: calc(10vw +  68px) !important; }
-    #bubble-4 { bottom: 148px; left: calc(10vw + 136px) !important; }
-    #bubble-5 { bottom: 148px; left: calc(10vw + 204px) !important; }
-    #bubble-6 { bottom:  70px; left: calc(50% -  88px) !important; }
-    #bubble-7 { bottom:  70px; left: calc(50% -  34px) !important; }
-    #bubble-8 { bottom:  70px; left: calc(50% +  20px) !important; }
+    #bubble-1 { bottom: 152px; left: 50% !important; transform: translateX(-50%); }
+    #bubble-2 { bottom: 156px; left: calc(10vw +   0px) !important; }
+    #bubble-3 { bottom: 156px; left: calc(10vw +  80px) !important; }
+    #bubble-4 { bottom: 156px; left: calc(10vw + 160px) !important; }
+    #bubble-5 { bottom: 156px; left: calc(10vw + 240px) !important; }
+    #bubble-6 { bottom:  76px; left: calc(50% - 116px) !important; }
+    #bubble-7 { bottom:  76px; left: calc(50% -  36px) !important; }
+    #bubble-8 { bottom:  76px; left: calc(50% +  44px) !important; }
 }
 
 /* ============================================
