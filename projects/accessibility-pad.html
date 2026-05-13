@@ -13,7 +13,7 @@
       color: #fff;
       padding: 48px 20px 80px;
     }
-    .detail-container { max-width: 780px; margin: 0 auto; }
+    .detail-container { max-width: 780px; margin: 0 auto; position: relative; z-index: 2; }
     .back-link {
       display: inline-flex;
       align-items: center;
@@ -128,8 +128,33 @@
       h1 { font-size: 2rem; }
     }
   </style>
+  <link rel="stylesheet" href="../bg-anim.css">
 </head>
 <body>
+  <!-- Cloud swirl background animation -->
+  <svg id="svg-filters" style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
+    <defs>
+      <filter id="cloud-warp" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+        <feTurbulence id="cloud-turb" type="fractalNoise" baseFrequency="0.009 0.011" numOctaves="4" seed="7" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="124" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <filter id="cloud-warp-b" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+        <feTurbulence id="cloud-turb-b" type="fractalNoise" baseFrequency="0.010 0.009" numOctaves="4" seed="13" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="124" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs>
+  </svg>
+  <div class="background-container" id="bgLayerA"></div>
+  <div class="background-container" id="bgLayerB"></div>
+  <div class="cloud-layer cloud-layer-1" aria-hidden="true">
+    <div class="cloud-inner" id="cloud1A"></div>
+    <div class="cloud-inner" id="cloud1B"></div>
+  </div>
+  <div class="cloud-layer cloud-layer-2" aria-hidden="true">
+    <div class="cloud-inner" id="cloud2A"></div>
+    <div class="cloud-inner" id="cloud2B"></div>
+  </div>
+
   <div class="detail-container">
     <a href="../index.html" class="back-link">← Back to Portfolio</a>
     <div class="detail-card">
@@ -155,5 +180,7 @@
       </div>
     </div>
   </div>
+  <script>window.BG_BASE_PATH = '../images/';</script>
+  <script src="../bg-anim.js"></script>
 </body>
 </html>
