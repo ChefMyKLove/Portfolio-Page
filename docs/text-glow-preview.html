@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Text Glow Options — Pick One</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #0a0612;
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+      padding: 24px;
+    }
+    h2 { text-align: center; color: rgba(255,255,255,0.5); font-weight: 300; margin-bottom: 24px; }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .card {
+      border-radius: 50%;
+      overflow: hidden;
+      aspect-ratio: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,0.28);
+    }
+    .card-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('../images/IMG_6906.JPEG');
+      background-size: cover;
+      background-position: center;
+      filter: blur(14px) saturate(1.4);
+    }
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(8, 4, 20, 0.08);
+      backdrop-filter: blur(14px);
+    }
+    .card-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .label {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      white-space: nowrap;
+      z-index: 10;
+    }
+    img.avatar {
+      width: 76px; height: 76px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 4px;
+    }
+    .name { font-size: 1.1rem; font-weight: 700; margin: 0; color: #fff; }
+    .tagline { font-size: 0.78rem; margin: 0; font-weight: 400; letter-spacing: 0.06em; }
+    .bio { font-size: 0.6rem; line-height: 1.6; margin: 0; max-width: 200px; }
+
+    /* ── Option A: Heavy dark drop-shadow ── */
+    .opt-a .name    { text-shadow: 0 2px 8px rgba(0,0,0,1), 0 4px 20px rgba(0,0,0,0.9); }
+    .opt-a .tagline { text-shadow: 0 2px 6px rgba(0,0,0,1), 0 3px 12px rgba(0,0,0,0.85); color: rgba(255,255,255,0.95); }
+    .opt-a .bio     { text-shadow: 0 1px 4px rgba(0,0,0,1), 0 2px 8px rgba(0,0,0,0.9);  color: rgba(255,255,255,0.9); }
+    .opt-a img.avatar { border: 2px solid rgba(255,255,255,0.55); box-shadow: 0 2px 12px rgba(0,0,0,0.8); }
+
+    /* ── Option B: Purple / lavender glow ── */
+    .opt-b .name    { text-shadow: 0 0 24px rgba(210,180,255,1), 0 0 48px rgba(170,130,255,0.85), 0 2px 6px rgba(0,0,0,0.9); }
+    .opt-b .tagline { text-shadow: 0 0 16px rgba(210,180,255,0.8), 0 1px 4px rgba(0,0,0,0.8); color: rgba(255,255,255,0.95); }
+    .opt-b .bio     { text-shadow: 0 0 10px rgba(180,150,255,0.5), 0 1px 3px rgba(0,0,0,0.85); color: rgba(255,255,255,0.9); }
+    .opt-b img.avatar { border: 2px solid rgba(200,170,255,0.7); box-shadow: 0 0 22px rgba(180,140,255,0.7), 0 2px 8px rgba(0,0,0,0.6); }
+
+    /* ── Option C: Bright white halo ── */
+    .opt-c .name    { text-shadow: 0 0 18px rgba(255,255,255,1), 0 0 36px rgba(255,255,255,0.7), 0 2px 6px rgba(0,0,0,0.8); }
+    .opt-c .tagline { text-shadow: 0 0 12px rgba(255,255,255,0.9), 0 1px 3px rgba(0,0,0,0.7); color: rgba(255,255,255,0.95); }
+    .opt-c .bio     { text-shadow: 0 0 8px rgba(255,255,255,0.5), 0 1px 3px rgba(0,0,0,0.8); color: rgba(255,255,255,0.9); }
+    .opt-c img.avatar { border: 2px solid rgba(255,255,255,0.8); box-shadow: 0 0 24px rgba(255,255,255,0.5), 0 2px 8px rgba(0,0,0,0.5); }
+
+    /* ── Option D: Rainbow shimmer — warm pink-violet ── */
+    .opt-d .name    { text-shadow: 0 0 22px rgba(255,180,255,0.95), 0 0 44px rgba(200,140,255,0.8), 0 2px 6px rgba(0,0,0,0.9); }
+    .opt-d .tagline { text-shadow: 0 0 14px rgba(255,200,255,0.8), 0 1px 3px rgba(0,0,0,0.8); color: rgba(255,255,255,0.95); }
+    .opt-d .bio     { text-shadow: 0 0 10px rgba(230,180,255,0.5), 0 1px 3px rgba(0,0,0,0.85); color: rgba(255,255,255,0.9); }
+    .opt-d img.avatar { border: 2px solid rgba(255,200,255,0.65); box-shadow: 0 0 22px rgba(220,160,255,0.65), 0 2px 8px rgba(0,0,0,0.6); }
+  </style>
+</head>
+<body>
+  <h2>Text treatment options — tell me which one you want</h2>
+  <div class="grid">
+
+    <div class="card opt-a">
+      <div class="card-bg"></div>
+      <div class="card-overlay"></div>
+      <span class="label">A — Dark drop-shadow</span>
+      <div class="card-content">
+        <img class="avatar" src="../images/IMG_20201211_103947_047.png" alt="">
+        <p class="name">Hello! I'm Michael Needham</p>
+        <p class="tagline">Developer • Artist • Activist</p>
+        <p class="bio">A full stack and Web3 developer from Nanaimo, Canada. I build tools that remove barriers and redistribute power.</p>
+      </div>
+    </div>
+
+    <div class="card opt-b">
+      <div class="card-bg"></div>
+      <div class="card-overlay"></div>
+      <span class="label">B — Purple / lavender glow</span>
+      <div class="card-content">
+        <img class="avatar" src="../images/IMG_20201211_103947_047.png" alt="">
+        <p class="name">Hello! I'm Michael Needham</p>
+        <p class="tagline">Developer • Artist • Activist</p>
+        <p class="bio">A full stack and Web3 developer from Nanaimo, Canada. I build tools that remove barriers and redistribute power.</p>
+      </div>
+    </div>
+
+    <div class="card opt-c">
+      <div class="card-bg"></div>
+      <div class="card-overlay"></div>
+      <span class="label">C — Bright white halo</span>
+      <div class="card-content">
+        <img class="avatar" src="../images/IMG_20201211_103947_047.png" alt="">
+        <p class="name">Hello! I'm Michael Needham</p>
+        <p class="tagline">Developer • Artist • Activist</p>
+        <p class="bio">A full stack and Web3 developer from Nanaimo, Canada. I build tools that remove barriers and redistribute power.</p>
+      </div>
+    </div>
+
+    <div class="card opt-d">
+      <div class="card-bg"></div>
+      <div class="card-overlay"></div>
+      <span class="label">D — Rainbow / pink-violet shimmer</span>
+      <div class="card-content">
+        <img class="avatar" src="../images/IMG_20201211_103947_047.png" alt="">
+        <p class="name">Hello! I'm Michael Needham</p>
+        <p class="tagline">Developer • Artist • Activist</p>
+        <p class="bio">A full stack and Web3 developer from Nanaimo, Canada. I build tools that remove barriers and redistribute power.</p>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

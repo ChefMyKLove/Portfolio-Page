@@ -1,7 +1,7 @@
 /* ============================================
-   RESET & BASE STYLES
+   RESET & BASE
    ============================================ */
-* {
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -13,324 +13,561 @@ body {
     min-height: 100vh;
     width: 100vw;
     position: relative;
+    background: #0a0a0f;
 }
 
 /* ============================================
-   ANIMATED BACKGROUND CYCLE
+   SKIP LINK (accessibility)
+   ============================================ */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 16px;
+    z-index: 9999;
+    padding: 8px 16px;
+    background: #667eea;
+    color: #fff;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: top 0.2s;
+}
+.skip-link:focus { top: 16px; }
+
+/* ============================================
+   BACKGROUND — CYCLING ART IMAGES
    ============================================ */
 .background-container {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    animation: cycleBackgrounds 104s linear infinite;
-}
-
-@keyframes cycleBackgrounds {
-    0% { background-image: url('images/IMG_1.JPEG'); }
-    7.69% { background-image: url('images/IMG_2.JPEG'); }
-    15.38% { background-image: url('images/IMG_3.JPEG'); }
-    23.07% { background-image: url('images/IMG_4.JPEG'); }
-    30.76% { background-image: url('images/IMG_5.JPEG'); }
-    38.45% { background-image: url('images/IMG_6.JPEG'); }
-    46.14% { background-image: url('images/IMG_7.JPEG'); }
-    53.83% { background-image: url('images/IMG_8.JPEG'); }
-    61.52% { background-image: url('images/IMG_9.JPEG'); }
-    69.21% { background-image: url('images/IMG_10.JPEG'); }
-    76.9% { background-image: url('images/IMG_11.JPEG'); }
-    84.59% { background-image: url('images/IMG_12.JPEG'); }
-    92.28% { background-image: url('images/IMG_13.JPEG'); }
-    100% { background-image: url('images/IMG_1.JPEG'); }
+    transition: opacity 1.5s ease;
 }
 
 /* ============================================
-   GLASSMORPHISM CONTAINER
+   CLOUD OVERLAY LAYERS (displacement animation)
    ============================================ */
-.splash-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100vw;
-    padding: 20px;
+.cloud-layer {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    z-index: 2;
+    will-change: transform;
+    -webkit-mask-image: linear-gradient(to bottom,
+        transparent 3%, black 18%, black 82%, transparent 97%);
+    mask-image: linear-gradient(to bottom,
+        transparent 3%, black 18%, black 82%, transparent 97%);
 }
 
-.glass-card {
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(200px);
-    -webkit-backdrop-filter: blur(200px);
-    border-radius: 20px;
-    padding: 60px 40px;
-    text-align: center;
-    box-shadow: 0 0 30px rgba(102, 126, 234, 0.4),
-                0 8px 32px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    max-width: 550px;
+/* Inner A/B divs hold background images and cross-fade independently */
+.cloud-inner {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: opacity 1.5s ease;
+}
+.cloud-inner:first-child { z-index: 1; opacity: 1; }
+.cloud-inner:last-child  { z-index: 2; opacity: 0; }
+
+.cloud-layer-1 {
+    filter: url(#cloud-warp);
+    animation: cloud-drift-1 20s ease-in-out infinite,
+               cloud-fade    26s ease-in-out infinite;
+}
+
+.cloud-layer-2 {
+    filter: url(#cloud-warp-b);
+    animation: cloud-drift-2 24s ease-in-out infinite,
+               cloud-fade    26s -3s ease-in-out infinite;
+}
+
+@keyframes cloud-drift-1 {
+    0%, 100% { transform: scale(1.10) translate(-1.0%, -0.5%) rotate(-3deg); }
+    25%      { transform: scale(1.07) translate( 0.7%,  0.8%) rotate( 1deg); }
+    55%      { transform: scale(1.06) translate( 0.9%,  0.4%) rotate( 4deg); }
+    78%      { transform: scale(1.08) translate(-0.4%,  0.6%) rotate(-1deg); }
+}
+
+@keyframes cloud-drift-2 {
+    0%, 100% { transform: scale(1.08) translate( 0.7%, -0.5%) rotate( 3deg); }
+    30%      { transform: scale(1.10) translate(-0.5%,  0.5%) rotate(-2deg); }
+    62%      { transform: scale(1.07) translate(-0.9%,  0.9%) rotate(-4deg); }
+}
+
+@keyframes cloud-fade {
+    0%, 100% { opacity: 0.96; }
+    32%      { opacity: 0.96; }
+    50%      { opacity: 0.42; }
+    68%      { opacity: 0.96; }
+}
+
+/* ============================================
+   PHASE 1 — SKIP HINT
+   ============================================ */
+.skip-hint {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    z-index: 200;
+    pointer-events: none;
+    opacity: 0;
+    animation: skipHintFadeIn 0.7s 1.5s ease-out forwards;
+    white-space: nowrap;
+}
+
+@keyframes skipHintFadeIn {
+    to { opacity: 1; }
+}
+
+.skip-hint.hidden {
+    animation: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* ============================================
+   PHASE 2 — GLASSMORPHISM CIRCLE
+   ============================================ */
+.splash-circle {
+    position: fixed;
+    top: 50%;
+    left: 38vw;
+    /* Start well off-screen to the left — individual property, compose with JS rotate */
+    translate: calc(-50% - 120vw) -50%;
+    width: min(60vmin, 576px);
+    height: min(60vmin, 576px);
+    border-radius: 50%;
+    background: rgba(8, 4, 20, 0.08);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    box-shadow:
+        0 0 40px rgba(102, 126, 234, 0.35),
+        0 8px 48px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    z-index: 100;
+    will-change: translate, rotate;
+}
+
+.splash-circle.entered {
+    animation:
+        circleTranslateIn 2.3s linear    forwards,
+        circleAppear      2.3s ease-out  forwards;
+}
+
+/* Filter + glow animation — separate from transform so they don't conflict */
+@keyframes circleAppear {
+    0%   {
+        filter: blur(16px) brightness(1.9) saturate(0.4);
+        box-shadow: 0 0 40px rgba(102,126,234,0.35), 0 8px 48px rgba(0,0,0,0.5);
+    }
+    35%  { filter: blur(9px) brightness(1.5) saturate(0.7); }
+    55%  {
+        filter: blur(1px) brightness(2.8) saturate(1.4);
+        box-shadow: 0 0 140px rgba(255,255,255,0.85),
+                    0 0 240px rgba(160,130,255,0.65),
+                    0 8px 48px rgba(0,0,0,0.5);
+    }
+    66%  {
+        filter: blur(0px) brightness(1.18) saturate(1.1);
+        box-shadow: 0 0 70px rgba(160,130,255,0.45), 0 8px 48px rgba(0,0,0,0.5);
+    }
+    100% {
+        filter: blur(0px) brightness(1.0) saturate(1.0);
+        box-shadow: 0 0 40px rgba(102,126,234,0.35), 0 8px 48px rgba(0,0,0,0.5);
+    }
+}
+
+@keyframes circleRollIn {
+    /* Used by the splash ring — keeps transform for ring path */
+    0%   {
+        transform: translate(calc(-50% - 120vw), -50%) rotate(0deg);
+        animation-timing-function: cubic-bezier(0.45, 0, 0.75, 0.85);
+    }
+    55%  {
+        transform: translate(calc(-50% + 50vw),  -50%) rotate(480deg);
+        animation-timing-function: cubic-bezier(0.15, 0, 0.35, 1);
+    }
+    70%  {
+        transform: translate(calc(-50% - 9vw),   -50%) rotate(310deg);
+        animation-timing-function: ease-in-out;
+    }
+    82%  { transform: translate(calc(-50% + 22px),  -50%) rotate(318deg); }
+    90%  { transform: translate(calc(-50% - 8px),   -50%) rotate(313deg); }
+    95%  { transform: translate(calc(-50% + 3px),   -50%) rotate(316deg); }
+    100% { transform: translate(-50%, -50%)                rotate(360deg); }
+}
+
+/* Translate-only path — circle uses this so CSS translate + JS rotate compose independently */
+@keyframes circleTranslateIn {
+    0%   {
+        translate: calc(-50% - 120vw) -50%;
+        animation-timing-function: cubic-bezier(0.45, 0, 0.75, 0.85);
+    }
+    55%  {
+        translate: calc(-50% + 50vw) -50%;
+        animation-timing-function: cubic-bezier(0.15, 0, 0.35, 1);
+    }
+    70%  {
+        translate: calc(-50% - 9vw) -50%;
+        animation-timing-function: ease-in-out;
+    }
+    82%  { translate: calc(-50% + 22px) -50%; }
+    90%  { translate: calc(-50% - 8px) -50%; }
+    95%  { translate: calc(-50% + 3px) -50%; }
+    100% { translate: -50% -50%; }
+}
+
+.circle-inner {
     width: 100%;
-    animation: fadeIn 1.2s ease-out;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ============================================
-   TYPOGRAPHY
-   ============================================ */
-.title {
-    font-size: 3.5rem;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 15px;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8),
-                 0 0 20px rgba(102, 126, 234, 0.5),
-                 0 0 40px rgba(102, 126, 234, 0.3);
-    letter-spacing: 3px;
-    animation: titleGlow 3s ease-in-out infinite;
-}
-
-@keyframes titleGlow {
-    0%, 100% {
-        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8),
-                     0 0 20px rgba(102, 126, 234, 0.5),
-                     0 0 40px rgba(102, 126, 234, 0.3);
-    }
-    50% {
-        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8),
-                     0 0 30px rgba(102, 126, 234, 0.7),
-                     0 0 60px rgba(102, 126, 234, 0.5);
-    }
-}
-
-.subtitle {
-    font-size: 1.3rem;
-    color: rgba(255, 255, 255, 0.85);
-    margin-bottom: 45px;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
-    letter-spacing: 1px;
-    font-weight: 300;
-}
-
-/* ============================================
-   BUTTONS
-   ============================================ */
-.button-group {
+    height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 18px;
-    margin-bottom: 35px;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 48px;
+    overflow-y: auto;
+    text-align: center;
+    gap: 6px;
+    scrollbar-width: none;
+}
+.circle-inner::-webkit-scrollbar { display: none; }
+
+/* Content visible immediately — rolls in with the circle, blur from circleAppear handles the reveal */
+.circle-profile,
+.circle-name,
+.circle-tagline,
+.circle-bio {
+    opacity: 1;
 }
 
-.btn {
-    display: inline-block;
-    padding: 16px 45px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-size: 1.1rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-    border: 2px solid transparent;
-    position: relative;
-    overflow: hidden;
-}
-
-.btn::before {
-    content: '';
+/* Analog clock canvas overlay — sits on top of .circle-inner, hidden after click */
+#analogClock {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
+    z-index: 10;
+    pointer-events: none; /* clicks pass through to the circle's own click handler */
+    opacity: 1;
+    display: block;
 }
 
-.btn:hover::before {
-    width: 300px;
-    height: 300px;
+.circle-profile {
+    width: 117px;
+    height: 117px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.55);
+    box-shadow: 0 0 22px rgba(180, 155, 255, 0.6), 0 2px 8px rgba(0, 0, 0, 0.6);
+    flex-shrink: 0;
 }
 
-.btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+.circle-name {
+    font-size: clamp(0.95rem, 2.5vmin, 1.45rem);
+    font-weight: 700;
     color: #fff;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-    z-index: 1;
+    letter-spacing: 0.04em;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 1), 0 4px 20px rgba(0, 0, 0, 0.9);
+    margin: 0;
+    line-height: 1.2;
 }
 
-.btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
-    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+.circle-tagline {
+    font-size: clamp(0.75rem, 1.7vmin, 1.04rem);
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 1), 0 3px 12px rgba(0, 0, 0, 0.85);
+    margin: 0;
 }
 
-.btn-secondary {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
+.circle-bio {
+    font-size: clamp(0.80rem, 1.65vmin, 1.02rem);
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 1), 0 2px 8px rgba(0, 0, 0, 0.9);
+    margin: 0;
 }
 
-.btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.5);
-    transform: translateY(-3px);
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+.circle-profile.revealed,
+.circle-name.revealed,
+.circle-tagline.revealed,
+.circle-bio.revealed {
+    opacity: 1;
 }
 
 /* ============================================
-   LINKS
+   NAV BUBBLES
    ============================================ */
-.links {
+.nav-bubble {
+    position: fixed;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.35);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 0 14px rgba(102, 126, 234, 0.2);
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    gap: 30px;
-    flex-wrap: wrap;
-    margin-top: 10px;
+    gap: 3px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+    z-index: 100;
+    /* Hidden + collapsed until JS adds .visible */
+    opacity: 0;
+    transform: scale(0);
+    transition:
+        transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+        opacity   0.2s ease,
+        background 0.22s ease,
+        box-shadow 0.22s ease;
+    /* Reset button defaults */
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: 1;
+}
+
+.nav-bubble.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.nav-bubble.visible:hover {
+    transform: scale(1.44);
+    background: rgba(102, 126, 234, 0.35);
+    box-shadow: 0 0 28px rgba(102, 126, 234, 0.55);
+}
+
+.nav-bubble.coming-soon {
+    border-style: dashed;
+    opacity: 0;
+    transform: scale(0);
+    cursor: pointer;
+}
+
+.nav-bubble.coming-soon.visible {
+    opacity: 0.52;
+    transform: scale(1);
+}
+
+.nav-bubble.coming-soon:hover {
+    transform: scale(1.35) !important;
+    background: rgba(0, 0, 0, 0.45) !important;
+    box-shadow: 0 0 22px rgba(102, 126, 234, 0.45) !important;
+    opacity: 0.85 !important;
+}
+
+.bubble-icon {
+    font-size: 1rem;
+    line-height: 1;
+    display: block;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.95), 0 2px 6px rgba(0,0,0,0.75);
+}
+
+.bubble-label {
+    font-size: 0.48rem;
+    letter-spacing: 0.05em;
+    text-align: center;
+    opacity: 0.8;
+    max-width: 58px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.95), 0 1px 4px rgba(0,0,0,0.8);
+}
+
+/* Bubble positions.
+   Bubbles 2-5 (About Me, Contact, Ordinals, Blog) fan right of circle clockwise.
+   Bubble 1 (Projects) continues the arc naturally one step below bubble-5.
+   Bubbles 6-8 (placeholders) form a small downward arc from Projects. */
+#bubble-1 { left: calc(38vw + 248px); top: calc(50vh + 192px); }  /* natural arc after bubble-5 */
+#bubble-2 { left: calc(38vw + 248px); top: calc(50vh - 192px); }
+#bubble-3 { left: calc(38vw + 340px); top: calc(50vh - 104px); }
+#bubble-4 { left: calc(38vw + 370px); top: calc(50vh -   8px); }
+#bubble-5 { left: calc(38vw + 340px); top: calc(50vh + 104px); }
+#bubble-6 { left: calc(38vw + 160px); top: calc(50vh + 253px); }  /* lower-left of Projects */
+#bubble-7 { left: calc(38vw + 248px); top: calc(50vh + 269px); }  /* directly below Projects */
+#bubble-8 { left: calc(38vw + 356px); top: calc(50vh + 253px); }  /* lower-right of Projects */
+
+/* ============================================
+   SPLASH RING — expanding burst when circle breaks through
+   ============================================ */
+.splash-ring {
+    position: fixed;
+    top: 50%;
+    left: 38vw;
+    width: min(60vmin, 576px);
+    height: min(60vmin, 576px);
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0);
+    pointer-events: none;
+    z-index: 99;
+    opacity: 0;
+    will-change: transform, opacity;
+    /* Starts at the same off-screen position as the circle */
+    transform: translate(calc(-50% - 120vw), -50%);
+}
+
+.splash-ring.entered {
+    /* Follows the circle's path, then bursts at ~55% (1.27s into journey) */
+    animation:
+        circleRollIn 2.3s linear forwards,
+        splashBurst  0.7s 1.27s ease-out forwards;
+}
+
+@keyframes splashBurst {
+    /* Targets only opacity/border/box-shadow — no transform conflict with circleRollIn */
+    0%   {
+        opacity: 1;
+        border-color: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 0 0 rgba(200, 180, 255, 0);
+    }
+    25%  {
+        box-shadow: 0 0 80px rgba(200, 180, 255, 0.9),
+                    0 0 160px rgba(255, 255, 255, 0.4);
+    }
+    100% {
+        opacity: 0;
+        border-color: rgba(255, 255, 255, 0);
+        box-shadow: 0 0 220px rgba(200, 180, 255, 0.2),
+                    0 0 0 rgba(255, 255, 255, 0);
+    }
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 150;
+    text-align: center;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.10);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.8rem;
+}
+
+.footer-links {
+    display: flex;
+    gap: 24px;
 }
 
 .link {
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.65);
     text-decoration: none;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    font-size: 0.85rem;
+    transition: color 0.2s ease;
     position: relative;
-    padding-bottom: 3px;
+    padding-bottom: 2px;
 }
-
 .link::after {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
+    bottom: 0; left: 0;
+    width: 0; height: 1px;
     background: linear-gradient(90deg, #667eea, #764ba2);
     transition: width 0.3s ease;
 }
+.link:hover { color: #fff; }
+.link:hover::after { width: 100%; }
 
-.link:hover {
-    color: #fff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8),
-                 0 0 10px rgba(102, 126, 234, 0.6);
-}
-
-.link:hover::after {
-    width: 100%;
+/* ============================================
+   PRELOAD (hidden)
+   ============================================ */
+.preload-container {
+    position: absolute;
+    width: 0; height: 0;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* ============================================
-   RESPONSIVE DESIGN
+   RESPONSIVE — MOBILE (< 768px)
    ============================================ */
 @media (max-width: 768px) {
-    .glass-card {
-        padding: 45px 35px;
+    .splash-circle {
+        left: 50%;
+        width: min(70vw, 384px);
+        height: min(70vw, 384px);
     }
-    
-    .title {
-        font-size: 2.5rem;
-        letter-spacing: 2px;
+    .splash-ring {
+        left: 50%;
+        width: min(70vw, 384px);
+        height: min(70vw, 384px);
     }
-    
-    .subtitle {
-        font-size: 1.1rem;
-        margin-bottom: 35px;
+    .splash-circle.entered {
+        translate: -50% -38%;
     }
-    
-    .btn {
-        padding: 14px 35px;
-        font-size: 1rem;
-    }
-    
-    .button-group {
-        gap: 15px;
-        margin-bottom: 30px;
-    }
-    
-    .links {
-        gap: 20px;
-    }
-    
-    .link {
-        font-size: 0.9rem;
-    }
-}
+    .circle-profile { width: 80px; height: 80px; }
 
-@media (max-width: 480px) {
-    .glass-card {
-        padding: 35px 25px;
+    /* Stack bubbles in 4×2 grid along the bottom */
+    .nav-bubble {
+        width: 56px;
+        height: 56px;
+        position: fixed;
+        left: auto !important;
+        top: auto !important;
     }
-    
-    .title {
-        font-size: 2rem;
-        letter-spacing: 1px;
-    }
-    
-    .subtitle {
-        font-size: 1rem;
-        margin-bottom: 30px;
-    }
-    
-    .btn {
-        padding: 12px 30px;
-        font-size: 0.95rem;
-    }
-    
-    .button-group {
-        gap: 12px;
-    }
-    
-    .links {
-        flex-direction: column;
-        gap: 15px;
-    }
+    /* bubble-1 (Projects) centered at bottom, 6/7/8 cluster below it */
+    #bubble-1 { bottom: 144px; left: 50% !important; transform: translateX(-50%); }
+    #bubble-2 { bottom: 148px; left: calc(10vw +   0px) !important; }
+    #bubble-3 { bottom: 148px; left: calc(10vw +  68px) !important; }
+    #bubble-4 { bottom: 148px; left: calc(10vw + 136px) !important; }
+    #bubble-5 { bottom: 148px; left: calc(10vw + 204px) !important; }
+    #bubble-6 { bottom:  70px; left: calc(50% -  88px) !important; }
+    #bubble-7 { bottom:  70px; left: calc(50% -  34px) !important; }
+    #bubble-8 { bottom:  70px; left: calc(50% +  20px) !important; }
 }
 
 /* ============================================
    ACCESSIBILITY
    ============================================ */
 @media (prefers-reduced-motion: reduce) {
-    * {
+    *, *::before, *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
 }
 
-/* Focus styles for keyboard navigation */
-.btn:focus,
-.link:focus {
-    outline: 2px solid rgba(102, 126, 234, 0.8);
+.nav-bubble:focus-visible,
+.link:focus-visible {
+    outline: 2px solid rgba(102, 126, 234, 0.9);
     outline-offset: 4px;
-}
-
-/* ============================================
-   LOADING STATE (optional)
-   ============================================ */
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.7;
-    }
-}
-
-.loading .glass-card {
-    animation: pulse 2s ease-in-out infinite;
 }

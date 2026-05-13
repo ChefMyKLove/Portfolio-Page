@@ -1,87 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Portfolio</title>
- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
- <link rel="stylesheet" href="carousel.css">
- <script>
-    // Define blog click handler early so it's available for onclick
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Michael Needham — Developer · Artist · Activist</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <script>
     window.handleBlogClick = function() {
-        console.log('✅ Blog button clicked!');
-        const backendUrl = 'https://portfolio-and-blog-production.up.railway.app/auth/patreon';
-        console.log('🚀 Redirecting to:', backendUrl);
-        window.location.href = backendUrl;
+      window.location.href = 'https://portfolio-and-blog-production.up.railway.app/auth/patreon';
     };
- </script>
+  </script>
 </head>
 <body>
-  
+  <a id="top"></a>
+  <a href="#main" class="skip-link">Skip to main content</a>
 
- <a id="top"></a>
- <a href="#main" class="skip-link">Skip to main content</a>
+  <!-- SVG filter definitions for cloud displacement -->
+  <svg id="svg-filters" style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
+    <defs>
+      <filter id="cloud-warp" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+        <feTurbulence id="cloud-turb" type="fractalNoise" baseFrequency="0.009 0.011" numOctaves="4" seed="7" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="124" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <filter id="cloud-warp-b" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+        <feTurbulence id="cloud-turb-b" type="fractalNoise" baseFrequency="0.010 0.009" numOctaves="4" seed="13" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="124" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs>
+  </svg>
 
-   <div class="background-container"></div>
-   <div class="bottom-blur-overlay"></div>
-   <header>
+  <!-- Cycling rainbow art background (two layers for smooth cross-fade) -->
+  <div class="background-container" id="bgLayerA"></div>
+  <div class="background-container" id="bgLayerB"></div>
 
-    <div class="splash-container" id="main">
-        <div class="glass-card">
-            <div class="profile-image-wrapper">
-                <img src="images/IMG_20201211_103947_047.png" alt="Michael Needham" class="glass-card-image overlay-profile">
-            </div>
-            <div class="glass-card-content">
-                <h1 class="title">Hello! I'm Michael Needham</h1>
-                <h3 class="subtitle">Developer • Artist • Activist</h3>
-                <p>A full stack and Web3 developer from Nanaimo, Canada. I build tools, platforms, and creative experiences that remove barriers, redistribute power, and enable marginalized artists and communities to own their work, reach global audiences, and thrive.  I build with accessibility and inclusion at the core, because that's how we dismantle oppressive systems and create the conditions that ensure our collective liberation.</p>
-                <nav role="navigation" aria-label="Main navigation">
- <ul>
- <li><a href="projects.html" class="nav-button"><h4>Projects</h4></a></li>
- <li><a href="about-me.html" class="nav-button"><h4>About Me</h4></a></li>
- <li><a href="contact.html" class="nav-button"><h4>Contact</h4></a></li>
- </ul>
- <ul>
- <li><a href="https://chefmyklove.github.io/Portfolio-Page/ordinal-rainbows.html" class="nav-button"><h4>ORDINAL RAINBOWS</h4></a></li>
- <li><button id="patreonLoginBtn" class="nav-button" onclick="handleBlogClick(); return false;"><h4>Blog Access</h4></button></li>
- </ul>
- </nav>
-            </div>
-        </div>  
+  <!-- Cloud overlay layers — each has inner A/B pair for smooth cross-fading -->
+  <div class="cloud-layer cloud-layer-1" aria-hidden="true">
+    <div class="cloud-inner" id="cloud1A"></div>
+    <div class="cloud-inner" id="cloud1B"></div>
+  </div>
+  <div class="cloud-layer cloud-layer-2" aria-hidden="true">
+    <div class="cloud-inner" id="cloud2A"></div>
+    <div class="cloud-inner" id="cloud2B"></div>
+  </div>
+
+  <!-- Phase 1: skip hint (auto-fades in at 1.5s) -->
+  <div class="skip-hint" id="skipHint" aria-hidden="true">tap anywhere to skip</div>
+
+  <!-- Phase 2: circle + bubbles (circle starts off-screen left) -->
+  <main id="main">
+    <div class="splash-circle" id="splashCircle">
+      <div class="circle-inner">
+        <img src="images/IMG_20201211_103947_047.png" alt="Michael Needham" class="circle-profile">
+        <h1 class="circle-name">Hello! I'm Michael Needham</h1>
+        <h3 class="circle-tagline">Developer • Artist • Activist</h3>
+        <p class="circle-bio">A full stack and Web3 developer from Nanaimo, Canada. I build tools, platforms, and creative experiences that remove barriers, redistribute power, and enable marginalized artists and communities to own their work, reach global audiences, and thrive. I build with accessibility and inclusion at the core, because that's how we dismantle oppressive systems and create the conditions that ensure our collective liberation.</p>
+      </div>
+      <!-- Analog clock overlay — fades away when clicked to reveal content -->
+      <canvas id="analogClock" aria-label="Analog clock showing current time. Click to reveal content." role="img"></canvas>
     </div>
-</header>
+    <!-- Expanding burst ring — follows the circle and fires when it breaks through -->
+    <div class="splash-ring" id="splashRing"></div>
 
-<main></main>
+    <!-- Nav bubbles — fan out right of circle -->
+    <a href="projects.html" class="nav-bubble" id="bubble-1" aria-label="Projects">
+      <span class="bubble-icon" aria-hidden="true">{ }</span>
+      <span class="bubble-label">Projects</span>
+    </a>
+    <a href="about-me.html" class="nav-bubble" id="bubble-2" aria-label="About Me">
+      <span class="bubble-icon" aria-hidden="true">♟</span>
+      <span class="bubble-label">About Me</span>
+    </a>
+    <a href="contact.html" class="nav-bubble" id="bubble-3" aria-label="Contact">
+      <span class="bubble-icon" aria-hidden="true">✉</span>
+      <span class="bubble-label">Contact</span>
+    </a>
+    <a href="ordinal-rainbows.html" class="nav-bubble" id="bubble-4" aria-label="Ordinal Rainbows">
+      <span class="bubble-icon" aria-hidden="true">🌈</span>
+      <span class="bubble-label">Ordinals</span>
+    </a>
+    <button type="button" class="nav-bubble" id="bubble-5" onclick="handleBlogClick()" aria-label="Blog Access">
+      <span class="bubble-icon" aria-hidden="true">✦</span>
+      <span class="bubble-label">Blog</span>
+    </button>
+    <a href="projects.html" class="nav-bubble coming-soon" id="bubble-6" aria-label="More Projects">
+      <span class="bubble-icon" aria-hidden="true">◌</span>
+      <span class="bubble-label">Projects</span>
+    </a>
+    <a href="projects.html" class="nav-bubble coming-soon" id="bubble-7" aria-label="More Projects">
+      <span class="bubble-icon" aria-hidden="true">◌</span>
+      <span class="bubble-label">Projects</span>
+    </a>
+    <a href="projects.html" class="nav-bubble coming-soon" id="bubble-8" aria-label="More Projects">
+      <span class="bubble-icon" aria-hidden="true">◌</span>
+      <span class="bubble-label">Projects</span>
+    </a>
+  </main>
 
-<!-- Preload background images -->
-<div class="preload-container">
-    <img src="images/HummingBow.jpg" alt="preload">
-    <img src="images/IMG_6794.JPEG" alt="preload">
-    <img src="images/IMG_6795.JPEG" alt="preload">
-    <img src="images/IMG_6796.JPEG" alt="preload">
-    <img src="images/IMG_6797.JPEG" alt="preload">
-    <img src="images/TunnelBow.JPEG" alt="preload">
-    <img src="images/IMG_6906.JPEG" alt="preload">
-    <img src="images/IMG_6907.JPEG" alt="preload">
-    <img src="images/IMG_6908.JPEG" alt="preload">
-    <img src="images/IMG_6909.JPEG" alt="preload">
-    <img src="images/IMG_6910.JPEG" alt="preload">
-    <img src="images/IMG_6911.JPEG" alt="preload">
-    <img src="images/IMG_6912.JPEG" alt="preload">
-</div>
-<script src="script.js"></script>
-<script src="interactivity.js"></script>
+  <!-- Preload background images -->
+  <div class="preload-container" aria-hidden="true">
+    <img src="images/HummingBow.jpg" alt="">
+    <img src="images/IMG_6794.JPEG" alt="">
+    <img src="images/IMG_6795.JPEG" alt="">
+    <img src="images/IMG_6796.JPEG" alt="">
+    <img src="images/IMG_6797.JPEG" alt="">
+    <img src="images/TunnelBow.JPEG" alt="">
+    <img src="images/IMG_6906.JPEG" alt="">
+    <img src="images/IMG_6907.JPEG" alt="">
+    <img src="images/IMG_6908.JPEG" alt="">
+    <img src="images/IMG_6909.JPEG" alt="">
+    <img src="images/IMG_6910.JPEG" alt="">
+    <img src="images/IMG_6911.JPEG" alt="">
+    <img src="images/IMG_6912.JPEG" alt="">
+  </div>
 
+  <script src="script.js"></script>
+  <script src="interactivity.js"></script>
 </body>
 <footer>
-    <div class="footer-content">
-        <h4>&copy; 2026 <a href="https://chefmyklove.github.io/ORDINALRAINBOWS-Vol.1/" target="_blank" rel="noopener" class="link">Chef MyKLove</a></h4> <h6>All rights reserved.</h6>
-        <div class="footer-links">
-            <a href="https://patreon.com/chefmyklove" target="_blank" rel="noopener" class="link">Patreon</a>
-            <a href="https://chefmyklove.github.io/ORDINALRAINBOWS-Vol.1/" target="_blank" rel="noopener" class="link">Shop Art</a>
-            <a href="mailto:chefmyklove@gmail.com" class="link">Email</a>
-        </div>
+  <div class="footer-content">
+    <h4>&copy; 2026 <a href="https://chefmyklove.github.io/ORDINALRAINBOWS-Vol.1/" target="_blank" rel="noopener" class="link">Chef MyKLove</a></h4>
+    <h6>All rights reserved.</h6>
+    <div class="footer-links">
+      <a href="https://patreon.com/chefmyklove" target="_blank" rel="noopener" class="link">Patreon</a>
+      <a href="https://chefmyklove.github.io/ORDINALRAINBOWS-Vol.1/" target="_blank" rel="noopener" class="link">Shop Art</a>
+      <a href="mailto:chefmyklove@gmail.com" class="link">Email</a>
     </div>
+  </div>
 </footer>
 </html>

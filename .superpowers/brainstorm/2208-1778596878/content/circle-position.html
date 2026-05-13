@@ -1,0 +1,161 @@
+<h2>Where does the circle land when it rolls in?</h2>
+<p class="subtitle">The circle swooshes in from the left — where does it settle, and how big is it?</p>
+
+<style>
+.layout-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-top: 20px;
+}
+.layout-card {
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.2s, transform 0.15s;
+}
+.layout-card:hover { transform: translateY(-2px); }
+.layout-card.selected { border-color: #7c6af0 !important; }
+
+.lc-preview {
+  height: 180px;
+  position: relative;
+  background: #0d0d1a;
+  overflow: hidden;
+}
+/* Faint grid lines to simulate viewport */
+.lc-preview::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.circle-mock {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  border: 2px solid rgba(255,255,255,0.2);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 4px;
+}
+.circle-mock .face { font-size: 1.4rem; }
+.circle-mock .name-line {
+  font-size: 0.45rem; color: rgba(255,255,255,0.7);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  text-align: center; line-height: 1.4;
+}
+/* Bubble dots */
+.bubble {
+  position: absolute;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: rgba(120,100,255,0.5);
+  border: 1px solid rgba(180,160,255,0.6);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.4rem; color: white;
+}
+
+/* A: Center, large */
+.preview-a .circle-mock {
+  width: 140px; height: 140px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+.preview-a .b1 { top: 12px; left: 50%; transform: translateX(-50%); }
+.preview-a .b2 { bottom: 12px; right: 22px; }
+.preview-a .b3 { bottom: 12px; left: 22px; }
+.preview-a .b4 { top: 50%; right: 10px; transform: translateY(-50%); }
+
+/* B: Left-center, medium */
+.preview-b .circle-mock {
+  width: 130px; height: 130px;
+  top: 50%; left: 28%;
+  transform: translate(-50%, -50%);
+}
+.preview-b .b1 { top: 18px; left: 58%; }
+.preview-b .b2 { top: 50%; left: 62%; transform: translateY(-50%); }
+.preview-b .b3 { bottom: 18px; left: 58%; }
+.preview-b .b4 { bottom: 18px; right: 10px; }
+.preview-b .b5 { top: 18px; right: 10px; }
+
+/* C: Left-docked, half-frame */
+.preview-c .circle-mock {
+  width: 150px; height: 150px;
+  top: 50%; left: 0%;
+  transform: translate(-25%, -50%);
+}
+.preview-c .b1 { top: 24px; left: 52%; }
+.preview-c .b2 { top: 48%; left: 56%; }
+.preview-c .b3 { bottom: 24px; left: 52%; }
+.preview-c .b4 { top: 24px; right: 10px; }
+.preview-c .b5 { bottom: 24px; right: 10px; }
+
+.lc-label {
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.05);
+}
+.lc-label h3 { font-size: 0.9rem; margin: 0 0 3px; }
+.lc-label p { font-size: 0.78rem; opacity: 0.6; margin: 0; line-height: 1.4; }
+</style>
+
+<div class="layout-cards">
+  <div class="layout-card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="lc-preview preview-a">
+      <div class="circle-mock">
+        <div class="face">👤</div>
+        <div class="name-line">Michael<br>Needham</div>
+      </div>
+      <div class="bubble b1">P</div>
+      <div class="bubble b2">A</div>
+      <div class="bubble b3">C</div>
+      <div class="bubble b4">B</div>
+    </div>
+    <div class="lc-label">
+      <h3>A — Dead center, full stage</h3>
+      <p>Circle fills the middle of the screen. Bubbles orbit all around it.</p>
+    </div>
+  </div>
+
+  <div class="layout-card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="lc-preview preview-b">
+      <div class="circle-mock">
+        <div class="face">👤</div>
+        <div class="name-line">Michael<br>Needham</div>
+      </div>
+      <div class="bubble b1">P</div>
+      <div class="bubble b2">A</div>
+      <div class="bubble b3">C</div>
+      <div class="bubble b4">Bl</div>
+      <div class="bubble b5">Or</div>
+    </div>
+    <div class="lc-label">
+      <h3>B — Left-center with breathing room</h3>
+      <p>Circle anchors left-of-center. Nav bubbles fan out to the right.</p>
+    </div>
+  </div>
+
+  <div class="layout-card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="lc-preview preview-c">
+      <div class="circle-mock">
+        <div class="face">👤</div>
+        <div class="name-line">Michael<br>Needham</div>
+      </div>
+      <div class="bubble b1">P</div>
+      <div class="bubble b2">A</div>
+      <div class="bubble b3">C</div>
+      <div class="bubble b4">Bl</div>
+      <div class="bubble b5">Or</div>
+    </div>
+    <div class="lc-label">
+      <h3>C — Left-docked, half-frame</h3>
+      <p>Circle is huge, half off-screen left edge. Bubbles scatter into open space on the right.</p>
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:18px;font-size:0.82rem;">Click to select, or describe what you're picturing if none of these are it.</p>
