@@ -975,6 +975,14 @@ function animateCircleIn() {
         circle.style.translate = '-50% -50%';
         translateDone = true;
 
+        // Trigger land acknowledgement circle after main circle settles
+        setTimeout(() => {
+            const landCircle = document.getElementById('landCircle');
+            const landTitle  = document.getElementById('landTitle');
+            if (landCircle) landCircle.classList.add('active');
+            if (landTitle)  landTitle.classList.add('active');
+        }, 1800);
+
         if (spinStopped) {
             onSpinComplete();
             return;
