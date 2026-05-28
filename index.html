@@ -58,6 +58,11 @@
       </div>
       <!-- Analog clock overlay — fades away when clicked to reveal content -->
       <canvas id="analogClock" aria-label="Analog clock showing current time. Click to reveal content." role="img"></canvas>
+      <!-- On-clock click-to-reveal hint -->
+      <div class="clock-reveal-hint" id="clockRevealHint" aria-hidden="true">
+        <span class="crh-icon">👆</span>
+        <span class="crh-text">click to reveal</span>
+      </div>
     </div>
     <!-- Expanding burst ring — follows the circle and fires when it breaks through -->
     <div class="splash-ring" id="splashRing"></div>

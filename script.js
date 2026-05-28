@@ -859,6 +859,8 @@ function animateCircleIn() {
         requestAnimationFrame(() => requestAnimationFrame(() => {
             clockCanvas.style.transition = 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
             clockCanvas.style.opacity = '1';
+            const revealHint = document.getElementById('clockRevealHint');
+            if (revealHint) setTimeout(() => { revealHint.style.opacity = '1'; }, 700);
         }));
     }
 
@@ -944,6 +946,8 @@ function animateCircleIn() {
                 clockFading = true;
                 clockCanvas.style.transition = 'opacity 0.5s ease';
                 clockCanvas.style.opacity = '0';
+                const revealHint = document.getElementById('clockRevealHint');
+                if (revealHint) revealHint.style.opacity = '0';
                 setTimeout(() => {
                     if (clockRaf) { cancelAnimationFrame(clockRaf); clockRaf = null; }
                     clockCanvas.style.display = 'none';
@@ -992,15 +996,15 @@ function animateCircleIn() {
 
         hint = document.createElement('div');
         hint.id = 'spinHint';
-        hint.textContent = 'click to reveal';
+        hint.innerHTML = '<span style="font-size:1.25rem;display:block;margin-bottom:4px;">👆</span><span>click clock to reveal</span>';
         hint.style.cssText = [
             'position:fixed',
             'top:50%',
             'left:38vw',
-            'transform:translate(-50%,calc(-50% + ' + (circle.getBoundingClientRect().height / 2 + 14) + 'px))',
+            'transform:translate(-50%,calc(-50% + ' + Math.round(circle.getBoundingClientRect().height * 0.2) + 'px))',
             'z-index:101',
-            'color:rgba(255,255,255,0.8)',
-            'font-size:0.72rem',
+            'color:rgba(255,255,255,0.82)',
+            'font-size:0.68rem',
             'letter-spacing:0.14em',
             'text-transform:uppercase',
             'pointer-events:none',
@@ -1009,6 +1013,8 @@ function animateCircleIn() {
             'text-shadow:0 1px 5px rgba(0,0,0,1),0 2px 10px rgba(0,0,0,0.9)',
             'user-select:none',
             'font-family:inherit',
+            'text-align:center',
+            'line-height:1.3',
         ].join(';');
         document.body.appendChild(hint);
         requestAnimationFrame(() => requestAnimationFrame(() => { hint.style.opacity = '1'; }));
@@ -1018,6 +1024,8 @@ function animateCircleIn() {
         if (!running) return;
         running = false;
         if (hint) hint.style.opacity = '0';
+        const revealHint = document.getElementById('clockRevealHint');
+        if (revealHint) revealHint.style.opacity = '0';
 
         // Fade out the clock as the wheel winds down
         if (clockCanvas && !clockFading) {
