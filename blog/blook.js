@@ -1,9 +1,5 @@
 // Trigger redeploy: trivial change for Vercel
 document.addEventListener('DOMContentLoaded', () => {
-  // Lazy load background images after page is ready
-  setTimeout(() => {
-    document.body.classList.add('images-loaded');
-  }, 100);
 
   const contentWrapper = document.getElementById('content-wrapper');
   const accessDeniedModal = document.getElementById('access-denied-modal');

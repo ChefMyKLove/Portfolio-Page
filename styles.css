@@ -358,7 +358,7 @@ body {
     -webkit-backdrop-filter: blur(14px);
     backdrop-filter: blur(14px);
     border: 1px solid rgba(255, 255, 255, 0.22);
-    box-shadow: 0 0 20px rgba(102, 126, 234, 0.25);
+    box-shadow: 0 0 24px rgba(102, 126, 234, 0.3), 0 4px 18px rgba(0, 0, 0, 0.45);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -388,9 +388,10 @@ body {
     transform: scale(1);
     border-color: rgba(255, 255, 255, 0.42);
     box-shadow:
-        0 0 22px rgba(102, 126, 234, 0.55),
-        0 0 48px rgba(102, 126, 234, 0.18),
-        inset 0 0 14px rgba(255, 255, 255, 0.05);
+        0 0 26px rgba(102, 126, 234, 0.66),
+        0 0 58px rgba(102, 126, 234, 0.22),
+        0 6px 22px rgba(0, 0, 0, 0.55),
+        inset 0 0 16px rgba(255, 255, 255, 0.06);
 }
 
 .nav-bubble.visible:hover {
@@ -419,13 +420,13 @@ body {
 }
 
 .bubble-icon {
-    font-size: 1.85rem;
+    font-size: 2.22rem;
     line-height: 1;
     display: block;
     text-shadow:
-        0 0 12px rgba(255, 255, 255, 0.45),
-        0 0 24px rgba(180, 155, 255, 0.3),
-        0 2px 8px rgba(0, 0, 0, 0.95);
+        0 0 14px rgba(255, 255, 255, 0.54),
+        0 0 28px rgba(180, 155, 255, 0.36),
+        0 2px 10px rgba(0, 0, 0, 0.95);
 }
 
 .bubble-label {
