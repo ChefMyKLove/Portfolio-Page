@@ -562,43 +562,179 @@ footer {
 }
 
 /* ============================================
+   MOBILE-ONLY ELEMENTS — hidden on desktop
+   ============================================ */
+.land-mobile  { display: none; }
+.scroll-nudge { display: none; }
+.hero-zone    { display: contents; }
+.nav-zone     { display: contents; }
+
+/* ============================================
    RESPONSIVE — MOBILE (< 768px)
    ============================================ */
 @media (max-width: 768px) {
+    /* Unlock vertical scrolling */
+    body { overflow-y: auto; }
+
+    /* Main becomes a vertical scrollable column */
+    #main {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* ---- Section 1: clock hero ---- */
+    .hero-zone {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100dvh;
+        width: 100%;
+        padding: 24px 20px 0;
+        box-sizing: border-box;
+    }
+
+    /* Circle: relative, centered, no roll-in */
     .splash-circle {
-        top: 50%;
-        left: 50%;
-        width: min(70vw, 384px);
-        height: min(70vw, 384px);
-    }
-    .splash-ring {
-        top: 50%;
-        left: 50%;
-        width: min(70vw, 384px);
-        height: min(70vw, 384px);
-    }
-    .splash-circle.entered {
-        translate: -50% -38%;
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        translate: none !important;
+        rotate: none !important;
+        width: min(80vw, 320px) !important;
+        height: min(80vw, 320px) !important;
+        flex-shrink: 0;
     }
     .circle-profile { width: 80px; height: 80px; }
+    .circle-inner   { padding: 14px 18px; }
 
-    /* Stack bubbles in 4×2 grid along the bottom */
-    .nav-bubble {
-        width: 72px;
-        height: 72px;
-        position: fixed;
-        left: auto !important;
-        top: auto !important;
+    /* Simple fade-in on mobile instead of roll-in */
+    .splash-circle.mobile-ready {
+        animation: mobileFadeIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
-    /* bubble-1 (Projects) centered at bottom, 6/7/8 cluster below it */
-    #bubble-1 { bottom: 152px; left: 50% !important; transform: translateX(-50%); }
-    #bubble-2 { bottom: 156px; left: calc(10vw +   0px) !important; }
-    #bubble-3 { bottom: 156px; left: calc(10vw +  80px) !important; }
-    #bubble-4 { bottom: 156px; left: calc(10vw + 160px) !important; }
-    #bubble-5 { bottom: 156px; left: calc(10vw + 240px) !important; }
-    #bubble-6 { bottom:  76px; left: calc(50% - 116px) !important; }
-    #bubble-7 { bottom:  76px; left: calc(50% -  36px) !important; }
-    #bubble-8 { bottom:  76px; left: calc(50% +  44px) !important; }
+    @keyframes mobileFadeIn {
+        from { opacity: 0; scale: 0.88; filter: blur(12px); }
+        to   { opacity: 1; scale: 1;    filter: blur(0);    }
+    }
+
+    /* Hide burst ring on mobile */
+    .splash-ring { display: none !important; }
+
+    /* Scroll nudge below circle */
+    .scroll-nudge {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        margin-top: 18px;
+        padding-bottom: 8px;
+        color: rgba(255, 255, 255, 0.42);
+        font-size: 0.62rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        pointer-events: none;
+        -webkit-user-select: none;
+        user-select: none;
+        animation: nudgeBob 2.4s ease-in-out infinite;
+    }
+    .scroll-nudge span:first-child { font-size: 1.1rem; line-height: 1; }
+    @keyframes nudgeBob {
+        0%, 100% { transform: translateY(0);   opacity: 0.4; }
+        55%       { transform: translateY(7px); opacity: 0.65; }
+    }
+
+    /* ---- Section 2: nav bubble grid ---- */
+    .nav-zone {
+        display: grid !important;
+        grid-template-columns: repeat(4, 72px);
+        grid-template-rows: repeat(2, 72px);
+        gap: 14px;
+        justify-content: center;
+        padding: 36px 20px 28px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .nav-bubble {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        bottom: auto !important;
+        width: 72px !important;
+        height: 72px !important;
+        transform: none !important;
+        opacity: 0;
+        transition: opacity 0.35s ease !important;
+    }
+    .nav-bubble.visible {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    .nav-bubble.visible:hover,
+    .nav-bubble.visible:active { transform: scale(1.1) !important; }
+    .nav-bubble.coming-soon.visible { opacity: 0.55 !important; }
+
+    /* Slightly smaller icon/label to fit 72px bubble comfortably */
+    .bubble-icon  { font-size: 1.72rem !important; }
+    .bubble-label { font-size: 0.48rem !important; }
+
+    /* ---- Section 3: land ack glass card ---- */
+    .land-mobile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin: 0 20px 24px;
+        padding: 28px 24px;
+        width: calc(100% - 40px);
+        box-sizing: border-box;
+        background: rgba(255, 255, 255, 0.07);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 24px;
+        box-shadow:
+            0 0 36px rgba(102, 126, 234, 0.14),
+            0 8px 40px rgba(0, 0, 0, 0.45),
+            inset 0 0 20px rgba(255, 255, 255, 0.02);
+    }
+    .land-mobile h2 {
+        font-size: 0.62rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        font-weight: 700;
+        background: linear-gradient(135deg, #f97316, #eab308, #22c55e, #06b6d4, #6366f1, #a855f7, #ec4899);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 14px;
+    }
+    .land-mobile p {
+        font-size: 0.86rem;
+        line-height: 1.68;
+        color: rgba(255, 255, 255, 0.82);
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+        margin: 0;
+    }
+
+    /* Hide desktop-only elements */
+    .land-circle,
+    .land-title,
+    .skip-hint { display: none !important; }
+
+    /* Footer: flow with page content on mobile */
+    footer {
+        position: relative;
+        width: 100%;
+        margin-top: 8px;
+    }
+    .footer-content {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
 }
 
 /* ============================================

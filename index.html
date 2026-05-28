@@ -49,6 +49,7 @@
 
   <!-- Phase 2: circle + bubbles (circle starts off-screen left) -->
   <main id="main">
+    <section class="hero-zone">
     <div class="splash-circle" id="splashCircle">
       <div class="circle-inner">
         <img src="images/IMG_20201211_103947_047.png" alt="Michael Needham" class="circle-profile">
@@ -66,6 +67,9 @@
     </div>
     <!-- Expanding burst ring — follows the circle and fires when it breaks through -->
     <div class="splash-ring" id="splashRing"></div>
+    <!-- Scroll nudge — visible only on mobile -->
+    <div class="scroll-nudge" aria-hidden="true"><span>↓</span><span class="scroll-nudge-text">explore</span></div>
+    </section>
 
     <!-- Land acknowledgement circle — grows in right-side after main circle settles -->
     <div class="land-circle" id="landCircle">
@@ -75,6 +79,7 @@
     </div>
     <div class="land-title" id="landTitle">Important Land Acknowledgement</div>
 
+    <section class="nav-zone">
     <!-- Nav bubbles — fan out right of circle -->
     <a href="projects.html" class="nav-bubble" id="bubble-1" aria-label="Projects">
       <span class="bubble-icon" aria-hidden="true">{ }</span>
@@ -108,6 +113,13 @@
       <span class="bubble-icon" aria-hidden="true">✦</span>
       <span class="bubble-label">We're Naked!</span>
     </a>
+    </section>
+
+    <!-- Land acknowledgement — mobile glass card (hidden on desktop) -->
+    <section class="land-mobile" aria-label="Land Acknowledgement">
+      <h2>Land Acknowledgement</h2>
+      <p>I am honoured and deeply privileged to live, work, and commune on the traditional ancestoral lands unceded by the Snuneymuxw Peoples in what's colonially known as Nanaimo, Canada.</p>
+    </section>
   </main>
 
   <!-- Preload background images -->

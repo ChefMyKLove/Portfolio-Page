@@ -823,6 +823,7 @@ function animateCircleIn() {
     const ring   = document.getElementById('splashRing');
     if (!circle) return;
 
+    const isMobile  = window.innerWidth <= 768;
     const inner     = circle.querySelector('.circle-inner');
     const TOP_SPEED = 16; // degrees per frame at 60fps
     let angle         = 0;
@@ -830,7 +831,7 @@ function animateCircleIn() {
     let running       = true;
     let frameId;
     let hint          = null;
-    let translateDone = false;
+    let translateDone = isMobile;
     let spinStopped   = false;
 
     // ---- Clock setup ----
@@ -936,7 +937,7 @@ function animateCircleIn() {
 
     function onSpinComplete() {
         if (hint && hint.parentNode) hint.parentNode.removeChild(hint);
-        new BopBody(circle, { isCircle: true, strength: 40, spring: 0.055, damping: 0.89 });
+        if (!isMobile) new BopBody(circle, { isCircle: true, strength: 40, spring: 0.055, damping: 0.89 });
 
         if (!clockCanvas) return;
         let clockShowing = false;
@@ -963,6 +964,17 @@ function animateCircleIn() {
         });
     }
 
+    // ── Mobile: fade in directly, no roll-in animation ──
+    if (isMobile) {
+        circle.classList.add('mobile-ready');
+        frameId = requestAnimationFrame(tick);
+        setTimeout(startClock, 900);
+        setTimeout(revealBubbles, 1400);
+        circle.addEventListener('click', handleStop);
+        return;
+    }
+
+    // ── Desktop: full roll-in animation ──
     frameId = requestAnimationFrame(tick);
 
     requestAnimationFrame(() => {
