@@ -603,12 +603,18 @@ footer {
         left: auto !important;
         translate: none !important;
         rotate: none !important;
-        width: min(80vw, 320px) !important;
-        height: min(80vw, 320px) !important;
+        width: min(94vw, 400px) !important;
+        height: min(94vw, 400px) !important;
         flex-shrink: 0;
     }
-    .circle-profile { width: 80px; height: 80px; }
-    .circle-inner   { padding: 14px 18px; }
+    .circle-profile { width: 65px; height: 65px; }
+    .circle-inner   { padding: 14px 28px; gap: 4px; }
+    .circle-name    { font-size: 0.9rem !important; }
+    .circle-tagline { font-size: 0.72rem !important; }
+    .circle-bio     { font-size: 0.68rem !important; line-height: 1.45 !important; }
+
+    /* Hide clock on mobile — too glitchy */
+    #analogClock, .clock-reveal-hint { display: none !important; }
 
     /* Simple fade-in on mobile instead of roll-in */
     .splash-circle.mobile-ready {
