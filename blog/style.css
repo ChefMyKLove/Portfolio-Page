@@ -58,7 +58,7 @@ body {
 
 /* CONTAINER */
 #content-wrapper .container::before {
-  background-color: rgba(245, 242, 232, 0.95);
+  background-color: transparent;
 }
 
 /* CONTENT BLOCKS */
@@ -77,7 +77,7 @@ body {
   box-shadow: 0 8px 30px rgba(0,0,0,0.5);
   position: relative;
   z-index: 1;
-  backdrop-filter: blur(10px);
+  backdrop-filter: none;
 }
 
 .header h1 { 
