@@ -964,13 +964,11 @@ function animateCircleIn() {
         });
     }
 
-    // ── Mobile: fade in directly, no roll-in animation ──
+    // ── Mobile: fade in directly, no spin, no clock ──
     if (isMobile) {
         circle.classList.add('mobile-ready');
-        frameId = requestAnimationFrame(tick);
-        setTimeout(startClock, 900);
-        setTimeout(revealBubbles, 1400);
-        circle.addEventListener('click', handleStop);
+        if (inner) inner.style.filter = '';
+        setTimeout(revealBubbles, 1000);
         return;
     }
 
