@@ -36,6 +36,27 @@ body {
   overflow-x: hidden;
 }
 
+@keyframes blogBackgroundCycle {
+  0%   { background-image: url('../images/HummingBow.jpg'); }
+  6%   { background-image: url('../images/IMG_6794.JPEG'); }
+  12%  { background-image: url('../images/IMG_6795.JPEG'); }
+  18%  { background-image: url('../images/IMG_6796.JPEG'); }
+  24%  { background-image: url('../images/IMG_6797.JPEG'); }
+  30%  { background-image: url('../images/TunnelBow.JPEG'); }
+  36%  { background-image: url('../images/IMG_6906.JPEG'); }
+  42%  { background-image: url('../images/IMG_6907.JPEG'); }
+  48%  { background-image: url('../images/IMG_6908.JPEG'); }
+  54%  { background-image: url('../images/IMG_6909.JPEG'); }
+  60%  { background-image: url('../images/IMG_6910.JPEG'); }
+  66%  { background-image: url('../images/IMG_6911.JPEG'); }
+  72%  { background-image: url('../images/IMG_6912.JPEG'); }
+  78%  { background-image: url('../images/HummingBow.jpg'); }
+  84%  { background-image: url('../images/IMG_6794.JPEG'); }
+  90%  { background-image: url('../images/IMG_6795.JPEG'); }
+  96%  { background-image: url('../images/IMG_6796.JPEG'); }
+  100% { background-image: url('../images/HummingBow.jpg'); }
+}
+
 
 
 /* CONTENT BLOCK POSITIONING */
@@ -45,28 +66,49 @@ body {
   background: transparent !important;
 }
 
-/* READABILITY OVERLAYS — solid color tints sit behind content via ::before */
+/* ANIMATED PSEUDO-ELEMENT BACKGROUNDS — each box gets its own image cycle */
 #content-wrapper .container::before, .blurb::before, .latest::before, 
 .post::before, .further-info::before, .contents-section::before {
   content: '';
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   z-index: -1;
   border-radius: inherit;
+  animation: blogBackgroundCycle 78s infinite ease-in-out;
+  will-change: background-image;
 }
 
-/* CONTAINER */
+/* CONTAINER — transparent, glassmorphism handled by backdrop-filter */
 #content-wrapper .container::before {
   background-color: transparent;
+  animation: blogBackgroundCycle 104s infinite ease-in-out;
 }
 
-/* CONTENT BLOCKS */
-.blurb::before        { background-color: rgba(0, 0, 0, 0.3); }
-.latest::before       { background-color: rgba(0, 0, 0, 0.2); }
-.post::before         { background-color: rgba(0, 0, 0, 0.1); }
-.further-info::before { background-color: rgba(0, 0, 0, 0.25); }
-.contents-section::before { background-color: rgba(0, 0, 0, 0.15); }
+/* CONTENT BLOCKS — each at a different speed so they drift out of sync */
+.blurb::before { 
+  background-color: rgba(0, 0, 0, 0.3);
+  animation: blogBackgroundCycle 156s infinite ease-in-out;
+}
+.latest::before { 
+  background-color: rgba(0, 0, 0, 0.2);
+  animation: blogBackgroundCycle 120s infinite ease-in-out;
+}
+.post::before { 
+  background-color: rgba(0, 0, 0, 0.1);
+  animation: blogBackgroundCycle 104s infinite linear;
+}
+.further-info::before { 
+  background-color: rgba(0, 0, 0, 0.25);
+  animation: blogBackgroundCycle 135s infinite ease-in-out;
+}
+.contents-section::before {
+  background-color: rgba(0, 0, 0, 0.15);
+  animation: blogBackgroundCycle 165s infinite ease-in-out;
+}
 
 /* CENTER SWATH */
 #content-wrapper .container {
@@ -74,10 +116,12 @@ body {
   margin: 0 auto;
   padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.08);
   position: relative;
   z-index: 1;
-  backdrop-filter: none;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
 .header h1 { 
