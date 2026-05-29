@@ -846,6 +846,7 @@ function animateCircleIn() {
 
     function startClock() {
         if (!clockCanvas) return;
+        clockCanvas.style.rotate = '0deg'; // reset any frozen spin-phase counter-rotation
         const sz = circle.getBoundingClientRect();
         clockCanvas.width  = Math.round(sz.width)  || 480;
         clockCanvas.height = Math.round(sz.height) || 480;

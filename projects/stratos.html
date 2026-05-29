@@ -118,6 +118,25 @@
       border: 1px solid rgba(255,255,255,0.12);
       cursor: default;
     }
+    .launch-btn {
+      display: inline-block;
+      padding: 14px 36px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, rgba(99,102,241,0.35), rgba(139,92,246,0.35));
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(139,92,246,0.5);
+      box-shadow: 0 0 20px rgba(139,92,246,0.25);
+      transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+    }
+    .launch-btn:hover {
+      background: linear-gradient(135deg, rgba(99,102,241,0.55), rgba(139,92,246,0.55));
+      box-shadow: 0 0 32px rgba(139,92,246,0.45);
+      transform: translateY(-2px);
+    }
     @media (max-width: 600px) {
       .detail-card { padding: 36px 24px; }
       h1 { font-size: 2rem; }
@@ -153,7 +172,6 @@
   <div class="detail-container">
     <a href="../index.html" class="back-link">← Back to Portfolio</a>
     <div class="detail-card">
-      <div class="status-badge">Coming Soon</div>
       <h1>Stratos</h1>
       <p class="tagline">A real-time global systems monitor aggregating live data on weather patterns, seismic activity, and space weather into a single unified dashboard.</p>
       <div class="divider"></div>
@@ -171,7 +189,7 @@
         </ul>
       </div>
       <div class="detail-links">
-        <span class="coming-soon-btn">Launching Soon</span>
+        <a href="https://stratos.chefmyklove.com" class="launch-btn" target="_blank" rel="noopener noreferrer">⛅ Launch Stratos</a>
       </div>
     </div>
   </div>
