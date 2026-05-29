@@ -41,7 +41,8 @@
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 40px;
+      border-radius: 72px;
+      overflow: hidden;
       box-shadow:
         0 0 40px rgba(102, 126, 234, 0.18),
         0 8px 40px rgba(0, 0, 0, 0.45),
@@ -164,6 +165,29 @@
     .or-tag:nth-child(7n+5) { color: #818cf8; border-color: rgba(129,140,248,.35); }
     .or-tag:nth-child(7n+6) { color: #a855f7; border-color: rgba(168,85,247,.35); }
     .or-tag:nth-child(7n+0) { color: #ec4899; border-color: rgba(236,72,153,.35); }
+
+    /* ── Feature list in card ─────────────────────── */
+    .or-feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 4px 0 0;
+      padding: 0;
+    }
+    .or-feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: .9rem;
+      color: #b8bbda;
+      line-height: 1.5;
+    }
+    .or-feature-list li::before {
+      content: '→';
+      color: #a855f7;
+      flex-shrink: 0;
+    }
 
     /* ── Highlight box ────────────────────────────── */
     .or-highlight-box {
@@ -291,7 +315,7 @@
 
   <!-- Back to portfolio -->
   <div class="or-back-row">
-    <a href="index.html" class="nav-button"><h4>← Portfolio</h4></a>
+    <a href="projects.html" class="nav-button"><h4>← Projects</h4></a>
   </div>
 
   <div class="or-page">
@@ -300,7 +324,7 @@
     <header class="or-header">
       <span class="label">Portfolio Project</span>
       <h1>ORDINAL 🌈 RAINBOWS</h1>
-      <p>Wild-harvested, handcrafted, non-AI art inscribed onto the BSV Blockchain.</p>
+      <p>Original rainbow photography, hand-manipulated and inscribed as 1sat Ordinals on the BSV Blockchain.</p>
     </header>
 
     <!-- ── Two-column grid ──────────────────────────── -->
@@ -311,32 +335,31 @@
         <span class="or-card-badge">Project Overview</span>
         <h2>Art on Chain</h2>
 
-        <div class="or-section-title">The Concept</div>
-        <p>Wild-harvested, handcrafted and ethically sourced, non-AI art. ORDINAL RAINBOWS is an NFT collection that fuses digital artistry with a deep fascination and reverence for rainbows as the fleeting and elusive optical illusions they are. Founded by artist ChefMyKLove, it's a project about hunting and harvesting these phenomena from everywhere all around us, using novel, self-designed innovative gathering techniques.</p>
+        <div class="or-section-title">The Collection</div>
+        <p>Ordinal Rainbows Vol. 1 is 63 original artifacts permanently inscribed on the BSV Blockchain. Each piece starts as a real photograph — prisms, atmospheric refractions, light caught in unexpected places — then worked by hand through colour grading, compositing, and layering. No AI at any stage. The collection is fully minted out with around 15 holders.</p>
 
-        <div class="or-section-title">What Makes It Unique</div>
-        <p>This project depicts the fleeting illusion of rainbows and of light refractions in general. The rainbow hunting and harvesting techniques use an ethical, all-natural process — eschewing AI generation for hands-on light bending and artist-led digital manipulation. This creates the raw materials for inscription-grade digital art compiled into an engaging NFT series and minted onto individual Satoshis on Bitcoin's most authentic and scaleable protocol, BSV.</p>
+        <div class="or-section-title">The Novel Mechanic</div>
+        <p>Holders earn automatically. When the physical print of an artifact you hold sells, the revenue is distributed on-chain — connect your BSV wallet to claim it. The same logic extends to the GIF minter launching soon: every time a GIF ordinal is minted from your artifact, you earn. Holders are also positioned for royalties as those GIFs trade. The artifacts are used as source material in other on-chain projects in development too, each one another revenue channel flowing back to holders of the originals.</p>
 
         <div class="or-section-title">Tech &amp; Medium</div>
         <div class="or-tag-row">
           <span class="or-tag">BSV Blockchain</span>
-          <span class="or-tag">Ordinal Inscriptions</span>
-          <span class="or-tag">Digital Manipulation</span>
-          <span class="or-tag">Light Harvesting</span>
+          <span class="or-tag">1sat Ordinals</span>
+          <span class="or-tag">Digital Photography</span>
+          <span class="or-tag">Hand Manipulation</span>
+          <span class="or-tag">Holder Rewards</span>
+          <span class="or-tag">Print-on-Demand</span>
           <span class="or-tag">Recursion</span>
           <span class="or-tag">Guest Artists</span>
-          <span class="or-tag">IRL Artpieces</span>
-          <span class="or-tag">Burns</span>
         </div>
 
-        <div class="or-section-title">The Vision</div>
         <div class="or-highlight-box">
-          Infused with the vibrant inclusivity of the artist's queer identity, the ORDINAL RAINBOWS palette celebrates diversity while exploring rainbows as metaphors for hidden truths in ALL of us. Season 1 OG mint is targeted for Q2 2026, with the full game launching by end of 2026.
+          Infused with the vibrant inclusivity of the artist's queer identity, ORDINAL RAINBOWS explores rainbows as metaphors for hidden truths in all of us. The ecosystem is growing — GIF minter, on-chain integrations, and a card generation game all in development.
         </div>
 
         <div class="or-status-row">
           <div class="or-status-dot"></div>
-          <span class="or-status-text">Active Development:  Vol. 1 launched.  Minting platform coming soon.</span>
+          <span class="or-status-text">Vol. 1 minted out · ~15 holders · GIF minter coming soon</span>
         </div>
       </div>
 
@@ -353,15 +376,14 @@
           Open ORDINAL RAINBOWS
         </a>
 
-        <div class="or-description" style="margin-top:16px;">
-          <p style="margin-bottom:12px;">Prints from Volume 1 are available to browse and purchase now. Open the site right here to explore the full gallery without leaving this page:</p>
-          <ul>
-            <li>Browse the full Vol. 1 rainbow art gallery</li>
-            <li>See the original harvested light photography</li>
-            <li>Order prints direct through the storefront</li>
-            <li>Get a feel for the aesthetic of the site and how it works (full wallet integration and claiming requires a browser with YoursWallet extension)</li>
-          </ul>
-        </div>
+        <div class="or-section-title" style="margin-top:16px;">What It Does</div>
+        <ul class="or-feature-list">
+          <li>63 artifacts inscribed permanently on-chain — fully minted out</li>
+          <li>Holders connect their BSV wallet to claim on-chain rewards</li>
+          <li>Physical print sales automatically credited to the artifact's holder</li>
+          <li>GIF minter coming: new ordinals derived from originals, holders earn on every mint</li>
+          <li>Artifacts used as source material in other on-chain projects, creating further holder revenue</li>
+        </ul>
       </div>
 
     </div><!-- /.or-grid -->

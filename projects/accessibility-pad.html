@@ -13,7 +13,7 @@
       color: #fff;
       padding: 48px 20px 80px;
     }
-    .detail-container { max-width: 780px; margin: 0 auto; position: relative; z-index: 2; }
+    .detail-container { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
     .back-link {
       display: inline-flex;
       align-items: center;
@@ -26,14 +26,17 @@
       margin-bottom: 36px;
     }
     .back-link:hover { color: #fff; }
+
+    /* ── Title card ── */
     .detail-card {
       background: rgba(0, 0, 0, 0.55);
       backdrop-filter: blur(40px);
       -webkit-backdrop-filter: blur(40px);
       border-radius: 24px;
-      padding: 56px 60px;
+      padding: 52px 60px 44px;
       border: 1px solid rgba(255,255,255,0.08);
       box-shadow: 0 8px 48px rgba(0,0,0,0.5), 0 0 80px rgba(29, 78, 216, 0.12);
+      margin-bottom: 24px;
     }
     .status-badge {
       display: inline-block;
@@ -57,45 +60,61 @@
       letter-spacing: 2px;
     }
     .tagline {
-      font-size: 1.12rem;
+      font-size: 1.08rem;
       color: rgba(255,255,255,0.65);
-      margin-bottom: 32px;
       font-weight: 300;
       letter-spacing: 0.5px;
-      line-height: 1.5;
+      line-height: 1.6;
     }
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(29, 78, 216, 0.6), transparent);
-      margin-bottom: 32px;
+
+    /* ── Two-column content grid ── */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
     }
-    .detail-body p {
-      color: rgba(255,255,255,0.78);
-      font-size: 0.98rem;
-      line-height: 1.85;
+    .content-card {
+      background: rgba(0, 0, 0, 0.50);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border-radius: 20px;
+      padding: 36px 32px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 6px 32px rgba(0,0,0,0.45);
+    }
+    .card-label {
+      display: inline-block;
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #60a5fa;
+      background: rgba(96,165,250,0.1);
+      border: 1px solid rgba(96,165,250,0.25);
+      border-radius: 50px;
+      padding: 3px 12px;
       margin-bottom: 20px;
     }
-    .detail-body h3 {
+    .content-card h2 {
+      font-size: 1.08rem;
+      font-weight: 700;
       color: #fff;
-      font-size: 1.05rem;
-      font-weight: 600;
-      margin-bottom: 14px;
-      margin-top: 32px;
-      letter-spacing: 0.5px;
+      margin-bottom: 20px;
+      letter-spacing: 0.04em;
     }
+
+    /* ── Feature list ── */
     .feature-list {
       list-style: none;
       display: flex;
       flex-direction: column;
       gap: 11px;
-      margin-bottom: 20px;
     }
     .feature-list li {
       display: flex;
       align-items: flex-start;
       gap: 12px;
       color: rgba(255,255,255,0.72);
-      font-size: 0.93rem;
+      font-size: 0.92rem;
       line-height: 1.55;
     }
     .feature-list li::before {
@@ -104,10 +123,52 @@
       flex-shrink: 0;
       margin-top: 1px;
     }
-    .detail-links { margin-top: 44px; display: flex; gap: 16px; flex-wrap: wrap; }
+
+    /* ── Case study card ── */
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.38);
+      margin: 20px 0 8px;
+    }
+    .section-label:first-of-type { margin-top: 0; }
+    .content-card p {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.68);
+      line-height: 1.6;
+    }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 7px; margin: 4px 0; }
+    .tag {
+      font-size: 0.72rem;
+      background: rgba(108,99,255,0.12);
+      border: 1px solid rgba(108,99,255,0.3);
+      color: #a5b4fc;
+      border-radius: 50px;
+      padding: 3px 10px;
+    }
+    .outcome-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .outcome-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.45;
+    }
+    .outcome-list li::before {
+      content: '✓';
+      color: #4ade80;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── Launch button ── */
+    .launch-row { margin-top: 24px; }
     .visit-btn {
       display: inline-block;
-      padding: 14px 36px;
+      padding: 14px 40px;
       border-radius: 50px;
       background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
       color: #fff;
@@ -123,8 +184,9 @@
       box-shadow: 0 8px 28px rgba(29, 78, 216, 0.6);
       color: #fff;
     }
-    @media (max-width: 600px) {
-      .detail-card { padding: 36px 24px; }
+    @media (max-width: 660px) {
+      .content-grid { grid-template-columns: 1fr; }
+      .detail-card { padding: 36px 24px 32px; }
       h1 { font-size: 2rem; }
     }
   </style>
@@ -156,29 +218,67 @@
   </div>
 
   <div class="detail-container">
-    <a href="../index.html" class="back-link">← Back to Portfolio</a>
+    <a href="../projects.html" class="back-link">← Back to Projects</a>
+
+    <!-- ── Title card ── -->
     <div class="detail-card">
       <div class="status-badge">Live</div>
       <h1>Accessibility Pad</h1>
       <p class="tagline">A notepad application designed from the ground up with disability justice at its core — voice-powered, screen-reader ready, and fully navigable without a mouse.</p>
-      <div class="divider"></div>
-      <div class="detail-body">
-        <p>Accessibility Pad was built on a simple premise: productivity tools should work for everyone, not just people whose bodies and abilities match the assumed default. Rather than retrofitting accessibility onto an existing app, every feature was designed with inclusion as the primary requirement from day one.</p>
-        <p>The app supports users with visual impairments through full screen reader compatibility, users with motor disabilities through complete keyboard navigation and hands-free voice input, and users across language backgrounds through multilingual speech recognition. It's a working demonstration that accessibility and usability are not in tension — they reinforce each other.</p>
-        <h3>What It Does</h3>
+    </div>
+
+    <!-- ── Two-column content ── -->
+    <div class="content-grid">
+
+      <!-- Features -->
+      <div class="content-card">
+        <span class="card-label">Features</span>
+        <h2>What It Does</h2>
         <ul class="feature-list">
           <li>Full screen reader support with ARIA-compliant markup throughout</li>
           <li>High contrast mode and adjustable font sizes for low vision users</li>
           <li>Complete keyboard navigation — no mouse required for any function</li>
           <li>Voice-to-text input in four languages: English, French, Spanish, and Mandarin</li>
+          <li>Text-to-speech playback in English, French, Portuguese, and Mandarin</li>
           <li>Hands-free operation mode for users with limited motor control</li>
+          <li>Zoom from 50% to 300% without layout breaking</li>
           <li>Persistent notes with local storage — no account or login required</li>
         </ul>
       </div>
-      <div class="detail-links">
-        <a href="../notes-app.html" class="visit-btn">Try Accessibility Pad →</a>
+
+      <!-- Case study -->
+      <div class="content-card">
+        <span class="card-label">Case Study</span>
+        <h2>Project Overview</h2>
+        <div class="section-label">Situation</div>
+        <p>Many note-taking apps fail to serve users with disabilities, language barriers, or alternative input preferences. Every feature here was designed with inclusion as the primary requirement from day one.</p>
+        <div class="section-label">Tech Stack</div>
+        <div class="tag-row">
+          <span class="tag">Vanilla JavaScript</span>
+          <span class="tag">Web Speech API</span>
+          <span class="tag">Vosk-Browser</span>
+          <span class="tag">CSS Custom Properties</span>
+          <span class="tag">localStorage</span>
+          <span class="tag">Semantic HTML5</span>
+        </div>
+        <div class="section-label">Results</div>
+        <ul class="outcome-list">
+          <li>100 / 100 Lighthouse Accessibility score</li>
+          <li>WCAG 2.1 Level AA verified — automated &amp; manual testing</li>
+          <li>100% keyboard accessible — no mouse required</li>
+          <li>&lt;2s load time on 3G connection</li>
+          <li>Zero critical violations on axe DevTools scan</li>
+          <li>4.5:1 contrast ratio maintained in dark mode</li>
+          <li>All core actions achievable in ≤ 3 keystrokes</li>
+        </ul>
       </div>
+
+    </div><!-- /.content-grid -->
+
+    <div class="launch-row">
+      <a href="https://notes-app-dusky-one.vercel.app/" target="_blank" rel="noopener noreferrer" class="visit-btn">Open Accessibility Pad ↗</a>
     </div>
+
   </div>
   <script>window.BG_BASE_PATH = '../images/';</script>
   <script src="../bg-anim.js"></script>

@@ -29,7 +29,8 @@
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 40px;
+      border-radius: 72px;
+      overflow: hidden;
       box-shadow:
         0 0 40px rgba(102, 126, 234, 0.18),
         0 8px 40px rgba(0, 0, 0, 0.45),
@@ -102,6 +103,12 @@
     .ct-footer a:hover { text-decoration: underline; }
 
     /* ── Social media link rows ── */
+    .ct-grid .section-content-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
     @keyframes rainbowShift {
       0%   { background-position: 0% 50%; }
       50%  { background-position: 100% 50%; }
