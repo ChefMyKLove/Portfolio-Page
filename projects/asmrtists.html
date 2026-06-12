@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASMRtists — Michael Needham</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #020510 0%, #060d28 50%, #050a20 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+      padding: 48px 20px 80px;
+    }
+    .detail-container { max-width: 780px; margin: 0 auto; position: relative; z-index: 2; }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 0.88rem;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+      margin-bottom: 36px;
+    }
+    .back-link:hover { color: #fff; }
+    .detail-card {
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      border-radius: 24px;
+      padding: 56px 60px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 8px 48px rgba(0,0,0,0.5), 0 0 80px rgba(168, 85, 247, 0.12);
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+      color: #f9a8d4;
+      background: rgba(249,168,212,0.1);
+      border: 1px solid rgba(249,168,212,0.28);
+    }
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #f97316, #eab308, #22c55e, #06b6d4, #6366f1, #a855f7, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+    .tagline {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 32px;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+      line-height: 1.6;
+    }
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(168,85,247,0.6), rgba(236,72,153,0.4), transparent);
+      margin-bottom: 32px;
+    }
+    .detail-body p {
+      color: rgba(255,255,255,0.78);
+      font-size: 0.98rem;
+      line-height: 1.85;
+      margin-bottom: 20px;
+    }
+    .detail-body h3 {
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      margin-top: 32px;
+      letter-spacing: 0.5px;
+    }
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-bottom: 20px;
+    }
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: rgba(255,255,255,0.72);
+      font-size: 0.93rem;
+      line-height: 1.55;
+    }
+    .feature-list li::before {
+      content: '→';
+      color: #d8b4fe;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .portals-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .portal-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .portal-card .portal-label {
+      font-size: 0.7rem;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: #a78bfa;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .portal-card p {
+      font-size: 0.87rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.5;
+      margin: 0;
+    }
+    .detail-links { margin-top: 44px; display: flex; gap: 16px; flex-wrap: wrap; }
+    .launch-btn {
+      display: inline-block;
+      padding: 14px 36px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, rgba(168,85,247,0.35), rgba(236,72,153,0.35));
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(168,85,247,0.5);
+      box-shadow: 0 0 20px rgba(168,85,247,0.22);
+      transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+    }
+    .launch-btn:hover {
+      background: linear-gradient(135deg, rgba(168,85,247,0.55), rgba(236,72,153,0.55));
+      box-shadow: 0 0 32px rgba(168,85,247,0.4);
+      transform: translateY(-2px);
+    }
+    .secondary-btn {
+      display: inline-block;
+      padding: 14px 36px;
+      border-radius: 50px;
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(255,255,255,0.12);
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+    .secondary-btn:hover {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+    .body-link { color: #d8b4fe; text-decoration: none; }
+    .body-link:hover { text-decoration: underline; }
+    @media (max-width: 600px) {
+      .detail-card { padding: 36px 24px; }
+      h1 { font-size: 2rem; }
+      .portals-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+  <link rel="stylesheet" href="../bg-anim.css">
+</head>
+<body>
+  <!-- Cloud swirl background animation -->
+  <svg id="svg-filters" style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
+    <defs>
+      <filter id="cloud-warp" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+        <feTurbulence id="cloud-turb" type="fractalNoise" baseFrequency="0.009 0.011" numOctaves="4" seed="7" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="124" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <filter id="cloud-warp-b" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+        <feTurbulence id="cloud-turb-b" type="fractalNoise" baseFrequency="0.010 0.009" numOctaves="4" seed="13" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="124" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs>
+  </svg>
+  <div class="background-container" id="bgLayerA"></div>
+  <div class="background-container" id="bgLayerB"></div>
+  <div class="cloud-layer cloud-layer-1" aria-hidden="true">
+    <div class="cloud-inner" id="cloud1A"></div>
+    <div class="cloud-inner" id="cloud1B"></div>
+  </div>
+  <div class="cloud-layer cloud-layer-2" aria-hidden="true">
+    <div class="cloud-inner" id="cloud2A"></div>
+    <div class="cloud-inner" id="cloud2B"></div>
+  </div>
+
+  <div class="detail-container">
+    <a href="../projects.html" class="back-link">← Back to Projects</a>
+    <div class="detail-card">
+      <span class="status-badge">In Development</span>
+      <h1>ASMRtists</h1>
+      <p class="tagline">A print fulfillment and NFT portal that turns visual art into on-chain revenue — for artists, collectors, and curators — built on the BSV Blockchain.</p>
+      <div class="divider"></div>
+      <div class="detail-body">
+        <p>ASMRtists (Art Splash Marketing Roster) is a platform designed to give visual artists a novel, scalable way to monetize their work. Artists upload high-resolution images; the platform handles everything else — automated print shop creation, BSV Ordinal inscription, and a revenue-share system that pays collectors when prints sell.</p>
+
+        <p>The core innovation: when a collector purchases an Ordinal (a JPEG permanently inscribed on the BSV Blockchain), they gain a share of future print sale revenue from that artwork. The Ordinal is not just a collectible — it's a revenue-sharing artifact. Holders become economically motivated to promote the work they believe in.</p>
+
+        <p>The platform grew directly out of <em>Ordinal Rainbows Vol.1</em> at <a href="https://ordinalrainbows.com" target="_blank" rel="noopener noreferrer" class="body-link">ordinalrainbows.com</a> — a fully live proof-of-concept with 63 on-chain inscriptions, real holders, and a working Printify print shop. That working system became the design foundation; ASMRtists scales it into a multi-artist, investor-ready platform explicitly designed for acquisition.</p>
+
+        <h3>Four Portals</h3>
+        <div class="portals-grid">
+          <div class="portal-card">
+            <span class="portal-label">Artists</span>
+            <p>Upload artwork, create collections, and hand off — ASMR handles print fulfillment and blockchain inscription automatically.</p>
+          </div>
+          <div class="portal-card">
+            <span class="portal-label">Collectors</span>
+            <p>Mint Ordinals, buy prints, and earn MNEE stablecoin payouts when prints of held artwork sell.</p>
+          </div>
+          <div class="portal-card">
+            <span class="portal-label">Curators</span>
+            <p>Gallery-tier curation tools for institutions and influencers to build and manage themed showrooms.</p>
+          </div>
+          <div class="portal-card">
+            <span class="portal-label">Gallery</span>
+            <p>Publicly browsable marketplace with featured artists, collector leaderboards, and seamless purchase prompts.</p>
+          </div>
+        </div>
+
+        <h3>How It Works</h3>
+        <ul class="feature-list">
+          <li>Artists upload high-resolution PNGs; the platform auto-generates three Printify product types (canvas, art print, photo print)</li>
+          <li>Files are converted and inscribed as BSV 1Sat Ordinals via an in-house minter built on <code>@bsv/sdk</code>, broadcast via TAAL ARC</li>
+          <li>An equitable revenue split routes earnings to the artist, holder pool, and platform on every print sale</li>
+          <li>Payouts are distributed in MNEE stablecoin, preserving USD value regardless of BSV price movement</li>
+        </ul>
+
+        <h3>Tech Stack</h3>
+        <ul class="feature-list">
+          <li>Next.js (App Router) frontend with shadcn/ui — deployed on Vercel</li>
+          <li>Supabase (PostgreSQL + Storage) — full schema covering artists, collections, artwork, payouts, and claims</li>
+          <li>BSV 1Sat Ordinals in-house minter — complete, using <code>@bsv/sdk</code> with TAAL ARC broadcast</li>
+          <li>Printify API integration — automated product creation pipeline via Python</li>
+          <li>MNEE stablecoin treasury for collector revenue share; Stripe Connect for artist fiat payouts</li>
+          <li>In-house 1Sat Ordinals marketplace — ordinals list via on-chain locking scripts; purchases fulfill atomically in a single transaction with no custodian and no counterparty risk</li>
+          <li>Discord gating bot with BSV ordinal tier verification (Legendary → Common) — <em>Coming Soon</em></li>
+        </ul>
+      </div>
+
+      <div class="detail-links">
+        <a href="https://asmrtists.ca" class="launch-btn" target="_blank" rel="noopener noreferrer">Visit ASMRtists.ca →</a>
+        <a href="../projects.html" class="secondary-btn">← Back to Projects</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="../bg-anim.js"></script>
+</body>
+</html>
