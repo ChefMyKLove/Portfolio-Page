@@ -1,4 +1,8 @@
 require('dotenv').config();
+// Polyfill Web Crypto API for Mongoose 9 on Node 18
+if (!globalThis.crypto) {
+  globalThis.crypto = require('crypto').webcrypto;
+}
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');

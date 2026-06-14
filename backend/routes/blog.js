@@ -15,7 +15,9 @@ router.get('/posts', async (req, res) => {
 
 router.post('/posts', async (req, res) => {
   try {
-    const post = new Post({ title: req.body.title, content: req.body.content });
+    const postData = { title: req.body.title, content: req.body.content };
+    if (req.body.date) postData.date = new Date(req.body.date);
+    const post = new Post(postData);
     await post.save();
     res.status(201).json({ id: post._id.toString(), title: post.title, content: post.content, date: post.date });
   } catch (err) {
