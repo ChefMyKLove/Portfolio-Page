@@ -27,7 +27,9 @@ router.post('/posts', async (req, res) => {
 
 router.put('/posts/:id', async (req, res) => {
   try {
-    const post = await Post.findByIdAndUpdate(req.params.id, { title: req.body.title, content: req.body.content }, { new: true });
+    const update = { title: req.body.title, content: req.body.content };
+    if (req.body.date) update.date = new Date(req.body.date);
+    const post = await Post.findByIdAndUpdate(req.params.id, update, { new: true });
     if (!post) return res.status(404).json({ error: 'Post not found' });
     res.json({ id: post._id.toString(), title: post.title, content: post.content, date: post.date });
   } catch (err) {
