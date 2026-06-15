@@ -145,15 +145,16 @@ body {
 .book-img img { width: 180px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); }
 
 .columns { display: flex; gap: 30px; margin: 40px 0; flex-wrap: wrap; }
-.col { flex: 1; min-width: 280px; }
+.col { flex: 1; min-width: 280px; display: flex; flex-direction: column; }
 
-.blurb { 
-  padding: 20px; 
-  font-style: italic; 
+.blurb {
+  padding: 20px;
+  font-style: italic;
   color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  flex: 1;
 }
 
 .latest { 

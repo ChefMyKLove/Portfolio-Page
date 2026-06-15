@@ -98,13 +98,21 @@
                 setOp(topEls, Math.sin(f * Math.PI / 2));
 
                 if (f >= 1.0) {
-                    topIdx = (topIdx + 1) % N;
-                    applyBot(topSrc);
-                    applyTop(BG_IMAGES[topIdx]);
-                    setOp(botEls, 1.0);
-                    setOp(topEls, 0.0);
+                    var nextIdx = (topIdx + 1) % N;
+                    var nextSrc = BG_IMAGES[nextIdx];
+                    var swapSrc = topSrc;
                     phase = 'hold';
                     phaseStart = ts;
+                    var preloader = new Image();
+                    preloader.onload = function () {
+                        topIdx = nextIdx;
+                        applyBot(swapSrc);
+                        applyTop(nextSrc);
+                        setOp(botEls, 1.0);
+                        setOp(topEls, 0.0);
+                        phaseStart = null;
+                    };
+                    preloader.src = nextSrc;
                 }
             }
 
