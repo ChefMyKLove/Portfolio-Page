@@ -1,0 +1,139 @@
+<h2>Staging: where does the bubble stack sit, and how do bubbles resolve at the bottom?</h2>
+<p class="subtitle">The circle already rolls in from off-screen left and settles at roughly 38vw / 50vh (dashed target). The bubble stack should sit somewhere along that incoming path so the "smash" reads naturally.</p>
+
+<div class="mockup">
+  <div class="mockup-header">Viewport — circle flight path + bubble stack</div>
+  <div class="mockup-body" style="position:relative;height:420px;background:linear-gradient(180deg,#1a1a2e,#16213e);border-radius:8px;overflow:hidden;">
+
+    <!-- flight path arrow -->
+    <svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 800 420">
+      <defs>
+        <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="rgba(160,130,255,0.9)"/>
+        </marker>
+      </defs>
+      <path d="M -20 210 Q 200 210 480 210" stroke="rgba(160,130,255,0.8)" stroke-width="3" stroke-dasharray="8,6" fill="none" marker-end="url(#arrow)"/>
+    </svg>
+
+    <!-- stacked bubble pile, sitting in the flight path -->
+    <div style="position:absolute; left:300px; top:170px; width:80px; height:80px;">
+      <div style="position:absolute;left:6px;top:-10px;width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.3);"></div>
+      <div style="position:absolute;left:2px;top:-4px;width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.13);border:1px solid rgba(255,255,255,0.32);"></div>
+      <div style="position:absolute;left:8px;top:2px;width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.35);"></div>
+      <div style="position:absolute;left:0;top:8px;width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.20);border:1px solid rgba(255,255,255,0.4);"></div>
+      <div style="position:absolute;left:10px;top:16px;width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.26);border:1px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;">×10</div>
+    </div>
+    <p style="position:absolute;left:290px;top:280px;width:180px;font-size:11px;color:rgba(255,255,255,0.55);text-align:center;">bubble stack (center-ish, in the circle's path)</p>
+
+    <!-- resting circle target -->
+    <div style="position:absolute;left:480px;top:130px;width:160px;height:160px;border-radius:50%;border:2px dashed rgba(160,130,255,0.7);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);font-size:11px;">circle rests here<br/>(today's position)</div>
+
+    <!-- off screen origin label -->
+    <p style="position:absolute;left:8px;top:196px;font-size:11px;color:rgba(255,255,255,0.5);">circle enters<br/>off-screen &#8594;</p>
+
+    <!-- bottom resolve row -->
+    <div style="position:absolute;left:0;right:0;bottom:14px;display:flex;justify-content:center;gap:10px;">
+      <div style="width:28px;height:28px;border-radius:50%;background:rgba(102,126,234,0.5);border:1px solid rgba(255,255,255,0.4);"></div>
+      <div style="width:28px;height:28px;border-radius:50%;background:rgba(102,126,234,0.5);border:1px solid rgba(255,255,255,0.4);"></div>
+      <div style="width:28px;height:28px;border-radius:50%;background:rgba(102,126,234,0.5);border:1px solid rgba(255,255,255,0.4);"></div>
+      <div style="width:28px;height:28px;border-radius:50%;background:rgba(102,126,234,0.5);border:1px solid rgba(255,255,255,0.4);"></div>
+      <div style="width:28px;height:28px;border-radius:50%;background:rgba(102,126,234,0.5);border:1px solid rgba(255,255,255,0.4);"></div>
+      <div style="width:28px;height:28px;border-radius:50%;background:rgba(102,126,234,0.5);border:1px solid rgba(255,255,255,0.4);"></div>
+      <div style="width:28px;height:28px;border-radius:50%;background:rgba(102,126,234,0.5);border:1px solid rgba(255,255,255,0.4);"></div>
+      <div style="width:28px;height:28px;border-radius:50%;background:rgba(102,126,234,0.5);border:1px solid rgba(255,255,255,0.4);"></div>
+      <div style="width:28px;height:28px;border-radius:50%;background:rgba(102,126,234,0.5);border:1px solid rgba(255,255,255,0.4);"></div>
+      <div style="width:28px;height:28px;border-radius:50%;background:rgba(102,126,234,0.5);border:1px solid rgba(255,255,255,0.4);"></div>
+    </div>
+    <p style="position:absolute;left:0;right:0;bottom:-2px;text-align:center;font-size:10px;color:rgba(255,255,255,0.45);">final resolve — evenly spaced bottom row (10 bubbles)</p>
+  </div>
+</div>
+
+<div class="section">
+  <p class="label">Does the staging above look right?</p>
+  <div class="options">
+    <div class="option" data-choice="stack-in-path" onclick="toggleSelect(this)">
+      <div class="letter">A</div>
+      <div class="content">
+        <h3>Yes — stack sits center, circle plows through it</h3>
+        <p>Matches what's shown: stack sits roughly center-screen, directly in the circle's existing incoming path, gets smashed as the circle passes through en route to its resting spot.</p>
+      </div>
+    </div>
+    <div class="option" data-choice="stack-closer-to-rest" onclick="toggleSelect(this)">
+      <div class="letter">B</div>
+      <div class="content">
+        <h3>Stack should sit right at the circle's resting spot</h3>
+        <p>Instead of mid-path, the stack sits right where the circle ends up — so the impact happens right as the circle arrives and settles, not mid-flight.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <p class="label">Now — how should the 10 bubbles lay out once they resolve at the bottom?</p>
+  <div class="cards">
+    <div class="card" data-choice="single-row-full" onclick="toggleSelect(this)">
+      <div class="card-image">
+        <div style="display:flex;justify-content:space-between;padding:0 6px;">
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>A — Single row, full width</h3>
+        <p>All 10 spread edge-to-edge across the bottom. Reads as one clean evenly-spaced line, but needs a fairly wide desktop viewport (~1280px+) to avoid crowding with labels underneath.</p>
+      </div>
+    </div>
+    <div class="card" data-choice="single-row-centered" onclick="toggleSelect(this)">
+      <div class="card-image">
+        <div style="display:flex;justify-content:center;gap:10px;">
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+          <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>B — Single row, centered with margins</h3>
+        <p>Tighter gaps, centered in the viewport with breathing room on both sides. Scales better across desktop window sizes, still one clean row.</p>
+      </div>
+    </div>
+    <div class="card" data-choice="two-rows" onclick="toggleSelect(this)">
+      <div class="card-image">
+        <div style="display:flex;flex-direction:column;gap:8px;align-items:center;">
+          <div style="display:flex;gap:10px;">
+            <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+            <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+            <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+            <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+            <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+            <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+            <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+            <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+            <div style="width:22px;height:22px;border-radius:50%;background:#8b7ff0;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>C — Two rows (5 + 5), stacked near bottom</h3>
+        <p>More forgiving on narrower desktop windows, reads as a deliberate cluster rather than a single line. Slightly less "evenly spaced along the bottom" per your original description.</p>
+      </div>
+    </div>
+  </div>
+</div>

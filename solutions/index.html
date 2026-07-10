@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chefmyklove Custom Software Solutions — Media Kit</title>
+<meta property="og:title" content="Chefmyklove Custom Software Solutions — Media Kit">
+<meta property="og:description" content="Custom software solutions, media kit, and press materials for Chefmyklove.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://chefmyklove.com/solutions">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root{
+    --paper: #F7F3E9;
+    --paper-shadow: #EAE3D3;
+    --char: #1F1B16;
+    --ember: #B8452E;
+    --sage: #5C6B54;
+    --slate: #333F3A;
+    --line: #C9C0AA;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background: var(--paper-shadow);
+    font-family: 'Work Sans', sans-serif;
+    color: var(--char);
+    padding: 48px 16px;
+    display:flex;
+    justify-content:center;
+  }
+  .ticket{
+    width:100%;
+    max-width: 680px;
+    background: var(--paper);
+    position:relative;
+    box-shadow: 0 20px 40px rgba(31,27,22,0.18);
+    padding: 0 0 8px 0;
+    zoom: 1.3;
+  }
+  .ticket::before, .ticket::after{
+    content:"";
+    position:absolute;
+    left:0; right:0;
+    height:14px;
+    background:
+      radial-gradient(circle at 10px 7px, var(--paper-shadow) 6px, transparent 7px) repeat-x;
+    background-size: 20px 14px;
+  }
+  .ticket::before{ top:-7px; }
+  .ticket::after{ bottom:-7px; }
+
+  .zone{ padding: 32px 40px; }
+  .divider{
+    border: none;
+    border-top: 2px dashed var(--line);
+    margin: 0 40px;
+  }
+
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 10px;
+  }
+  .eyebrow .note{
+    text-transform:none;
+    letter-spacing:0;
+    font-size:11px;
+    color: var(--slate);
+    opacity:0.65;
+    font-style:italic;
+  }
+
+  header.zone{ text-align:center; padding-top:40px; padding-bottom:28px; }
+  header .order-no{
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    color: var(--slate);
+    opacity:0.65;
+    letter-spacing:1px;
+    margin-bottom: 18px;
+  }
+  header h1{
+    font-family:'Space Mono', monospace;
+    font-size: clamp(26px, 5vw, 34px);
+    font-weight:700;
+    letter-spacing: -0.5px;
+    line-height:1.15;
+  }
+  header .tagline{
+    margin-top: 10px;
+    font-size: 15px;
+    color: var(--slate);
+    font-style: italic;
+  }
+  header .stamp{
+    display:inline-block;
+    margin-top: 20px;
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    letter-spacing:2px;
+    color: var(--ember);
+    border: 2px solid var(--ember);
+    padding: 5px 14px;
+    transform: rotate(-2deg);
+  }
+
+  .about p{
+    font-size:15px;
+    line-height:1.65;
+    color: var(--slate);
+  }
+
+  .course-label{
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    font-weight:700;
+    color: var(--char);
+    margin: 22px 0 12px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+  }
+  .course-label:first-child{ margin-top:0; }
+
+  .menu-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .menu-item:last-child{ margin-bottom:0; }
+  .menu-item .desc{ flex-shrink:0; max-width: 62%; }
+  .menu-item .desc .name{
+    font-weight:600;
+    font-size:15px;
+  }
+  .menu-item .desc .sub{
+    font-size:12.5px;
+    color: var(--sage);
+    margin-top:2px;
+    line-height:1.4;
+  }
+  .leader{
+    flex:1;
+    border-bottom: 2px dotted var(--line);
+    transform: translateY(-4px);
+  }
+  .price{
+    font-family:'Space Mono', monospace;
+    font-weight:700;
+    font-size:15px;
+    color: var(--ember);
+    white-space:nowrap;
+    text-align:right;
+  }
+  .price .per{
+    display:block;
+    font-size:10px;
+    font-weight:400;
+    color: var(--slate);
+    opacity:0.7;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+  }
+
+  .care-note{
+    background: var(--paper-shadow);
+    border-left: 3px solid var(--ember);
+    padding: 14px 16px;
+    margin-top: 18px;
+    font-size: 13px;
+    line-height:1.6;
+    color: var(--slate);
+  }
+  .care-note b{ color: var(--char); }
+
+  .tasting-item{
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .tasting-item:last-child{ border-bottom:none; }
+  .tasting-item .top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+  }
+  .tasting-item .site{
+    font-family:'Space Mono', monospace;
+    font-weight:700;
+    font-size:14.5px;
+  }
+  .tasting-item a{
+    color: var(--char);
+    text-decoration:none;
+    border-bottom: 1px solid var(--ember);
+  }
+  .tasting-item a:hover{ color: var(--ember); }
+  .tasting-item .note{
+    font-size:13px;
+    color: var(--slate);
+    margin-top:4px;
+    max-width: 480px;
+  }
+  .tasting-item .tag{
+    font-family:'Space Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color: var(--sage);
+    white-space:nowrap;
+  }
+
+  .contact-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 24px;
+  }
+  .contact-grid .label{
+    font-family:'Space Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color: var(--sage);
+    margin-bottom:4px;
+  }
+  .contact-grid .value{
+    font-size:14.5px;
+    font-weight:500;
+  }
+  .contact-grid .value a{ color: var(--char); }
+
+  .intake{
+    background: var(--paper-shadow);
+    padding: 22px 22px 20px;
+    border: 1px dashed var(--line);
+  }
+  .intake .field{ margin-bottom: 14px; }
+  .intake .field:last-of-type{ margin-bottom: 18px; }
+  .intake label{
+    display:block;
+    font-family:'Space Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 6px;
+  }
+  .intake input[type="text"],
+  .intake input[type="email"],
+  .intake select,
+  .intake textarea{
+    width:100%;
+    font-family:'Work Sans', sans-serif;
+    font-size: 14px;
+    padding: 9px 10px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    color: var(--char);
+  }
+  .intake textarea{ resize:vertical; min-height:60px; }
+  .intake .checks{
+    display:flex;
+    gap: 18px;
+    flex-wrap:wrap;
+  }
+  .intake .checks label{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    text-transform:none;
+    letter-spacing:0;
+    font-size:13px;
+    color: var(--char);
+    font-family:'Work Sans', sans-serif;
+  }
+  .intake .checks input{ width:auto; }
+  .intake button{
+    width:100%;
+    font-family:'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight:700;
+    background: var(--ember);
+    color: var(--paper);
+    border: none;
+    padding: 13px;
+    cursor:pointer;
+    transition: opacity 0.15s ease;
+  }
+  .intake button:hover{ opacity:0.88; }
+
+  .footer-split{
+    display:flex;
+    gap: 28px;
+    align-items:flex-start;
+    margin-top: 22px;
+  }
+  .qr-block{
+    text-align:center;
+    flex-shrink:0;
+  }
+  #qrcode{
+    display:inline-block;
+    padding: 8px;
+    background: white;
+    border: 1px solid var(--line);
+  }
+  .qr-block .qr-label{
+    font-family:'Space Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-top: 8px;
+  }
+
+  footer.zone{
+    text-align:center;
+    padding-top:24px;
+    padding-bottom: 36px;
+  }
+  footer .thanks{
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    letter-spacing:1px;
+    color: var(--slate);
+    opacity:0.7;
+  }
+
+  @media (max-width: 480px){
+    .zone{ padding: 24px 22px; }
+    .divider{ margin: 0 22px; }
+    .contact-grid{ grid-template-columns: 1fr; }
+    .menu-item .desc{ max-width: 58%; }
+    .footer-split{ flex-direction:column; align-items:center; }
+  }
+
+  @media print{
+    body{ background:white; padding:0; }
+    .ticket{ box-shadow:none; max-width:100%; }
+    .intake{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ticket">
+
+  <header class="zone">
+    <div class="order-no">ORDER № CMK‑2026 · TABLE FOR ONE CLIENT</div>
+    <h1>Chefmyklove<br>Custom Software Solutions</h1>
+    <div class="tagline">Custom software, made to order — then cared for.</div>
+    <div class="stamp">Kitchen Open</div>
+  </header>
+
+  <hr class="divider">
+
+  <section class="zone about">
+    <div class="eyebrow">The Chef</div>
+    <p>
+      Chefmyklove Custom Software Solutions builds sites and web applications the way a good
+      kitchen builds a menu — nothing off a shelf, everything made for the person ordering it.
+      Most designers hand you a site and disappear. I don't: every build comes with Web Care —
+      ongoing management of your domain, email, and updates — so you never have to think about
+      the technical side again.
+    </p>
+  </section>
+
+  <hr class="divider">
+
+  <section class="zone menu">
+    <div class="eyebrow">Today's Menu <span class="note">— build price includes first year(s) of Web Care</span></div>
+
+    <div class="course-label">Builds</div>
+
+    <div class="menu-item">
+      <div class="desc">
+        <div class="name">Artist / Brand Website</div>
+        <div class="sub">Custom-built, responsive · Year 1 Care included</div>
+      </div>
+      <div class="leader"></div>
+      <div class="price">from $420</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="desc">
+        <div class="name">Web Application</div>
+        <div class="sub">React/Node front-to-back, database included · Year 1 Care included</div>
+      </div>
+      <div class="leader"></div>
+      <div class="price">from $1,200</div>
+    </div>
+
+    <div class="menu-item">
+      <div class="desc">
+        <div class="name">E-commerce Build</div>
+        <div class="sub">Storefront, cart, payments · Years 1–2 Care included</div>
+      </div>
+      <div class="leader"></div>
+      <div class="price">from $2,250</div>
+    </div>
+
+    <div class="course-label">Web Care — after your included period</div>
+
+    <div class="menu-item">
+      <div class="desc">
+        <div class="name">Light Care</div>
+        <div class="sub">A few updates a year, domain/email upkeep</div>
+      </div>
+      <div class="leader"></div>
+      <div class="price">$45<span class="per">/mo</span></div>
+    </div>
+
+    <div class="menu-item">
+      <div class="desc">
+        <div class="name">Active Care</div>
+        <div class="sub">Monthly updates, inbox forwarding, priority turnaround</div>
+      </div>
+      <div class="leader"></div>
+      <div class="price">$125<span class="per">/mo</span></div>
+    </div>
+
+    <div class="menu-item">
+      <div class="desc">
+        <div class="name">Org Care</div>
+        <div class="sub">For businesses, not solo creators — heavier hours, faster SLA</div>
+      </div>
+      <div class="leader"></div>
+      <div class="price">$425<span class="per">/mo</span></div>
+    </div>
+
+    <div class="menu-item">
+      <div class="desc">
+        <div class="name">À la Carte Fix</div>
+        <div class="sub">One-off, no subscription. Don't panic.</div>
+      </div>
+      <div class="leader"></div>
+      <div class="price">$42<span class="per">/hr</span></div>
+    </div>
+
+    <div class="menu-item">
+      <div class="desc">
+        <div class="name">Custom Project</div>
+        <div class="sub">Tell me what you're building</div>
+      </div>
+      <div class="leader"></div>
+      <div class="price">quote on request</div>
+    </div>
+
+    <div class="care-note">
+      <b>How Care tiers work:</b> pricing scales with how often you need touched — someone who
+      emails changes monthly pays a different rate than someone who checks in every couple of
+      years. Tier gets set at your intake based on how you'll actually use the site.
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section class="zone tasting">
+    <div class="eyebrow">Tasting Menu — Recent Work</div>
+
+    <div class="tasting-item">
+      <div class="top">
+        <span class="site"><a href="https://kathleenyearwood.com" target="_blank" rel="noopener">kathleenyearwood.com</a></span>
+        <span class="tag">Artist website</span>
+      </div>
+      <div class="note">Custom-built site and ongoing Web Care.</div>
+    </div>
+
+    <div class="tasting-item">
+      <div class="top">
+        <span class="site"><a href="https://selinamartin.com" target="_blank" rel="noopener">selinamartin.com</a></span>
+        <span class="tag">Artist website</span>
+      </div>
+      <div class="note">Custom-built site and ongoing Web Care.</div>
+    </div>
+
+    <div class="tasting-item">
+      <div class="top">
+        <span class="site"><a href="https://chefmyklove.com" target="_blank" rel="noopener">chefmyklove.com</a></span>
+        <span class="tag">Studio site</span>
+      </div>
+      <div class="note">Home base for Chefmyklove Custom Software Solutions.</div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section class="zone contact">
+    <div class="eyebrow">How to Order</div>
+    <div class="contact-grid">
+      <div>
+        <div class="label">Email</div>
+        <div class="value"><a href="mailto:solutions@chefmyklove.com">solutions@chefmyklove.com</a></div>
+      </div>
+      <div>
+        <div class="label">Messenger</div>
+        <div class="value">Chefmyklove Custom Software Solutions</div>
+      </div>
+      <div>
+        <div class="label">WhatsApp</div>
+        <div class="value">Available on request</div>
+      </div>
+      <div>
+        <div class="label">Web</div>
+        <div class="value"><a href="https://solutions.chefmyklove.com" target="_blank" rel="noopener">solutions.chefmyklove.com</a></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section class="zone">
+    <div class="eyebrow">Start an Order — Tell Me About Your Project</div>
+    <form class="intake" id="intakeForm">
+      <div class="field">
+        <label for="f-name">Your Name</label>
+        <input type="text" id="f-name" required>
+      </div>
+      <div class="field">
+        <label for="f-email">Email</label>
+        <input type="email" id="f-email" required>
+      </div>
+      <div class="field">
+        <label for="f-what">What's the site/app for?</label>
+        <textarea id="f-what" placeholder="e.g. portfolio for my paintings, storefront for handmade jewelry, booking tool for my studio"></textarea>
+      </div>
+      <div class="field">
+        <label for="f-type">Closest to</label>
+        <select id="f-type">
+          <option>Artist / Brand Website</option>
+          <option>Web Application</option>
+          <option>E-commerce Build</option>
+          <option>Not sure yet</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Do you need it maintained/updated regularly?</label>
+        <div class="checks">
+          <label><input type="radio" name="freq" value="Rarely (every year or two)" checked> Rarely</label>
+          <label><input type="radio" name="freq" value="A few times a year"> A few times a year</label>
+          <label><input type="radio" name="freq" value="Monthly or more"> Monthly+</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Need a managed email address too?</label>
+        <div class="checks">
+          <label><input type="radio" name="email_need" value="Yes" checked> Yes</label>
+          <label><input type="radio" name="email_need" value="No"> No</label>
+        </div>
+      </div>
+      <button type="submit">Send Order to the Kitchen</button>
+    </form>
+  </section>
+
+  <footer class="zone">
+    <div class="footer-split">
+      <div class="qr-block">
+        <div id="qrcode"></div>
+        <div class="qr-label">Scan for solutions.chefmyklove.com</div>
+      </div>
+      <div style="text-align:left; flex:1;">
+        <div class="thanks" style="text-align:left; margin-bottom:6px;">— Thank you for your order —</div>
+        <div style="font-size:12.5px; color:var(--slate); line-height:1.5;">
+          Prefer to just talk it through? Email solutions@chefmyklove.com directly — the form
+          above just gets me the same info faster.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  new QRCode(document.getElementById("qrcode"), {
+    text: "https://solutions.chefmyklove.com",
+    width: 96,
+    height: 96,
+    colorDark: "#1F1B16",
+    colorLight: "#ffffff"
+  });
+
+  document.getElementById("intakeForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var name = document.getElementById("f-name").value;
+    var email = document.getElementById("f-email").value;
+    var what = document.getElementById("f-what").value;
+    var type = document.getElementById("f-type").value;
+    var freq = document.querySelector('input[name="freq"]:checked').value;
+    var emailNeed = document.querySelector('input[name="email_need"]:checked').value;
+
+    var subject = "New Order: " + type + " — " + name;
+    var body =
+      "Name: " + name + "\n" +
+      "Email: " + email + "\n" +
+      "Project type: " + type + "\n" +
+      "What it's for: " + what + "\n" +
+      "Update frequency needed: " + freq + "\n" +
+      "Needs managed email: " + emailNeed;
+
+    window.location.href = "mailto:solutions@chefmyklove.com?subject=" +
+      encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+  });
+</script>
+
+</body>
+</html>

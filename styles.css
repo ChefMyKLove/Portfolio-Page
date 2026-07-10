@@ -442,18 +442,10 @@ body {
     text-shadow: 0 1px 0 rgba(0,0,0,0.95), 0 1px 4px rgba(0,0,0,0.8);
 }
 
-/* Bubble positions.
-   All 5 main nav bubbles arc right of circle at consistent R=378 from center (288 radius + 44 bubble radius + 46 gap).
-   Angles evenly spaced -30°, -12°, 5°, 22°, 40° — so every bubble center sits exactly on the circumference.
-   Bubbles 6-8 (coming-soon) cluster just below Projects. */
-#bubble-1 { left: calc(38vw + 146px); top: calc(50vh + 149px); }  /* 40° */
-#bubble-2 { left: calc(38vw + 183px); top: calc(50vh - 283px); }  /* -30° */
-#bubble-3 { left: calc(38vw + 226px); top: calc(50vh - 173px); }  /* -12° */
-#bubble-4 { left: calc(38vw + 232px); top: calc(50vh -  61px); }  /*   5° */
-#bubble-5 { left: calc(38vw + 207px); top: calc(50vh +  48px); }  /*  22° */
-#bubble-6 { left: calc(38vw +  54px); top: calc(50vh + 253px); }  /* lower-left of Projects */
-#bubble-7 { left: calc(38vw + 146px); top: calc(50vh + 265px); }  /* directly below Projects */
-#bubble-8 { left: calc(38vw + 238px); top: calc(50vh + 253px); }  /* lower-right of Projects */
+/* Bubble positions on desktop are set entirely by JS (see showPinFormation(),
+   runScatterPhysics(), and resolveBottomRow() in script.js) — the bowling-pin
+   intro sequence positions each bubble explicitly at every phase, so no
+   default per-bubble CSS position is needed here. */
 
 /* ============================================
    SPLASH RING — expanding burst when circle breaks through
@@ -654,7 +646,7 @@ footer {
     /* ---- Section 2: nav bubble grid ---- */
     .nav-zone {
         display: grid !important;
-        grid-template-columns: repeat(4, 72px);
+        grid-template-columns: repeat(5, 72px);
         grid-template-rows: repeat(2, 72px);
         gap: 14px;
         justify-content: center;
@@ -847,6 +839,102 @@ footer {
 @media (max-width: 1200px) {
     .land-circle,
     .land-title { display: none; }
+}
+
+/* ============================================
+   SITE MODAL — large glass overlay for embedded pages (Media Kit, etc.)
+   Only one is ever open at a time (enforced in script.js).
+   ============================================ */
+.site-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(4, 2, 14, 0.82);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.site-modal.active { opacity: 1; }
+
+.site-modal-panel {
+    position: relative;
+    width: min(95vw, 1400px);
+    height: min(92vh, 1000px);
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 24px;
+    box-shadow:
+        0 0 60px rgba(102, 126, 234, 0.35),
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        inset 0 0 30px rgba(255, 255, 255, 0.03);
+    overflow: hidden;
+    transform: scale(0.94);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.site-modal.active .site-modal-panel { transform: scale(1); }
+
+.site-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 28px;
+    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    flex-shrink: 0;
+}
+
+.site-modal-header h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+    text-shadow: 0 0 16px rgba(160, 130, 255, 0.6);
+}
+
+.site-modal-close {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.site-modal-close:hover {
+    background: rgba(102, 126, 234, 0.35);
+    box-shadow: 0 0 18px rgba(102, 126, 234, 0.55);
+    transform: scale(1.08);
+}
+
+.site-modal-frame {
+    flex: 1;
+    width: 100%;
+    border: none;
+    background: #fff;
+}
+
+@media (max-width: 768px) {
+    .site-modal-panel {
+        width: 100vw;
+        height: 100dvh;
+        border-radius: 0;
+    }
 }
 
 /* ============================================

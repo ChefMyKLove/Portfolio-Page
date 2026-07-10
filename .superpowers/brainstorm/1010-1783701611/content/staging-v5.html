@@ -1,0 +1,73 @@
+<h2>v5: true scale (88px bubbles), pin stack centered on page</h2>
+<p class="subtitle">Switched from the abstract 800px schematic to real pixel scale — canvas below represents a 1600px-wide desktop viewport 1:1. Bubbles are 88px diameter, matching your existing .nav-bubble CSS. Pin stack is now centered on the page horizontally.</p>
+
+<div class="mockup">
+  <div class="mockup-header">Pin stack — centered, true scale (1600px-wide viewport)</div>
+  <div class="mockup-body" style="position:relative;height:460px;background:linear-gradient(180deg,#1a1a2e,#16213e);border-radius:8px;overflow:hidden;">
+    <svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 1600 460" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <marker id="arrow5" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="rgba(160,130,255,0.9)"/>
+        </marker>
+      </defs>
+      <path d="M -20 230 Q 300 230 590 230" stroke="rgba(160,130,255,0.8)" stroke-width="4" stroke-dasharray="10,8" fill="none" marker-end="url(#arrow5)"/>
+
+      <!-- circle rest target: 38vw of 1600 = 608 -->
+      <circle cx="608" cy="230" r="180" fill="none" stroke="rgba(160,130,255,0.85)" stroke-width="2" stroke-dasharray="6,5"/>
+      <text x="608" y="234" fill="rgba(255,255,255,0.75)" font-size="13" text-anchor="middle">circle rests ~38vw</text>
+
+      <!-- pin stack, 88px (r=44) circles, centered on page (x=800) -->
+      <circle cx="650" cy="230" r="44" fill="rgba(255,255,255,0.8)" stroke="#fff" stroke-width="1.5"/>
+      <circle cx="750" cy="180" r="44" fill="rgba(255,255,255,0.8)" stroke="#fff" stroke-width="1.5"/>
+      <circle cx="750" cy="280" r="44" fill="rgba(255,255,255,0.8)" stroke="#fff" stroke-width="1.5"/>
+      <circle cx="850" cy="130" r="44" fill="rgba(255,255,255,0.8)" stroke="#fff" stroke-width="1.5"/>
+      <circle cx="850" cy="230" r="44" fill="rgba(255,255,255,0.8)" stroke="#fff" stroke-width="1.5"/>
+      <circle cx="850" cy="330" r="44" fill="rgba(255,255,255,0.8)" stroke="#fff" stroke-width="1.5"/>
+      <circle cx="950" cy="80"  r="44" fill="rgba(255,255,255,0.8)" stroke="#fff" stroke-width="1.5"/>
+      <circle cx="950" cy="180" r="44" fill="rgba(255,255,255,0.8)" stroke="#fff" stroke-width="1.5"/>
+      <circle cx="950" cy="280" r="44" fill="rgba(255,255,255,0.8)" stroke="#fff" stroke-width="1.5"/>
+      <circle cx="950" cy="380" r="44" fill="rgba(255,255,255,0.8)" stroke="#fff" stroke-width="1.5"/>
+
+      <line x1="800" y1="20" x2="800" y2="440" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="800" y="14" fill="rgba(255,255,255,0.5)" font-size="12" text-anchor="middle">page center</text>
+
+      <text x="40" y="220" fill="rgba(255,255,255,0.5)" font-size="13">circle enters off-screen →</text>
+    </svg>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:14px;">One real consequence of centering the pins on the page: the circle's resting spot (38vw, left-of-center) is now noticeably left of the pin stack. The circle would need to travel past its normal rest point to strike them, then settle back — a bit of an overshoot-and-return in the animation, rather than a clean "plows through on the way in." Flagging it, but moving on since you asked for centered explicitly.</p>
+
+<div class="mockup" style="margin-top:24px;">
+  <div class="mockup-header">Bottom resolve row — true scale, wider gap</div>
+  <div class="mockup-body" style="position:relative;height:180px;background:linear-gradient(180deg,#1a1a2e,#16213e);border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+    <div style="display:flex;gap:60px;">
+      <div style="width:88px;height:88px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+      <div style="width:88px;height:88px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+      <div style="width:88px;height:88px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+      <div style="width:88px;height:88px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+      <div style="width:88px;height:88px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+    </div>
+  </div>
+  <p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.5);padding:6px;">5 of the 10 bubbles shown at true 88px size, 60px gap between them (up from the earlier 26px schematic gap) — this is what "more space between bubbles" looks like at real scale. Only showing 5 here since 10 at true scale + gap needs a viewport wider than this preview panel; full row would be ~1420px wide total on a real screen.</p>
+</div>
+
+<div class="section">
+  <p class="label">Is 60px gap (at true 88px bubble size) enough breathing room, or more?</p>
+  <div class="options">
+    <div class="option" data-choice="60px-good" onclick="toggleSelect(this)">
+      <div class="letter">A</div>
+      <div class="content">
+        <h3>60px is good</h3>
+        <p>That gap size reads right at true scale.</p>
+      </div>
+    </div>
+    <div class="option" data-choice="more-gap" onclick="toggleSelect(this)">
+      <div class="letter">B</div>
+      <div class="content">
+        <h3>Still more</h3>
+        <p>I'll give a specific number or percentage in the terminal.</p>
+      </div>
+    </div>
+  </div>
+</div>

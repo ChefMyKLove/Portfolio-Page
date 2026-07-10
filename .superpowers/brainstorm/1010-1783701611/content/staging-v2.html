@@ -1,0 +1,78 @@
+<h2>Corrected staging: real circle position, bowling-pin formation, padded bottom row</h2>
+<p class="subtitle">Fixed the circle's resting spot to match the actual CSS (38vw / 50% center) — shown faint at 78vw is where the land-acknowledgement circle actually sits, for comparison, since that's what I'd mixed up. Pins now in real 1-2-3-4 bowling formation, headpin facing the incoming circle.</p>
+
+<div class="mockup">
+  <div class="mockup-header">Viewport — corrected positions</div>
+  <div class="mockup-body" style="position:relative;height:420px;background:linear-gradient(180deg,#1a1a2e,#16213e);border-radius:8px;overflow:hidden;">
+
+    <svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 800 420">
+      <defs>
+        <marker id="arrow2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="rgba(160,130,255,0.9)"/>
+        </marker>
+      </defs>
+      <path d="M -20 210 Q 100 210 200 210" stroke="rgba(160,130,255,0.8)" stroke-width="3" stroke-dasharray="8,6" fill="none" marker-end="url(#arrow2)"/>
+    </svg>
+
+    <!-- bowling pin formation, headpin (1) facing left toward incoming circle -->
+    <!-- col1: headpin -->
+    <div style="position:absolute;left:214px;top:198px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(160,130,255,0.6);"></div>
+    <!-- col2: 2 pins -->
+    <div style="position:absolute;left:248px;top:181px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(160,130,255,0.6);"></div>
+    <div style="position:absolute;left:248px;top:215px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(160,130,255,0.6);"></div>
+    <!-- col3: 3 pins -->
+    <div style="position:absolute;left:282px;top:164px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(160,130,255,0.6);"></div>
+    <div style="position:absolute;left:282px;top:198px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(160,130,255,0.6);"></div>
+    <div style="position:absolute;left:282px;top:232px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(160,130,255,0.6);"></div>
+    <!-- col4: 4 pins -->
+    <div style="position:absolute;left:316px;top:147px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(160,130,255,0.6);"></div>
+    <div style="position:absolute;left:316px;top:181px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(160,130,255,0.6);"></div>
+    <div style="position:absolute;left:316px;top:215px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(160,130,255,0.6);"></div>
+    <div style="position:absolute;left:316px;top:249px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(160,130,255,0.6);"></div>
+
+    <p style="position:absolute;left:196px;top:270px;width:170px;font-size:10px;color:rgba(255,255,255,0.6);text-align:center;">10 pins, headpin left (hit first)</p>
+
+    <!-- ACTUAL circle resting target: 38vw / 50% -->
+    <div style="position:absolute;left:234px;top:126px;width:168px;height:168px;border-radius:50%;border:2px dashed rgba(160,130,255,0.85);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.75);font-size:11px;text-align:center;">circle rests here<br/>(38vw / 50% — actual)</div>
+
+    <p style="position:absolute;left:8px;top:196px;font-size:11px;color:rgba(255,255,255,0.5);">circle enters<br/>off-screen &#8594;</p>
+
+    <!-- land circle reference, faint, for comparison only -->
+    <div style="position:absolute;left:544px;top:150px;width:120px;height:120px;border-radius:50%;border:1px dashed rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.3);font-size:10px;text-align:center;">(for reference only)<br/>land-ack circle<br/>78vw — unrelated</div>
+
+    <!-- bottom resolve row: single row, centered, generous padding -->
+    <div style="position:absolute;left:60px;right:60px;bottom:18px;display:flex;justify-content:space-between;align-items:center;">
+      <div style="width:26px;height:26px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+      <div style="width:26px;height:26px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+      <div style="width:26px;height:26px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+      <div style="width:26px;height:26px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+      <div style="width:26px;height:26px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+      <div style="width:26px;height:26px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+      <div style="width:26px;height:26px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+      <div style="width:26px;height:26px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+      <div style="width:26px;height:26px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+      <div style="width:26px;height:26px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+    </div>
+    <p style="position:absolute;left:0;right:0;bottom:-2px;text-align:center;font-size:10px;color:rgba(255,255,255,0.45);">final resolve — single row, centered, padded margins (your pick: option B)</p>
+  </div>
+</div>
+
+<div class="section">
+  <p class="label">Is this staging correct now?</p>
+  <div class="options">
+    <div class="option" data-choice="correct" onclick="toggleSelect(this)">
+      <div class="letter">A</div>
+      <div class="content">
+        <h3>Yes, that's it</h3>
+        <p>Circle rest position, pin formation, and bottom row all look right now.</p>
+      </div>
+    </div>
+    <div class="option" data-choice="tweak" onclick="toggleSelect(this)">
+      <div class="letter">B</div>
+      <div class="content">
+        <h3>Close, but needs a tweak</h3>
+        <p>I'll describe what's still off in the terminal.</p>
+      </div>
+    </div>
+  </div>
+</div>

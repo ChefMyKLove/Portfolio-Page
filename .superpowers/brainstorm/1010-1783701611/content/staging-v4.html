@@ -1,0 +1,80 @@
+<h2>v4: pins +200px further right, bubble gap +20%</h2>
+<p class="subtitle">Pins now 300px right of their original spot (100 + 200). They've moved past the circle's resting zone toward where the land-ack reference sits, so I nudged that faint reference annotation down out of the way — it's just a comparison marker, not part of the real design. Bottom-row gap increased from 22px to 26px (~20% more).</p>
+
+<div class="mockup">
+  <div class="mockup-header">Viewport — pins shifted further right</div>
+  <div class="mockup-body" style="position:relative;height:420px;background:linear-gradient(180deg,#1a1a2e,#16213e);border-radius:8px;overflow:hidden;">
+
+    <svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 800 420">
+      <defs>
+        <marker id="arrow4" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="rgba(160,130,255,0.9)"/>
+        </marker>
+      </defs>
+      <path d="M -20 210 Q 200 210 480 210" stroke="rgba(160,130,255,0.8)" stroke-width="3" stroke-dasharray="8,6" fill="none" marker-end="url(#arrow4)"/>
+    </svg>
+
+    <!-- bowling pin formation, shifted +300px total right of original -->
+    <!-- col1: headpin -->
+    <div style="position:absolute;left:514px;top:198px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(160,130,255,0.6);"></div>
+    <!-- col2: 2 pins -->
+    <div style="position:absolute;left:548px;top:181px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(160,130,255,0.6);"></div>
+    <div style="position:absolute;left:548px;top:215px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(160,130,255,0.6);"></div>
+    <!-- col3: 3 pins -->
+    <div style="position:absolute;left:582px;top:164px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(160,130,255,0.6);"></div>
+    <div style="position:absolute;left:582px;top:198px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(160,130,255,0.6);"></div>
+    <div style="position:absolute;left:582px;top:232px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(160,130,255,0.6);"></div>
+    <!-- col4: 4 pins -->
+    <div style="position:absolute;left:616px;top:147px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(160,130,255,0.6);"></div>
+    <div style="position:absolute;left:616px;top:181px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(160,130,255,0.6);"></div>
+    <div style="position:absolute;left:616px;top:215px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(160,130,255,0.6);"></div>
+    <div style="position:absolute;left:616px;top:249px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(160,130,255,0.6);"></div>
+
+    <p style="position:absolute;left:490px;top:270px;width:180px;font-size:10px;color:rgba(255,255,255,0.6);text-align:center;">10 pins, now +300px total from original spot</p>
+
+    <!-- ACTUAL circle resting target: 38vw / 50%, unchanged -->
+    <div style="position:absolute;left:234px;top:126px;width:168px;height:168px;border-radius:50%;border:2px dashed rgba(160,130,255,0.85);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.75);font-size:11px;text-align:center;">circle rests here<br/>(38vw / 50% — actual)</div>
+
+    <p style="position:absolute;left:8px;top:196px;font-size:11px;color:rgba(255,255,255,0.5);">circle enters<br/>off-screen &#8594;</p>
+
+    <!-- land-ack reference nudged down/out of the way, faint, comparison only -->
+    <div style="position:absolute;left:544px;top:300px;width:110px;height:34px;border:1px dashed rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.28);font-size:9px;text-align:center;">(reference only) land-ack circle sits around 78vw</div>
+
+    <!-- bottom resolve row: gap +20% (22px -> 26px) -->
+    <div style="position:absolute;left:0;right:0;bottom:18px;display:flex;justify-content:center;">
+      <div style="display:flex;gap:26px;">
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(102,126,234,0.6);border:1px solid rgba(255,255,255,0.5);"></div>
+      </div>
+    </div>
+    <p style="position:absolute;left:0;right:0;bottom:-2px;text-align:center;font-size:10px;color:rgba(255,255,255,0.45);">gap 22px → 26px (+20%), still centered with ample end padding</p>
+  </div>
+</div>
+
+<div class="section">
+  <p class="label">One thing worth flagging: the pins are now well past the circle's resting spot, closer to the far side of the screen. Does that still read as "circle smashes through them on its way in," or should they sit closer to the circle's path?</p>
+  <div class="options">
+    <div class="option" data-choice="good-as-is" onclick="toggleSelect(this)">
+      <div class="letter">A</div>
+      <div class="content">
+        <h3>Good as is</h3>
+        <p>Pin position and bubble gap are both right now.</p>
+      </div>
+    </div>
+    <div class="option" data-choice="pull-back" onclick="toggleSelect(this)">
+      <div class="letter">B</div>
+      <div class="content">
+        <h3>Pull them back toward the circle's path</h3>
+        <p>Gap size is right, but the pins went too far right — bring them back closer to the circle's actual travel path.</p>
+      </div>
+    </div>
+  </div>
+</div>

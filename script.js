@@ -969,19 +969,25 @@ function animateCircleIn() {
     if (isMobile) {
         circle.classList.add('mobile-ready');
         if (inner) inner.style.filter = '';
-        setTimeout(revealBubbles, 1000);
+        setTimeout(revealBubblesSimple, 1000);
         return;
     }
 
-    // ── Desktop: full roll-in animation ──
-    frameId = requestAnimationFrame(tick);
+    // ── Desktop: pins hold first, then the (unchanged) roll-in smashes through them ──
+    showPinFormation();
 
-    requestAnimationFrame(() => {
-        circle.classList.add('entered');
-        if (ring) ring.classList.add('entered');
-    });
+    setTimeout(() => {
+        frameId = requestAnimationFrame(tick);
 
-    setTimeout(revealBubbles, 2700);
+        requestAnimationFrame(() => {
+            circle.classList.add('entered');
+            if (ring) ring.classList.add('entered');
+        });
+
+        runScatterPhysics(circle, () => {
+            resolveBottomRow();
+        });
+    }, PIN_HOLD_MS);
 
     circle.addEventListener('animationend', function onTranslateEnd(e) {
         if (e.animationName !== 'circleTranslateIn') return;
@@ -989,14 +995,6 @@ function animateCircleIn() {
         circle.style.animation = 'none';
         circle.style.translate = '-50% -50%';
         translateDone = true;
-
-        // Trigger land acknowledgement circle after main circle settles
-        setTimeout(() => {
-            const landCircle = document.getElementById('landCircle');
-            const landTitle  = document.getElementById('landTitle');
-            if (landCircle) landCircle.classList.add('active');
-            if (landTitle)  landTitle.classList.add('active');
-        }, 1800);
 
         if (spinStopped) {
             onSpinComplete();
@@ -1070,9 +1068,9 @@ function revealCircleContents() {
 }
 
 // ============================================
-// BUBBLE ENTRANCE — staggered spring pop-in
+// BUBBLE ENTRANCE — staggered spring pop-in (mobile grid reveal)
 // ============================================
-function revealBubbles() {
+function revealBubblesSimple() {
     const bubbles = document.querySelectorAll('.nav-bubble');
     bubbles.forEach((bubble, i) => {
         setTimeout(() => {
@@ -1080,6 +1078,230 @@ function revealBubbles() {
             new BopBody(bubble, { strength: 22, spring: 0.10, damping: 0.85 });
         }, i * 80);
     });
+}
+
+// ============================================
+// BOWLING-PIN INTRO (desktop only)
+// ============================================
+const BUBBLE_SIZE           = 88;   // px — matches .nav-bubble width/height
+const PIN_PITCH             = 100;  // px between pin columns/rows
+const PIN_HOLD_MS           = 1500; // how long the pin formation holds before the circle rolls in
+const BOTTOM_MARGIN         = 96;   // px side padding for the resolved bottom row
+const BOTTOM_GAP_FROM_FLOOR = 56;   // px from bottom of viewport to the bubble row's center
+
+// 10 positions in a 1-2-3-4 bowling-pin triangle, headpin (column 1) facing
+// left (toward the circle's incoming direction), the whole formation centered
+// on the viewport — both the horizontal midpoint of columns 1-4 and the
+// vertical midpoint of the ys offsets land exactly on (innerWidth/2, innerHeight/2).
+function getPinPositions() {
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    const baseX = centerX - 1.5 * PIN_PITCH; // formation spans baseX .. baseX + 3*PIN_PITCH
+    const cols = [
+        { x: baseX,                 ys: [0] },
+        { x: baseX + PIN_PITCH,     ys: [-50, 50] },
+        { x: baseX + PIN_PITCH * 2, ys: [-100, 0, 100] },
+        { x: baseX + PIN_PITCH * 3, ys: [-150, -50, 50, 150] },
+    ];
+    const positions = [];
+    cols.forEach(col => {
+        col.ys.forEach(dy => positions.push({ x: col.x, y: centerY + dy }));
+    });
+    return positions; // always 10 entries
+}
+
+// Places all .nav-bubble elements into the pin formation and reveals them
+// with the existing stagger/spring-pop, already in their final visual style.
+function showPinFormation() {
+    const bubbles = Array.from(document.querySelectorAll('.nav-bubble'));
+    const pins = getPinPositions();
+    bubbles.forEach((bubble, i) => {
+        const pos = pins[i];
+        bubble.style.left = `${Math.round(pos.x - BUBBLE_SIZE / 2)}px`;
+        bubble.style.top  = `${Math.round(pos.y - BUBBLE_SIZE / 2)}px`;
+        setTimeout(() => {
+            bubble.classList.add('visible');
+            new BopBody(bubble, { strength: 22, spring: 0.10, damping: 0.85 });
+        }, i * 80);
+    });
+}
+
+// Runs a small custom circle-collision simulation: the (real) splash circle
+// smashes into the pin-formation bubbles, which then also collide with each
+// other, scattering with velocity and damping until they come to rest (or a
+// safety timeout elapses). Calls onSettled() exactly once when done.
+function runScatterPhysics(circleEl, onSettled) {
+    const bubbles = Array.from(document.querySelectorAll('.nav-bubble'));
+    const bodies = bubbles.map(el => {
+        const rect = el.getBoundingClientRect();
+        return {
+            el,
+            x: rect.left + BUBBLE_SIZE / 2,
+            y: rect.top + BUBBLE_SIZE / 2,
+            vx: 0,
+            vy: 0,
+            r: BUBBLE_SIZE / 2,
+        };
+    });
+
+    const DAMPING               = 0.985; // light damping — keeps the scatter lively for several seconds
+    const RESTITUTION           = 0.9;
+    const SETTLE_SPEED          = 0.15; // px/frame, summed across all bubbles' |vx|+|vy|
+    const SETTLE_FRAMES_NEEDED  = 20;   // ~1/3s at 60fps below SETTLE_SPEED
+    const MAX_DURATION_MS       = 5500; // safety cap; real settling should land well before this
+    const SHOCKWAVE_MIN         = 22;   // px/frame impulse range applied to every bubble on first contact
+    const SHOCKWAVE_MAX         = 38;
+
+    let prevCircleCenter = null;
+    let settleFrames = 0;
+    let hasCollided = false; // settling can't be evaluated until real contact has happened
+    let rafId = null;
+    const startTime = performance.now();
+
+    function step() {
+        const rect = circleEl.getBoundingClientRect();
+        const circleCenter = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+        const circleRadius = rect.width / 2;
+        const circleVel = prevCircleCenter
+            ? { x: circleCenter.x - prevCircleCenter.x, y: circleCenter.y - prevCircleCenter.y }
+            : { x: 0, y: 0 };
+        prevCircleCenter = circleCenter;
+
+        let collidedThisFrame = false;
+
+        // Circle vs each bubble
+        bodies.forEach(b => {
+            const dx = b.x - circleCenter.x, dy = b.y - circleCenter.y;
+            const dist = Math.hypot(dx, dy) || 1;
+            const overlap = (circleRadius + b.r) - dist;
+            if (overlap > 0) {
+                collidedThisFrame = true;
+                const nx = dx / dist, ny = dy / dist;
+                b.x += nx * overlap;
+                b.y += ny * overlap;
+                const speed = Math.hypot(circleVel.x, circleVel.y);
+                b.vx += nx * (speed * 0.9 + 4) + circleVel.x * 0.3;
+                b.vy += ny * (speed * 0.9 + 4) + circleVel.y * 0.3;
+            }
+        });
+
+        // First real contact: send every bubble flying in a fully random
+        // direction (not just outward from the impact point — a direction
+        // biased off one point clusters everything toward the far side of
+        // the screen instead of scattering all over it), so all 10 bounce
+        // around the whole viewport. Also kicks off the land acknowledgement
+        // at the same moment, so its ~7s reveal runs alongside the scatter.
+        if (collidedThisFrame && !hasCollided) {
+            hasCollided = true;
+            bodies.forEach(b => {
+                const angle = Math.random() * Math.PI * 2;
+                const mag = SHOCKWAVE_MIN + Math.random() * (SHOCKWAVE_MAX - SHOCKWAVE_MIN);
+                b.vx += Math.cos(angle) * mag;
+                b.vy += Math.sin(angle) * mag;
+            });
+            triggerLandAcknowledgement();
+        }
+
+        // Bubble vs bubble
+        for (let i = 0; i < bodies.length; i++) {
+            for (let j = i + 1; j < bodies.length; j++) {
+                const a = bodies[i], b = bodies[j];
+                const dx = b.x - a.x, dy = b.y - a.y;
+                const dist = Math.hypot(dx, dy) || 1;
+                const minDist = a.r + b.r;
+                if (dist < minDist) {
+                    const overlap = (minDist - dist) / 2;
+                    const nx = dx / dist, ny = dy / dist;
+                    a.x -= nx * overlap; a.y -= ny * overlap;
+                    b.x += nx * overlap; b.y += ny * overlap;
+                    const relVx = b.vx - a.vx, relVy = b.vy - a.vy;
+                    const relSpeed = relVx * nx + relVy * ny;
+                    if (relSpeed < 0) {
+                        const impulse = -relSpeed * RESTITUTION;
+                        a.vx -= impulse * nx; a.vy -= impulse * ny;
+                        b.vx += impulse * nx; b.vy += impulse * ny;
+                    }
+                }
+            }
+        }
+
+        // Integrate, damp, bounce off the viewport edges (not just clamp —
+        // reflecting velocity keeps bubbles caroming around the whole screen
+        // instead of pressing flat against one side), write to DOM
+        let totalSpeed = 0;
+        bodies.forEach(b => {
+            b.vx *= DAMPING; b.vy *= DAMPING;
+            b.x += b.vx; b.y += b.vy;
+
+            if (b.x < b.r) { b.x = b.r; b.vx = Math.abs(b.vx) * RESTITUTION; }
+            else if (b.x > window.innerWidth - b.r) { b.x = window.innerWidth - b.r; b.vx = -Math.abs(b.vx) * RESTITUTION; }
+
+            if (b.y < b.r) { b.y = b.r; b.vy = Math.abs(b.vy) * RESTITUTION; }
+            else if (b.y > window.innerHeight - b.r) { b.y = window.innerHeight - b.r; b.vy = -Math.abs(b.vy) * RESTITUTION; }
+
+            b.el.style.left = `${Math.round(b.x - b.r)}px`;
+            b.el.style.top  = `${Math.round(b.y - b.r)}px`;
+            totalSpeed += Math.abs(b.vx) + Math.abs(b.vy);
+        });
+
+        const elapsed = performance.now() - startTime;
+        settleFrames = (hasCollided && totalSpeed < SETTLE_SPEED) ? settleFrames + 1 : 0;
+
+        if ((hasCollided && settleFrames >= SETTLE_FRAMES_NEEDED) || elapsed >= MAX_DURATION_MS) {
+            cancelAnimationFrame(rafId);
+            if (!hasCollided) triggerLandAcknowledgement(); // safety net if contact somehow never registered
+            onSettled();
+            return;
+        }
+        rafId = requestAnimationFrame(step);
+    }
+    rafId = requestAnimationFrame(step);
+}
+
+// Computes 10 evenly-spaced bottom-row positions using the same math as
+// CSS `justify-content: space-evenly`: equal gap before the first bubble,
+// between each pair, and after the last — so it always fits the current
+// viewport width instead of using a fixed pixel gap.
+function computeBottomRowPositions(count) {
+    const MIN_GAP = 8; // never let bubbles visually overlap, even on a narrow desktop window
+    const maxMarginTotal = window.innerWidth - count * BUBBLE_SIZE - MIN_GAP * (count + 1);
+    const margin = Math.max(0, Math.min(BOTTOM_MARGIN, maxMarginTotal / 2));
+    const available = window.innerWidth - margin * 2;
+    const gap = Math.max(MIN_GAP, (available - count * BUBBLE_SIZE) / (count + 1));
+    const y = window.innerHeight - BUBBLE_SIZE - BOTTOM_GAP_FROM_FLOOR;
+    const positions = [];
+    for (let i = 0; i < count; i++) {
+        const x = margin + gap * (i + 1) + BUBBLE_SIZE * i;
+        positions.push({ x, y });
+    }
+    return positions;
+}
+
+// Animates the scattered bubbles into the final evenly-spaced bottom row,
+// then calls onDone() once the transition finishes.
+function resolveBottomRow(onDone) {
+    const bubbles = Array.from(document.querySelectorAll('.nav-bubble'));
+    const targets = computeBottomRowPositions(bubbles.length);
+    bubbles.forEach(el => {
+        el.style.transition = 'left 0.6s cubic-bezier(0.22, 1, 0.36, 1), top 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
+    });
+    // Flush layout so the transition above is applied before left/top change.
+    void bubbles[0].offsetHeight;
+    bubbles.forEach((el, i) => {
+        el.style.left = `${Math.round(targets[i].x - BUBBLE_SIZE / 2)}px`;
+        el.style.top  = `${Math.round(targets[i].y - BUBBLE_SIZE / 2)}px`;
+    });
+    setTimeout(() => {
+        bubbles.forEach(el => { el.style.transition = ''; });
+        if (onDone) onDone();
+    }, 650);
+}
+
+function triggerLandAcknowledgement() {
+    const landCircle = document.getElementById('landCircle');
+    const landTitle  = document.getElementById('landTitle');
+    if (landCircle) landCircle.classList.add('active');
+    if (landTitle)  landTitle.classList.add('active');
 }
 
 // ============================================
@@ -1342,6 +1564,57 @@ function openPrintifyModal(url, title) {
 function closePrintifyModal(modal) {
     modal.remove();
     document.body.style.overflow = '';
+}
+
+// ============================================
+// SITE MODAL — large glass overlay for embedded pages (Media Kit, etc.)
+// Singleton: only one instance is ever open at a time.
+// ============================================
+let activeSiteModal = null;
+
+function openSiteModal(url, title) {
+    if (activeSiteModal) return; // already open — ignore duplicate triggers
+
+    const modal = document.createElement('div');
+    modal.className = 'site-modal';
+    modal.innerHTML = `
+        <div class="site-modal-panel">
+            <div class="site-modal-header">
+                <h2>${title}</h2>
+                <button type="button" class="site-modal-close" aria-label="Close">&times;</button>
+            </div>
+            <iframe src="${url}" class="site-modal-frame" title="${title}"></iframe>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+    activeSiteModal = modal;
+
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+        modal.classList.add('active');
+    }));
+
+    const closeBtn = modal.querySelector('.site-modal-close');
+    closeBtn.onclick = () => closeSiteModal(modal);
+
+    modal.onclick = (e) => {
+        if (e.target === modal) closeSiteModal(modal);
+    };
+
+    document.addEventListener('keydown', function escHandler(e) {
+        if (e.key === 'Escape') {
+            closeSiteModal(modal);
+            document.removeEventListener('keydown', escHandler);
+        }
+    });
+}
+
+function closeSiteModal(modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+    if (activeSiteModal === modal) activeSiteModal = null;
+    setTimeout(() => modal.remove(), 300);
 }
 
 // Initialize on page load
