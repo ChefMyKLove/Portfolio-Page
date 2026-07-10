@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ASMRtists — Coming Soon</title>
 <meta property="og:title" content="ASMRtists — Coming Soon">
-<meta property="og:description" content="A new platform for ASMR artists. Coming soon.">
+<meta property="og:description" content="A unique new marketing platform for artists. Coming soon.">
 <meta property="og:type" content="website">
 <style>
   *{box-sizing:border-box; margin:0; padding:0;}
@@ -25,22 +25,62 @@
     position:relative;
   }
 
-  .bg-layer{
-    position:fixed;
-    inset:0;
+  /* ============================================
+     CLOUD OVERLAY LAYERS — same displacement-warp
+     shimmer system as the main site's background,
+     reused here with the two ASMRtists images.
+     ============================================ */
+  .cloud-layer {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    z-index: 0;
+    will-change: transform;
+    -webkit-mask-image: linear-gradient(to bottom,
+        transparent 3%, black 18%, black 82%, transparent 97%);
+    mask-image: linear-gradient(to bottom,
+        transparent 3%, black 18%, black 82%, transparent 97%);
+  }
+
+  .cloud-inner {
+    position: absolute;
+    inset: 0;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    z-index: 0;
-    will-change: transform;
-    animation: bgDrift 22s ease-in-out infinite;
   }
-  #bgA{ opacity: 1; }
-  #bgB{ opacity: 0; animation-delay: -11s; }
+  .cloud-inner:first-child { z-index: 1; opacity: 1; }
+  .cloud-inner:last-child  { z-index: 2; opacity: 0; }
 
-  @keyframes bgDrift {
-    0%, 100% { transform: scale(1.08) translate(0%, 0%); }
-    50%      { transform: scale(1.16) translate(-1.5%, 1%); }
+  .cloud-layer-1 {
+    filter: url(#cloud-warp);
+    animation: cloud-drift-1 20s ease-in-out infinite,
+               cloud-fade    26s ease-in-out infinite;
+  }
+  .cloud-layer-2 {
+    filter: url(#cloud-warp-b);
+    animation: cloud-drift-2 24s ease-in-out infinite,
+               cloud-fade    26s -3s ease-in-out infinite;
+  }
+
+  @keyframes cloud-drift-1 {
+    0%, 100% { transform: scale(1.10) translate(-1.0%, -0.5%) rotate(-3deg); }
+    25%      { transform: scale(1.07) translate( 0.7%,  0.8%) rotate( 1deg); }
+    55%      { transform: scale(1.06) translate( 0.9%,  0.4%) rotate( 4deg); }
+    78%      { transform: scale(1.08) translate(-0.4%,  0.6%) rotate(-1deg); }
+  }
+  @keyframes cloud-drift-2 {
+    0%, 100% { transform: scale(1.08) translate( 0.7%, -0.5%) rotate( 3deg); }
+    30%      { transform: scale(1.10) translate(-0.5%,  0.5%) rotate(-2deg); }
+    62%      { transform: scale(1.07) translate(-0.9%,  0.9%) rotate(-4deg); }
+  }
+  @keyframes cloud-fade {
+    0%, 100% { opacity: 0.96; }
+    32%      { opacity: 0.96; }
+    50%      { opacity: 0.42; }
+    68%      { opacity: 0.96; }
   }
 
   .bg-overlay{
@@ -117,41 +157,120 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .bg-layer { animation: none !important; }
+    .cloud-layer { animation: none !important; }
   }
 </style>
 </head>
 <body>
-  <div class="bg-layer" id="bgA"></div>
-  <div class="bg-layer" id="bgB"></div>
+  <!-- SVG filter defs for cloud displacement — identical to the main site's -->
+  <svg style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
+    <defs>
+      <filter id="cloud-warp" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+        <feTurbulence id="cloud-turb" type="fractalNoise" baseFrequency="0.009 0.011" numOctaves="4" seed="7" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="124" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <filter id="cloud-warp-b" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+        <feTurbulence id="cloud-turb-b" type="fractalNoise" baseFrequency="0.010 0.009" numOctaves="4" seed="13" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="124" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs>
+  </svg>
+
+  <div class="cloud-layer cloud-layer-1" aria-hidden="true">
+    <div class="cloud-inner" id="cloud1A"></div>
+    <div class="cloud-inner" id="cloud1B"></div>
+  </div>
+  <div class="cloud-layer cloud-layer-2" aria-hidden="true">
+    <div class="cloud-inner" id="cloud2A"></div>
+    <div class="cloud-inner" id="cloud2B"></div>
+  </div>
+
   <div class="bg-overlay"></div>
 
   <div class="panel">
     <div class="icon">🎨</div>
     <div class="badge">Coming Soon</div>
     <h1>ASMRtists</h1>
-    <p>A new platform for ASMR artists is on its way. Interested in getting involved early?</p>
+    <p>A unique new marketing platform for artists is on its way. Interested in getting involved early?</p>
     <a class="invest" href="mailto:invest@asmrtists.ca">✉ invest@asmrtists.ca</a>
   </div>
 
   <script>
     (function () {
       var IMAGES = ['../images/Do-ItBow%232.JPG', '../images/GhostyBow%234.JPEG'];
-      var HOLD_MS = 6000;
-      var FADE_MS = 3000;
+      var HOLD_MS = 4000;
+      var FADE_MS = 9000;
 
-      var bgA = document.getElementById('bgA');
-      var bgB = document.getElementById('bgB');
-      bgA.style.backgroundImage = "url('" + IMAGES[0] + "')";
-      bgB.style.backgroundImage = "url('" + IMAGES[1] + "')";
-      bgA.style.transition = bgB.style.transition = 'opacity ' + FADE_MS + 'ms ease-in-out';
+      // Turbulence animator — continuously shifts the displacement filters'
+      // baseFrequency so the shimmer keeps moving, same math as the site's.
+      var cloudAnimT = 0;
+      function startCloudAnim() {
+        var turb  = document.getElementById('cloud-turb');
+        var turb2 = document.getElementById('cloud-turb-b');
+        if (!turb) return;
+        function tick() {
+          cloudAnimT += 0.00065;
+          var fx = 0.009 + Math.sin(cloudAnimT * 1.10) * 0.012 + Math.sin(cloudAnimT * 2.30) * 0.006;
+          var fy = 0.011 + Math.cos(cloudAnimT * 0.75) * 0.011 + Math.cos(cloudAnimT * 1.90) * 0.006;
+          turb.setAttribute('baseFrequency', fx.toFixed(5) + ' ' + fy.toFixed(5));
+          if (turb2) {
+            var fx2 = 0.010 + Math.sin(cloudAnimT * 0.85 + 2.10) * 0.012 + Math.sin(cloudAnimT * 1.70) * 0.006;
+            var fy2 = 0.009 + Math.cos(cloudAnimT * 0.60 + 1.50) * 0.011 + Math.cos(cloudAnimT * 1.50) * 0.006;
+            turb2.setAttribute('baseFrequency', fx2.toFixed(5) + ' ' + fy2.toFixed(5));
+          }
+          requestAnimationFrame(tick);
+        }
+        tick();
+      }
 
-      var showingA = true;
-      setInterval(function () {
-        if (showingA) { bgB.style.opacity = '1'; bgA.style.opacity = '0'; }
-        else          { bgA.style.opacity = '1'; bgB.style.opacity = '0'; }
-        showingA = !showingA;
-      }, HOLD_MS + FADE_MS);
+      // Cross-fade cycle between the two images, same hold/fade cadence as
+      // the site's background cycle, just alternating between 2 images
+      // instead of cycling through a longer list.
+      function initCrossfade() {
+        var c1A = document.getElementById('cloud1A'), c1B = document.getElementById('cloud1B');
+        var c2A = document.getElementById('cloud2A'), c2B = document.getElementById('cloud2B');
+        var botEls = [c1A, c2A], topEls = [c1B, c2B];
+
+        function setImg(el, src) { el.style.backgroundImage = "url('" + src + "')"; }
+        function setOp(els, v) { var s = v.toFixed(4); els.forEach(function (el) { el.style.opacity = s; }); }
+
+        var topIdx = 1;
+        setImg(c1A, IMAGES[0]); setImg(c2A, IMAGES[0]);
+        setImg(c1B, IMAGES[1]); setImg(c2B, IMAGES[1]);
+        setOp(botEls, 1.0);
+        setOp(topEls, 0.0);
+
+        var phase = 'hold';
+        var phaseStart = null;
+
+        function tick(ts) {
+          if (!phaseStart) phaseStart = ts;
+          if (phase === 'hold') {
+            if (ts - phaseStart >= HOLD_MS) { phase = 'crossfade'; phaseStart = ts; }
+          } else {
+            var f = Math.min((ts - phaseStart) / FADE_MS, 1.0);
+            setOp(botEls, Math.cos(f * Math.PI / 2));
+            setOp(topEls, Math.sin(f * Math.PI / 2));
+            if (f >= 1.0) {
+              var nextIdx = (topIdx + 1) % IMAGES.length;
+              var swapSrc = IMAGES[topIdx];
+              var nextSrc = IMAGES[nextIdx];
+              topIdx = nextIdx;
+              botEls.forEach(function (el) { setImg(el, swapSrc); });
+              topEls.forEach(function (el) { setImg(el, nextSrc); });
+              setOp(botEls, 1.0);
+              setOp(topEls, 0.0);
+              phase = 'hold';
+              phaseStart = ts;
+            }
+          }
+          requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }
+
+      startCloudAnim();
+      initCrossfade();
     })();
   </script>
 </body>
