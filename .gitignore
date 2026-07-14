@@ -53,3 +53,4 @@ Thumbs.db
 
 # Superpowers brainstorm server runtime state
 .superpowers/brainstorm/*/state/
+.gstack/
