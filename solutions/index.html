@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chefmyklove Custom Software Solutions — Media Kit</title>
-<meta property="og:title" content="Chefmyklove Custom Software Solutions — Media Kit">
-<meta property="og:description" content="Custom software solutions, media kit, and press materials for Chefmyklove.">
+<title>Chefmyklove Custom Software Solutions — Digital Management Solutions</title>
+<meta property="og:title" content="Chefmyklove Custom Software Solutions — Digital Management Solutions">
+<meta property="og:description" content="Digital management solutions, custom software, and services for Chefmyklove.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://chefmyklove.com/solutions">
 <meta name="twitter:card" content="summary">
@@ -169,6 +169,46 @@
     text-transform:uppercase;
     letter-spacing:0.5px;
   }
+  .price .tag{
+    display:block;
+    font-size:9.5px;
+    font-weight:700;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color: var(--sage);
+    margin-bottom:2px;
+  }
+
+  .scale-intro{
+    font-size:13px;
+    font-style:italic;
+    color: var(--slate);
+    margin: -4px 0 18px;
+    line-height:1.5;
+    max-width: 46ch;
+  }
+  .menu-item.scale-row{ align-items:flex-start; }
+  .scale-price{ text-align:right; flex-shrink:0; }
+  .scale-stamp{
+    display:inline-block;
+    font-family:'Space Mono', monospace;
+    font-size:8.5px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color: var(--ember);
+    border: 1.5px solid var(--ember);
+    padding: 2px 6px;
+    transform: rotate(-2deg);
+    margin-bottom:5px;
+  }
+  .scale-range{
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    color: var(--slate);
+    opacity:0.8;
+    margin-top:3px;
+  }
+  .scale-range .bracket{ color: var(--sage); }
 
   .care-note{
     background: var(--paper-shadow);
@@ -340,6 +380,9 @@
     .divider{ margin: 0 22px; }
     .contact-grid{ grid-template-columns: 1fr; }
     .menu-item .desc{ max-width: 58%; }
+    .menu-item.scale-row{ flex-direction:column; align-items:flex-start; }
+    .menu-item.scale-row .desc{ max-width:100%; }
+    .scale-price{ text-align:left; margin-top:8px; }
     .footer-split{ flex-direction:column; align-items:center; }
   }
 
@@ -367,7 +410,7 @@
     <div class="eyebrow">The Chef</div>
     <p>
       Chefmyklove Custom Software Solutions builds sites and web applications the way a good
-      kitchen builds a menu — nothing off a shelf, everything made for the person ordering it.
+      kitchen builds a menu: Everything from scratch and made for the person ordering it.
       Most designers hand you a site and disappear. I don't: every build comes with Web Care —
       ongoing management of your domain, email, and updates — so you never have to think about
       the technical side again.
@@ -380,32 +423,42 @@
     <div class="eyebrow">Today's Menu <span class="note">— build price includes first year(s) of Web Care</span></div>
 
     <div class="course-label">Builds</div>
+    <p class="scale-intro">Builds are priced on a sliding scale — pay what you can afford within the range shown for each one.</p>
 
-    <div class="menu-item">
+    <div class="menu-item scale-row">
       <div class="desc">
         <div class="name">Artist / Brand Website</div>
         <div class="sub">Custom-built, responsive · Year 1 Care included</div>
       </div>
-      <div class="leader"></div>
-      <div class="price">from $420</div>
+      <div class="scale-price">
+        <span class="scale-stamp">Sliding Scale</span>
+        <div class="price"><span class="tag">Suggested</span>$420</div>
+        <div class="scale-range"><span class="bracket">[</span>$200 – $1,000<span class="bracket">]</span></div>
+      </div>
     </div>
 
-    <div class="menu-item">
+    <div class="menu-item scale-row">
       <div class="desc">
         <div class="name">Web Application</div>
         <div class="sub">React/Node front-to-back, database included · Year 1 Care included</div>
       </div>
-      <div class="leader"></div>
-      <div class="price">from $1,200</div>
+      <div class="scale-price">
+        <span class="scale-stamp">Sliding Scale</span>
+        <div class="price"><span class="tag">Suggested</span>$1,200</div>
+        <div class="scale-range"><span class="bracket">[</span>$500 – $2,000<span class="bracket">]</span></div>
+      </div>
     </div>
 
-    <div class="menu-item">
+    <div class="menu-item scale-row">
       <div class="desc">
         <div class="name">E-commerce Build</div>
         <div class="sub">Storefront, cart, payments · Years 1–2 Care included</div>
       </div>
-      <div class="leader"></div>
-      <div class="price">from $2,250</div>
+      <div class="scale-price">
+        <span class="scale-stamp">Sliding Scale</span>
+        <div class="price"><span class="tag">Suggested</span>$2,250</div>
+        <div class="scale-range"><span class="bracket">[</span>$1,500 – $3,000<span class="bracket">]</span></div>
+      </div>
     </div>
 
     <div class="course-label">Web Care — after your included period</div>
@@ -477,7 +530,7 @@
 
     <div class="tasting-item">
       <div class="top">
-        <span class="site"><a href="https://selinamartin.com" target="_blank" rel="noopener">selinamartin.com</a></span>
+        <span class="site"><a href="https://chefmyklove.github.io/SelinaMartin/" target="_blank" rel="noopener">selinamartin.com</a></span>
         <span class="tag">Artist website</span>
       </div>
       <div class="note">Custom-built site and ongoing Web Care.</div>
