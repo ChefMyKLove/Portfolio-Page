@@ -35,7 +35,11 @@ const logError = (message, error = null) => {
 // ============================================
 async function trackVisit() {
     if (!CONFIG.ENABLE_ANALYTICS) return;
-    
+    // Local dev: backend CORS only allows the production origin, so the
+    // request is guaranteed to fail — skip instead of logging an error
+    if (location.protocol === 'file:' ||
+        location.hostname === 'localhost' || location.hostname === '127.0.0.1') return;
+
     try {
         const response = await fetch(`${CONFIG.API_BASE_URL}/analytics/visit`, {
             method: 'POST',
@@ -152,10 +156,12 @@ function setupEmailModal() {
             clickTimer = setTimeout(() => {
                 // Single click - copy to clipboard
                 navigator.clipboard.writeText(email).then(() => {
-                    const originalText = emailTrigger.textContent;
-                    emailTrigger.textContent = 'Email copied to clipboard!';
+                    // Bubble layout keeps icon/label spans — swap only the hint line
+                    const feedbackEl = emailTrigger.querySelector('.gb-sub') || emailTrigger;
+                    const originalText = feedbackEl.textContent;
+                    feedbackEl.textContent = 'Email copied to clipboard!';
                     setTimeout(() => {
-                        emailTrigger.textContent = originalText;
+                        feedbackEl.textContent = originalText;
                     }, 2000);
                 }).catch(err => {
                     logError('Failed to copy email', err);

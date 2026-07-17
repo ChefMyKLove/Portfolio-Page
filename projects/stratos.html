@@ -5,143 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stratos — Michael Needham</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #020510 0%, #060d28 50%, #050a20 100%);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #fff;
-      padding: 48px 20px 80px;
-    }
-    .detail-container { max-width: 780px; margin: 0 auto; position: relative; z-index: 2; }
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: rgba(255,255,255,0.5);
-      text-decoration: none;
-      font-size: 0.88rem;
-      letter-spacing: 0.5px;
-      transition: color 0.2s;
-      margin-bottom: 36px;
-    }
-    .back-link:hover { color: #fff; }
-    .detail-card {
-      background: rgba(0, 0, 0, 0.55);
-      backdrop-filter: blur(40px);
-      -webkit-backdrop-filter: blur(40px);
-      border-radius: 24px;
-      padding: 56px 60px;
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 8px 48px rgba(0,0,0,0.5), 0 0 80px rgba(21, 101, 192, 0.15);
-    }
-    .status-badge {
-      display: inline-block;
-      padding: 4px 14px;
-      border-radius: 20px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      margin-bottom: 22px;
-      color: #a78bfa;
-      background: rgba(167,139,250,0.12);
-      border: 1px solid rgba(167,139,250,0.3);
-    }
-    h1 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      color: #fff;
-      text-shadow: 0 0 30px rgba(21, 101, 192, 0.6);
-      margin-bottom: 12px;
-      letter-spacing: 2px;
-    }
-    .tagline {
-      font-size: 1.12rem;
-      color: rgba(255,255,255,0.65);
-      margin-bottom: 32px;
-      font-weight: 300;
-      letter-spacing: 0.5px;
-      line-height: 1.5;
-    }
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(21, 101, 192, 0.7), rgba(100, 160, 255, 0.4), transparent);
-      margin-bottom: 32px;
-    }
-    .detail-body p {
-      color: rgba(255,255,255,0.78);
-      font-size: 0.98rem;
-      line-height: 1.85;
-      margin-bottom: 20px;
-    }
-    .detail-body h3 {
-      color: #fff;
-      font-size: 1.05rem;
-      font-weight: 600;
-      margin-bottom: 14px;
-      margin-top: 32px;
-      letter-spacing: 0.5px;
-    }
-    .feature-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 11px;
-      margin-bottom: 20px;
-    }
-    .feature-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      color: rgba(255,255,255,0.72);
-      font-size: 0.93rem;
-      line-height: 1.55;
-    }
-    .feature-list li::before {
-      content: '→';
-      color: #93c5fd;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-    .detail-links { margin-top: 44px; display: flex; gap: 16px; flex-wrap: wrap; }
-    .coming-soon-btn {
-      display: inline-block;
-      padding: 14px 36px;
-      border-radius: 50px;
-      background: rgba(255,255,255,0.06);
-      color: rgba(255,255,255,0.4);
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      border: 1px solid rgba(255,255,255,0.12);
-      cursor: default;
-    }
-    .launch-btn {
-      display: inline-block;
-      padding: 14px 36px;
-      border-radius: 50px;
-      background: linear-gradient(135deg, rgba(99,102,241,0.35), rgba(139,92,246,0.35));
-      color: #fff;
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      border: 1px solid rgba(139,92,246,0.5);
-      box-shadow: 0 0 20px rgba(139,92,246,0.25);
-      transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
-    }
-    .launch-btn:hover {
-      background: linear-gradient(135deg, rgba(99,102,241,0.55), rgba(139,92,246,0.55));
-      box-shadow: 0 0 32px rgba(139,92,246,0.45);
-      transform: translateY(-2px);
-    }
-    @media (max-width: 600px) {
-      .detail-card { padding: 36px 24px; }
-      h1 { font-size: 2rem; }
-    }
+    :root { --accent: 21, 101, 192; --accent-2: 139, 92, 246; --accent-bright: 147, 197, 253; }
+    body { background: linear-gradient(135deg, #020510 0%, #060d28 50%, #050a20 100%); }
   </style>
+  <link rel="stylesheet" href="../site-bubbles.css">
+  <link rel="stylesheet" href="../detail.css">
   <link rel="stylesheet" href="../bg-anim.css">
 </head>
 <body>
@@ -189,11 +57,12 @@
         </ul>
       </div>
       <div class="detail-links">
-        <a href="https://stratos.chefmyklove.com" class="launch-btn" target="_blank" rel="noopener noreferrer">⛅ Launch Stratos</a>
+        <a href="https://stratos.chefmyklove.com" class="glass-btn glass-btn-accent" target="_blank" rel="noopener noreferrer">⛅ Launch Stratos</a>
       </div>
     </div>
   </div>
   <script>window.BG_BASE_PATH = '../images/';</script>
   <script src="../bg-anim.js"></script>
+  <script src="../bubble-fx.js"></script>
 </body>
 </html>

@@ -4,107 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ASMRtists — Michael Needham</title>
+  <link rel="stylesheet" href="../site-bubbles.css">
+  <link rel="stylesheet" href="../detail.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #020510 0%, #060d28 50%, #050a20 100%);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #fff;
-      padding: 48px 20px 80px;
-    }
-    .detail-container { max-width: 780px; margin: 0 auto; position: relative; z-index: 2; }
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: rgba(255,255,255,0.5);
-      text-decoration: none;
-      font-size: 0.88rem;
-      letter-spacing: 0.5px;
-      transition: color 0.2s;
-      margin-bottom: 36px;
-    }
-    .back-link:hover { color: #fff; }
-    .detail-card {
-      background: rgba(0, 0, 0, 0.55);
-      backdrop-filter: blur(40px);
-      -webkit-backdrop-filter: blur(40px);
-      border-radius: 24px;
-      padding: 56px 60px;
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 8px 48px rgba(0,0,0,0.5), 0 0 80px rgba(168, 85, 247, 0.12);
-    }
-    .status-badge {
-      display: inline-block;
-      padding: 4px 14px;
-      border-radius: 20px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      margin-bottom: 22px;
-      color: #f9a8d4;
-      background: rgba(249,168,212,0.1);
-      border: 1px solid rgba(249,168,212,0.28);
-    }
+    :root { --accent: 168, 85, 247; --accent-2: 236, 72, 153; --accent-bright: 216, 180, 254; }
+    body { background: linear-gradient(135deg, #020510 0%, #060d28 50%, #050a20 100%); }
+    /* Rainbow gradient title — unique to this page */
     h1 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #f97316, #eab308, #22c55e, #06b6d4, #6366f1, #a855f7, #ec4899);
+      background: var(--rainbow);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: 12px;
+      text-shadow: none;
       letter-spacing: 1px;
-    }
-    .tagline {
-      font-size: 1.1rem;
-      color: rgba(255,255,255,0.65);
-      margin-bottom: 32px;
-      font-weight: 300;
-      letter-spacing: 0.5px;
-      line-height: 1.6;
-    }
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(168,85,247,0.6), rgba(236,72,153,0.4), transparent);
-      margin-bottom: 32px;
-    }
-    .detail-body p {
-      color: rgba(255,255,255,0.78);
-      font-size: 0.98rem;
-      line-height: 1.85;
-      margin-bottom: 20px;
-    }
-    .detail-body h3 {
-      color: #fff;
-      font-size: 1.05rem;
-      font-weight: 600;
-      margin-bottom: 14px;
-      margin-top: 32px;
-      letter-spacing: 0.5px;
-    }
-    .feature-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 11px;
-      margin-bottom: 20px;
-    }
-    .feature-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      color: rgba(255,255,255,0.72);
-      font-size: 0.93rem;
-      line-height: 1.55;
-    }
-    .feature-list li::before {
-      content: '→';
-      color: #d8b4fe;
-      flex-shrink: 0;
-      margin-top: 1px;
     }
     .portals-grid {
       display: grid;
@@ -133,48 +45,7 @@
       line-height: 1.5;
       margin: 0;
     }
-    .detail-links { margin-top: 44px; display: flex; gap: 16px; flex-wrap: wrap; }
-    .launch-btn {
-      display: inline-block;
-      padding: 14px 36px;
-      border-radius: 50px;
-      background: linear-gradient(135deg, rgba(168,85,247,0.35), rgba(236,72,153,0.35));
-      color: #fff;
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      border: 1px solid rgba(168,85,247,0.5);
-      box-shadow: 0 0 20px rgba(168,85,247,0.22);
-      transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
-    }
-    .launch-btn:hover {
-      background: linear-gradient(135deg, rgba(168,85,247,0.55), rgba(236,72,153,0.55));
-      box-shadow: 0 0 32px rgba(168,85,247,0.4);
-      transform: translateY(-2px);
-    }
-    .secondary-btn {
-      display: inline-block;
-      padding: 14px 36px;
-      border-radius: 50px;
-      background: rgba(255,255,255,0.05);
-      color: rgba(255,255,255,0.6);
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      border: 1px solid rgba(255,255,255,0.12);
-      transition: background 0.2s ease, color 0.2s ease;
-    }
-    .secondary-btn:hover {
-      background: rgba(255,255,255,0.1);
-      color: #fff;
-    }
-    .body-link { color: #d8b4fe; text-decoration: none; }
-    .body-link:hover { text-decoration: underline; }
     @media (max-width: 600px) {
-      .detail-card { padding: 36px 24px; }
-      h1 { font-size: 2rem; }
       .portals-grid { grid-template-columns: 1fr; }
     }
   </style>
@@ -208,7 +79,7 @@
   <div class="detail-container">
     <a href="../projects.html" class="back-link">← Back to Projects</a>
     <div class="detail-card">
-      <span class="status-badge">In Development</span>
+      <span class="glass-badge coming-soon" data-bop>In Development</span>
       <h1>ASMRtists</h1>
       <p class="tagline">A print fulfillment and NFT portal that turns visual art into on-chain revenue — for artists, collectors, and curators — built on the BSV Blockchain.</p>
       <div class="divider"></div>
@@ -260,12 +131,14 @@
       </div>
 
       <div class="detail-links">
-        <a href="https://asmrtists.ca" class="launch-btn" target="_blank" rel="noopener noreferrer">Visit ASMRtists.ca →</a>
-        <a href="../projects.html" class="secondary-btn">← Back to Projects</a>
+        <a href="https://asmrtists.ca" class="glass-btn glass-btn-accent" target="_blank" rel="noopener noreferrer">Visit ASMRtists.ca →</a>
+        <a href="../projects.html" class="glass-btn">← Back to Projects</a>
       </div>
     </div>
   </div>
 
+  <script>window.BG_BASE_PATH = '../images/';</script>
   <script src="../bg-anim.js"></script>
+  <script src="../bubble-fx.js"></script>
 </body>
 </html>

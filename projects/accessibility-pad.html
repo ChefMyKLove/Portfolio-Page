@@ -4,68 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Accessibility Pad — Michael Needham</title>
+  <link rel="stylesheet" href="../site-bubbles.css">
+  <link rel="stylesheet" href="../detail.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #050d1f 0%, #0a1628 50%, #091020 100%);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #fff;
-      padding: 48px 20px 80px;
-    }
-    .detail-container { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: rgba(255,255,255,0.5);
-      text-decoration: none;
-      font-size: 0.88rem;
-      letter-spacing: 0.5px;
-      transition: color 0.2s;
-      margin-bottom: 36px;
-    }
-    .back-link:hover { color: #fff; }
-
-    /* ── Title card ── */
-    .detail-card {
-      background: rgba(0, 0, 0, 0.55);
-      backdrop-filter: blur(40px);
-      -webkit-backdrop-filter: blur(40px);
-      border-radius: 24px;
-      padding: 52px 60px 44px;
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 8px 48px rgba(0,0,0,0.5), 0 0 80px rgba(29, 78, 216, 0.12);
-      margin-bottom: 24px;
-    }
-    .status-badge {
-      display: inline-block;
-      padding: 4px 14px;
-      border-radius: 20px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      margin-bottom: 22px;
-      color: #4ade80;
-      background: rgba(74,222,128,0.12);
-      border: 1px solid rgba(74,222,128,0.3);
-    }
-    h1 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      color: #fff;
-      text-shadow: 0 0 30px rgba(29, 78, 216, 0.5);
-      margin-bottom: 12px;
-      letter-spacing: 2px;
-    }
-    .tagline {
-      font-size: 1.08rem;
-      color: rgba(255,255,255,0.65);
-      font-weight: 300;
-      letter-spacing: 0.5px;
-      line-height: 1.6;
-    }
+    :root { --accent: 29, 78, 216; --accent-2: 37, 99, 235; --accent-bright: 96, 165, 250; }
+    body { background: linear-gradient(135deg, #050d1f 0%, #0a1628 50%, #091020 100%); }
+    .detail-container { max-width: 900px; }
+    .detail-card { padding: 52px 60px 44px; margin-bottom: 24px; }
+    .tagline { font-size: 1.08rem; margin-bottom: 0; line-height: 1.6; }
 
     /* ── Two-column content grid ── */
     .content-grid {
@@ -74,13 +20,13 @@
       gap: 24px;
     }
     .content-card {
-      background: rgba(0, 0, 0, 0.50);
-      backdrop-filter: blur(30px);
-      -webkit-backdrop-filter: blur(30px);
+      background: rgba(10, 10, 15, 0.5);
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      backdrop-filter: blur(var(--glass-blur));
       border-radius: 20px;
       padding: 36px 32px;
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 6px 32px rgba(0,0,0,0.45);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 6px 32px rgba(0,0,0,0.45), 0 0 40px rgba(var(--accent), 0.08);
     }
     .card-label {
       display: inline-block;
@@ -102,27 +48,8 @@
       letter-spacing: 0.04em;
     }
 
-    /* ── Feature list ── */
-    .feature-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 11px;
-    }
-    .feature-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      color: rgba(255,255,255,0.72);
-      font-size: 0.92rem;
-      line-height: 1.55;
-    }
-    .feature-list li::before {
-      content: '→';
-      color: #60a5fa;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
+    /* Feature list rules come from detail.css; no bottom gap inside cards */
+    .feature-list { margin-bottom: 0; }
 
     /* ── Case study card ── */
     .section-label {
@@ -166,24 +93,6 @@
 
     /* ── Launch button ── */
     .launch-row { margin-top: 24px; }
-    .visit-btn {
-      display: inline-block;
-      padding: 14px 40px;
-      border-radius: 50px;
-      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
-      color: #fff;
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      transition: transform 0.3s, box-shadow 0.3s;
-      box-shadow: 0 4px 18px rgba(29, 78, 216, 0.4);
-    }
-    .visit-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 28px rgba(29, 78, 216, 0.6);
-      color: #fff;
-    }
     @media (max-width: 660px) {
       .content-grid { grid-template-columns: 1fr; }
       .detail-card { padding: 36px 24px 32px; }
@@ -222,7 +131,7 @@
 
     <!-- ── Title card ── -->
     <div class="detail-card">
-      <div class="status-badge">Live</div>
+      <div class="glass-badge live" data-bop>Live</div>
       <h1>Accessibility Pad</h1>
       <p class="tagline">A notepad application designed from the ground up with disability justice at its core — voice-powered, screen-reader ready, and fully navigable without a mouse.</p>
     </div>
@@ -276,11 +185,12 @@
     </div><!-- /.content-grid -->
 
     <div class="launch-row">
-      <a href="https://notes-app-dusky-one.vercel.app/" target="_blank" rel="noopener noreferrer" class="visit-btn">Open Accessibility Pad ↗</a>
+      <a href="https://notes-app-dusky-one.vercel.app/" target="_blank" rel="noopener noreferrer" class="glass-btn glass-btn-accent">Open Accessibility Pad ↗</a>
     </div>
 
   </div>
   <script>window.BG_BASE_PATH = '../images/';</script>
   <script src="../bg-anim.js"></script>
+  <script src="../bubble-fx.js"></script>
 </body>
 </html>

@@ -1,13 +1,9 @@
 // ===== GLOBAL BLOG CLICK HANDLER =====
 // Handles when user clicks the Blog button
 window.handleBlogClick = function() {
-    console.log('✅ Blog button clicked via onclick handler!');
-    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    const backendUrl = isLocalhost 
-        ? 'http://localhost:3002/auth/patreon'
-        : 'https://portfolio-and-blog-production.up.railway.app/auth/patreon';
-    console.log('🚀 Redirecting to:', backendUrl);
-    window.location.href = backendUrl;
+    // Always use the Railway backend — the old localhost:3002 branch broke
+    // blog access whenever the site was previewed via a local dev server
+    window.location.href = 'https://portfolio-and-blog-production.up.railway.app/auth/patreon';
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -271,14 +267,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===== BLOG BUTTON - MAIN NAVIGATION =====
   // Set up Blog button from navigation
   (() => {
-    console.log('🔍 Looking for patreonLoginBtn...');
     const loginBtn = document.getElementById('patreonLoginBtn');
-    console.log('Button found:', loginBtn);
-    
-    if (!loginBtn) {
-      console.warn('❌ patreonLoginBtn not found in DOM');
-      return;
-    }
+    // Only present on pages with the Patreon login button — silently skip elsewhere
+    if (!loginBtn) return;
 
     const handleBlogClick = (e) => {
       e.preventDefault();

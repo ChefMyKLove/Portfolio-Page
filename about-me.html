@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <link rel="stylesheet" href="carousel.css">
   <link rel="stylesheet" href="bg-anim.css">
+  <link rel="stylesheet" href="site-bubbles.css">
   <style>
     :root {
       --am-surface:  #13141f;
@@ -37,8 +38,8 @@
       margin-bottom: 28px;
       padding: 32px 48px 28px;
       background: rgba(255, 255, 255, 0.07);
-      backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.18);
       border-radius: 72px;
       overflow: hidden;
@@ -93,13 +94,15 @@
       .am-grid { grid-template-columns: 1fr; }
     }
 
-    /* ── Card ──────────────────────────────────────── */
+    /* ── Card — glass panel over the cloud scene ───── */
     .am-card {
-      background: var(--am-surface);
-      border: 1px solid var(--am-border);
+      background: rgba(10, 10, 15, 0.55);
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
       border-radius: var(--am-radius);
       padding: 32px 28px;
-      box-shadow: var(--am-shadow);
+      box-shadow: var(--am-shadow), 0 0 40px rgba(var(--glow-rgb), 0.12);
       display: flex;
       flex-direction: column;
       gap: 14px;
@@ -225,7 +228,7 @@
 
   <div class="am-page">
 
-    <header class="am-header">
+    <header class="am-header" data-bop>
       <span class="label">Portfolio</span>
       <h1>About Me</h1>
       <p>Developer · Artist · Activist</p>
@@ -275,5 +278,6 @@
   </div><!-- /.am-page -->
 
   <script src="bg-anim.js"></script>
+  <script src="bubble-fx.js"></script>
 </body>
 </html>

@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <link rel="stylesheet" href="carousel.css">
   <link rel="stylesheet" href="bg-anim.css">
+  <link rel="stylesheet" href="site-bubbles.css">
   <style>
     body { background: #0a0a0f; }
 
@@ -26,8 +27,8 @@
       margin-bottom: 32px;
       padding: 32px 48px 28px;
       background: rgba(255, 255, 255, 0.07);
-      backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.18);
       border-radius: 72px;
       overflow: hidden;
@@ -75,15 +76,84 @@
     }
     .am-back-row .nav-button { padding: 8px 14px; }
 
-    .ct-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 28px;
+    /* ── Bubble pool field ──
+       Default layout is a centered flex-wrap grid (works with no JS,
+       reduced motion, and tiny screens). bubble-pool.js adds .pool-active
+       and takes over positioning with physics. */
+    .bubble-field {
+      position: relative;
       width: 100%;
-      max-width: 900px;
+      max-width: 1020px;
+      height: min(74vh, 700px);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+    .bubble-field.pool-active {
+      display: block;
+      touch-action: none;
+    }
+    .pool-bubble {
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-user-drag: none;
+      cursor: grab;
+    }
+    .bubble-field.pool-active .pool-bubble {
+      position: absolute;
+      top: 0;
+      left: 0;
+      margin: 0;
+      touch-action: none;
+      will-change: transform;
+      /* JS owns transform — no transform transition or hover scale here */
+      transition: box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+    }
+    .pool-bubble.dragging {
+      cursor: grabbing;
+      z-index: 20;
+      transition: none;
+    }
+    /* Big email bubble: extra size + the cycling rainbow-photo slideshow
+       inside the glass (backgroundCycle keyframes come from carousel.css) */
+    #emailTrigger {
+      width: 280px;
+      height: 280px;
+      position: relative;
+      overflow: hidden;
+    }
+    #emailTrigger::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background-size: cover;
+      background-position: center;
+      animation: backgroundCycle 104s infinite ease-in-out;
+      opacity: 0.5;
+      box-shadow: inset 0 0 70px rgba(0, 0, 0, 0.45);
+      pointer-events: none;
+    }
+    #emailTrigger .gb-icon,
+    #emailTrigger .gb-label,
+    #emailTrigger .gb-sub {
+      position: relative;
+    }
+    #emailTrigger .gb-label,
+    #emailTrigger .gb-sub {
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.95), 0 2px 16px rgba(0, 0, 0, 0.8);
     }
     @media (max-width: 640px) {
-      .ct-grid { grid-template-columns: 1fr; }
+      .bubble-field { height: 70vh; }
+      .glass-bubble-xl, #emailTrigger { width: 150px; height: 150px; }
+      .glass-bubble-xl .gb-icon { font-size: 2rem; }
+      .glass-bubble-xl .gb-label { font-size: 0.72rem; }
+      .glass-bubble { width: 76px; height: 76px; }
+      .glass-bubble .gb-icon { font-size: 1.3rem; }
+      .glass-bubble .gb-label { font-size: 0.62rem; }
+      .gb-sub { display: none; }
     }
 
     .ct-footer {
@@ -203,28 +273,43 @@
       <h1>Get in Touch</h1>
     </header>
 
-    <div class="ct-grid">
-      <!-- Social Media Box -->
-      <div class="section-content-box">
-        <h3>Social Media</h3>
-        <p>Follow me on X: <a href="https://x.com/ordinalrainbows">@ordinalrainbows</a></p>
-        <p>Instagram: <a href="https://instagram.com/ordinalrainbows">ORDINAL RAINBOWS</a></p>
-        <p>LinkedIn: <a href="https://www.linkedin.com/in/chefmyklove">Michael A. Needham</a></p>
-        <p>Reddit: <a href="https://www.reddit.com/user/myklovenotwar">ChefMyKLove</a></p>
-        <p>TikTok: <a href="https://www.tiktok.com/@ordinalrainbows">OrdinalRainbows</a></p>
-        <p>blue sky: <a href="https://bsky.app/profile/chefmyklove.bsky.social">@ChefMyKLove.bsky.social</a></p>
-        <p>Patreon: <a href="https://www.patreon.com/chefmyklove">Support me on Patreon</a></p>
-      </div>
-
-      <!-- Contact Form Box -->
-      <div class="section-content-box">
-        <h3>Send a Message</h3>
-        <p>Want to collaborate or have a question?</p>
-        <div class="contact-animation-image"></div>
-        <p class="email-click" data-email="chefmyklove@gmail.com" id="emailTrigger">
-          Click to copy email or double-click to send a message
-        </p>
-      </div>
+    <!-- Bubble pool: grab a bubble, fling it, watch the break. Short click still opens the link. -->
+    <div class="bubble-field" id="bubbleField" aria-label="Contact and social links">
+      <button type="button" class="glass-bubble glass-bubble-xl pool-bubble" id="emailTrigger"
+              data-email="chefmyklove@gmail.com"
+              aria-label="Copy email address. Double-click to open the message form.">
+        <span class="gb-icon">✉️</span>
+        <span class="gb-label">chefmyklove@gmail.com</span>
+        <span class="gb-sub">click to copy · double-click to message</span>
+      </button>
+      <a class="glass-bubble pool-bubble" href="https://x.com/ordinalrainbows" target="_blank" rel="noopener noreferrer" aria-label="X — @ordinalrainbows">
+        <span class="gb-icon">𝕏</span>
+        <span class="gb-label">X</span>
+      </a>
+      <a class="glass-bubble pool-bubble" href="https://instagram.com/ordinalrainbows" target="_blank" rel="noopener noreferrer" aria-label="Instagram — ORDINAL RAINBOWS">
+        <span class="gb-icon">📸</span>
+        <span class="gb-label">Instagram</span>
+      </a>
+      <a class="glass-bubble pool-bubble" href="https://www.linkedin.com/in/chefmyklove" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn — Michael A. Needham">
+        <span class="gb-icon">💼</span>
+        <span class="gb-label">LinkedIn</span>
+      </a>
+      <a class="glass-bubble pool-bubble" href="https://www.reddit.com/user/myklovenotwar" target="_blank" rel="noopener noreferrer" aria-label="Reddit — ChefMyKLove">
+        <span class="gb-icon">👽</span>
+        <span class="gb-label">Reddit</span>
+      </a>
+      <a class="glass-bubble pool-bubble" href="https://www.tiktok.com/@ordinalrainbows" target="_blank" rel="noopener noreferrer" aria-label="TikTok — OrdinalRainbows">
+        <span class="gb-icon">🎵</span>
+        <span class="gb-label">TikTok</span>
+      </a>
+      <a class="glass-bubble pool-bubble" href="https://bsky.app/profile/chefmyklove.bsky.social" target="_blank" rel="noopener noreferrer" aria-label="Bluesky — @ChefMyKLove.bsky.social">
+        <span class="gb-icon">🦋</span>
+        <span class="gb-label">Bluesky</span>
+      </a>
+      <a class="glass-bubble pool-bubble" href="https://www.patreon.com/chefmyklove" target="_blank" rel="noopener noreferrer" aria-label="Patreon — Support me on Patreon">
+        <span class="gb-icon">🧡</span>
+        <span class="gb-label">Patreon</span>
+      </a>
     </div>
 
     <footer class="ct-footer">
@@ -249,5 +334,6 @@
   <script src="script.js"></script>
   <script src="interactivity.js"></script>
   <script src="bg-anim.js"></script>
+  <script src="bubble-pool.js"></script>
 </body>
 </html>
