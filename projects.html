@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <link rel="stylesheet" href="carousel.css">
   <link rel="stylesheet" href="bg-anim.css">
+  <link rel="stylesheet" href="site-bubbles.css">
   <style>
     body { background: #0a0a0f; }
 
@@ -21,59 +22,11 @@
       z-index: 10;
     }
 
-    .pg-header {
-      text-align: center;
-      margin-bottom: 32px;
-      padding: 32px 48px 28px;
-      background: rgba(255, 255, 255, 0.07);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 72px;
-      overflow: hidden;
-      box-shadow:
-        0 0 40px rgba(102, 126, 234, 0.18),
-        0 8px 40px rgba(0, 0, 0, 0.45),
-        inset 0 0 20px rgba(255, 255, 255, 0.03);
-      max-width: 600px;
+    .am-back-row-inline {
       width: 100%;
+      max-width: 1080px;
+      margin: 0 0 20px;
     }
-    .pg-header .label {
-      display: block;
-      font-size: .7rem;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      background: linear-gradient(135deg, #f97316, #eab308, #22c55e, #06b6d4, #6366f1, #a855f7, #ec4899);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 12px;
-      font-weight: 700;
-    }
-    .pg-header h1 {
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      color: #fff;
-      text-shadow:
-        0 0 28px rgba(102, 126, 234, 0.6),
-        0 0 60px rgba(102, 126, 234, 0.2),
-        0 2px 12px rgba(0, 0, 0, 0.8);
-      margin: 0;
-    }
-
-    .am-back-row {
-      position: fixed;
-      top: 16px;
-      left: 24px;
-      z-index: 100;
-    }
-    .am-back-row .nav-button h4 {
-      font-size: 0.9rem;
-      margin: 0;
-      padding: 0;
-    }
-    .am-back-row .nav-button { padding: 8px 14px; }
 
     .pg-footer {
       margin-top: 48px;
@@ -90,6 +43,12 @@
       font-weight: 600;
     }
     .pg-footer a:hover { text-decoration: underline; }
+
+    /* carousel.css sets .featured-bubbles/.project-bubbles to position: relative,
+       which would make them the containing block for their absolutely-positioned
+       .project-bubble children instead of #projectsField. Neutralize for this page
+       only (same pattern as .deck-wrap in site-bubbles.css). */
+    .featured-bubbles, .project-bubbles { position: static; }
   </style>
 </head>
 <body>
@@ -117,15 +76,22 @@
     <div class="cloud-inner" id="cloud2B"></div>
   </div>
 
-  <div class="am-back-row">
-    <a href="index.html" class="nav-button"><h4>← Home</h4></a>
-  </div>
-
   <div class="pg-page">
-    <header class="pg-header">
-      <span class="label">Portfolio</span>
-      <h1>Projects</h1>
-    </header>
+    <div class="bubble-page-field" id="projectsField">
+
+      <div class="am-back-row-inline">
+        <a href="index.html" class="bubble-back-btn" id="projectsBack" aria-label="Back to portfolio">
+          <span class="bbb-arrow" aria-hidden="true">&larr;</span>
+          <span class="bbb-tooltip">Portfolio</span>
+        </a>
+      </div>
+
+      <div class="bubble-title bubble-cycling-glow" id="projectsTitle">
+        <h1>Projects</h1>
+      </div>
+      <div class="bubble-title-caption">
+        <span class="label">Portfolio</span>
+      </div>
 
     <span class="bubble-section-label">Featured Sites</span>
 
@@ -208,11 +174,15 @@
 
     </div>
 
+    </div><!-- /.bubble-page-field -->
+
     <footer class="pg-footer">
       <a href="index.html">Home</a> · Michael Needham · Developer · Artist · Activist
     </footer>
   </div>
 
   <script src="bg-anim.js"></script>
+  <script src="bubble-physics.js"></script>
+  <script src="projects-bubbles.js"></script>
 </body>
 </html>
