@@ -43,6 +43,12 @@
       font-weight: 600;
     }
     .pg-footer a:hover { text-decoration: underline; }
+
+    /* carousel.css sets .featured-bubbles/.project-bubbles to position: relative,
+       which would make them the containing block for their absolutely-positioned
+       .project-bubble children instead of #projectsField. Neutralize for this page
+       only (same pattern as .deck-wrap in site-bubbles.css). */
+    .featured-bubbles, .project-bubbles { position: static; }
   </style>
 </head>
 <body>
