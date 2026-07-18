@@ -130,6 +130,11 @@
         if (inner) inner.style.transform = 'rotate(' + offset.rot + 'deg) scale(' + offset.scale + ')';
         el.classList.toggle('wobble', depth === 0);
         el.setAttribute('aria-hidden', depth === 0 ? 'false' : 'true');
+        const link = el.querySelector('a');
+        if (link) {
+          if (depth === 0) link.removeAttribute('tabindex');
+          else link.setAttribute('tabindex', '-1');
+        }
       });
     }
     layout();
