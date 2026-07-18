@@ -428,6 +428,8 @@
 }
 
 .deck-controls {
+  position: relative;
+  z-index: 300;
   display: flex;
   align-items: center;
   justify-content: center;
