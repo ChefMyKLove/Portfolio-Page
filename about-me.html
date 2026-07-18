@@ -22,7 +22,6 @@
 
     body { background: #0a0a0f; }
 
-    /* ── Page layout ───────────────────────────────── */
     .am-page {
       display: flex;
       flex-direction: column;
@@ -33,56 +32,12 @@
       z-index: 10;
     }
 
-    .am-header {
-      text-align: center;
-      margin-bottom: 28px;
-      padding: 32px 48px 28px;
-      background: rgba(255, 255, 255, 0.07);
-      -webkit-backdrop-filter: blur(20px);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 72px;
-      overflow: hidden;
-      box-shadow:
-        0 0 40px rgba(102, 126, 234, 0.18),
-        0 8px 40px rgba(0, 0, 0, 0.45),
-        inset 0 0 20px rgba(255, 255, 255, 0.03);
-      max-width: 600px;
+    .am-back-row-inline {
       width: 100%;
-    }
-    .am-header .label {
-      display: block;
-      font-size: .7rem;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      background: var(--am-rainbow);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 12px;
-      font-weight: 700;
-    }
-    .am-header h1 {
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      color: #fff;
-      text-shadow:
-        0 0 28px rgba(102, 126, 234, 0.6),
-        0 0 60px rgba(102, 126, 234, 0.2),
-        0 2px 12px rgba(0, 0, 0, 0.8);
-      margin: 0 0 4px;
-    }
-    .am-header p {
-      margin-top: 8px;
-      font-size: .9rem;
-      background: var(--am-rainbow);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      max-width: 1080px;
+      margin: 0 0 20px;
     }
 
-    /* ── Two-column grid ───────────────────────────── */
     .am-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -94,106 +49,21 @@
       .am-grid { grid-template-columns: 1fr; }
     }
 
-    /* ── Card — glass panel over the cloud scene ───── */
-    .am-card {
-      background: rgba(10, 10, 15, 0.55);
-      -webkit-backdrop-filter: blur(var(--glass-blur));
-      backdrop-filter: blur(var(--glass-blur));
-      border: 1px solid var(--glass-border);
-      border-radius: var(--am-radius);
-      padding: 32px 28px;
-      box-shadow: var(--am-shadow), 0 0 40px rgba(var(--glow-rgb), 0.12);
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .am-card::before {
-      content: '';
-      display: block;
-      height: 3px;
-      background: var(--am-rainbow);
-      margin: -32px -28px 8px;
-      border-radius: calc(var(--am-radius) - 1px) calc(var(--am-radius) - 1px) 0 0;
-    }
-    .am-card h2 {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 4px;
-      color: #fff;
-    }
-    .am-card p {
-      font-size: 1rem;
-      color: #b8bbda;
-      line-height: 1.65;
-    }
-    .am-card a {
-      background: var(--am-rainbow);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-weight: 600;
-      text-decoration: none;
-    }
-    .am-card a:hover { text-decoration: underline; }
-
-    /* ── List ──────────────────────────────────────── */
-    .am-card ul {
-      padding-left: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .am-card li {
-      font-size: 1rem;
-      color: #b8bbda;
-      line-height: 1.55;
-    }
-    .am-card li strong {
-      color: #e8eaf6;
-    }
-
-    /* ── Section divider label ─────────────────────── */
-    .am-section-title {
-      font-size: .7rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--am-muted);
-      margin-top: 4px;
-      margin-bottom: -4px;
-    }
-
-    /* ── Footer ────────────────────────────────────── */
     .am-footer {
       margin-top: 40px;
-      color: var(--am-muted);
+      color: var(--am-muted, #6b7099);
       font-size: .78rem;
       text-align: center;
     }
     .am-footer a {
-      background: var(--am-rainbow);
+      background: var(--rainbow);
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
       background-clip: text;
+      -webkit-text-fill-color: transparent;
       text-decoration: none;
       font-weight: 600;
     }
     .am-footer a:hover { text-decoration: underline; }
-
-    /* ── Back button ───────────────────────────────── */
-    .am-back-row {
-      position: fixed;
-      top: 16px;
-      left: 24px;
-      z-index: 100;
-    }
-    .am-back-row .nav-button h4 {
-      font-size: 0.9rem;
-      margin: 0;
-      padding: 0;
-    }
-    .am-back-row .nav-button {
-      padding: 8px 14px;
-    }
   </style>
 </head>
 <body>
@@ -221,63 +91,55 @@
     <div class="cloud-inner" id="cloud2B"></div>
   </div>
 
-  <!-- Back to portfolio -->
-  <div class="am-back-row">
-    <a href="index.html" class="nav-button"><h4>← Portfolio</h4></a>
-  </div>
-
   <div class="am-page">
+    <div class="bubble-page-field" id="aboutMeField">
 
-    <header class="am-header" data-bop>
-      <span class="label">Portfolio</span>
-      <h1>About Me</h1>
-      <p>Developer · Artist · Activist</p>
-    </header>
-
-    <div class="am-grid">
-
-      <!-- Card 1 · My Journey -->
-      <div class="am-card">
-        <h2>My Journey</h2>
-        <p>A lifelong creative exploring media as diverse as sound sculpture, fibre art, painting, poetry, and soap making, my practice currently exists at the intersection of photography, digital manipulation, and blockchain-based community art. After three decades as a professional chef, a career-ending injury pushed me into software development—a shift that fundamentally changed my creative practice and kick-started an incredible new artistic odyssey.</p>
-        <p>I discovered that debugging code, like recipe development, is about transformation: taking ideas and raw materials and reshaping them into something new that provides a nourishing experience. Software development offered something my earlier media couldn't—the ability to create work that scales, persists, and invites participation. Code lets me turn ideas into interactive experiences. Now I work creatively in this digital realm, treating technology as both medium and collaborator in building more inclusive digital spaces.</p>
-        <p>What excites me is that this technology is a studio, a megaphone, and a toolkit all in one. It amplifies creativity, connects communities, and opens sustainable paths for artists who've been shut out of traditional systems. I'm building tools and experiences that let marginalized creators own their work, reach audiences directly, and thrive on their own terms—using code and blockchain as levers for real equity.</p>
-        <p><a href="projects.html">See what I'm cooking up →</a></p>
+      <div class="am-back-row-inline">
+        <a href="index.html" class="bubble-back-btn" id="aboutMeBack" aria-label="Back to portfolio">
+          <span class="bbb-arrow" aria-hidden="true">&larr;</span>
+          <span class="bbb-tooltip">Portfolio</span>
+        </a>
       </div>
 
-      <!-- Card 2 · Skills & Values -->
-      <div class="am-card">
-        <h2>Skills &amp; Background</h2>
-        <p>My career has spanned over 30 years in culinary arts, where I honed creativity and precision under pressure. The kitchen taught me invaluable lessons that translate directly to software development:</p>
-
-        <div class="am-section-title">From the kitchen to the codebase</div>
-        <ul>
-          <li><strong>Systems Thinking:</strong> Keeping the entirety of the project in mind, and how all components interact.</li>
-          <li><strong>Emotional Intelligence:</strong> Understanding and managing emotions in both personal and professional contexts.</li>
-          <li><strong>Adaptability:</strong> Adjusting to new environments, challenges, and evolving requirements.</li>
-        </ul>
-
-        <p>Transitioning into software development has allowed me to apply these same principles to digital creation, where I now build interactive experiences and tools that empower creators and communities. As an artist and developer committed to social justice, I see technology as a way to dismantle gatekeeping and redistribute power.</p>
-
-        <div class="am-section-title">What that looks like in practice</div>
-        <ul>
-          <li><strong>Creative Advocacy:</strong> Art and tech projects that amplify marginalized voices and challenge inequity.</li>
-          <li><strong>Inclusive Design:</strong> Tools and platforms built for accessibility, ensuring people of all abilities and backgrounds can participate.</li>
-          <li><strong>Alternative Economics:</strong> Community-driven platforms and revenue models that empower creators and redistribute resources.</li>
-          <li><strong>Civic Technology:</strong> Projects that advocate for environmental justice, equitable access, and inclusive public spaces.</li>
-          <li><strong>Community Empowerment:</strong> Collaborative spaces where diverse groups co-create solutions for a more just future.</li>
-        </ul>
+      <div class="bubble-title bubble-cycling-glow" id="aboutMeTitle">
+        <h1>About Me</h1>
+      </div>
+      <div class="bubble-title-caption">
+        <span class="label">Portfolio</span>
+        <p>Developer &middot; Artist &middot; Activist</p>
       </div>
 
-    </div><!-- /.am-grid -->
+      <div class="am-grid">
+        <div class="deck-column">
+          <div class="deck-wrap" id="journeyDeck"></div>
+          <div class="deck-controls">
+            <button type="button" class="deck-arrow-btn" id="journeyPrev" aria-label="Previous slide in Journey carousel">&lsaquo;</button>
+            <span class="deck-slide-count" id="journeyLive" aria-live="polite"></span>
+            <button type="button" class="deck-arrow-btn" id="journeyNext" aria-label="Next slide in Journey carousel">&rsaquo;</button>
+          </div>
+        </div>
+        <div class="deck-column">
+          <div class="deck-wrap" id="skillsDeck"></div>
+          <div class="deck-controls">
+            <button type="button" class="deck-arrow-btn" id="skillsPrev" aria-label="Previous slide in Skills carousel">&lsaquo;</button>
+            <span class="deck-slide-count" id="skillsLive" aria-live="polite"></span>
+            <button type="button" class="deck-arrow-btn" id="skillsNext" aria-label="Next slide in Skills carousel">&rsaquo;</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.bubble-page-field -->
 
     <footer class="am-footer">
-      <a href="index.html">Portfolio</a> · Michael Needham · Developer · Artist · Activist
+      <a href="index.html">Portfolio</a> &middot; Michael Needham &middot; Developer &middot; Artist &middot; Activist
     </footer>
 
   </div><!-- /.am-page -->
 
   <script src="bg-anim.js"></script>
   <script src="bubble-fx.js"></script>
+  <script src="bubble-physics.js"></script>
+  <script src="about-me-decks.js"></script>
+  <script src="about-me-bubbles.js"></script>
 </body>
 </html>
