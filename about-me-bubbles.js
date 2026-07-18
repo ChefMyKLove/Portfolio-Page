@@ -24,6 +24,17 @@
   const journeyAnchor = anchorOf(journeyContainer);
   const skillsAnchor = anchorOf(skillsContainer);
 
+  function applyAnchor(deck, anchor) {
+    deck.order.forEach(function (cardIdx, depth) {
+      const el = deck.cards[cardIdx];
+      const offset = deck.stackOffset(depth);
+      const r = parseFloat(el.style.width) / 2;
+      el.style.transform = 'translate(' + (anchor.x + offset.dx - r) + 'px, ' + (anchor.y + offset.dy - r) + 'px)';
+    });
+  }
+  applyAnchor(journeyDeck, journeyAnchor);
+  applyAnchor(skillsDeck, skillsAnchor);
+
   const allBodies = [backBtn, titleBubble].concat(journeyDeck.cards, skillsDeck.cards).filter(Boolean);
   const physics = window.BubblePhysics.createField({ field: pageField, bodies: allBodies });
 
@@ -55,6 +66,7 @@
         if (inner) inner.style.transform = 'rotate(' + offset.rot + 'deg) scale(' + offset.scale + ')';
         el.classList.toggle('wobble', depth === 0);
         el.setAttribute('aria-hidden', depth === 0 ? 'false' : 'true');
+        el.style.zIndex = String(100 - depth);
         const home = { x: anchor.x + offset.dx, y: anchor.y + offset.dy };
         if (cardIdx === leavingIdx) {
           const sign = direction === 'next' ? 1 : -1;
