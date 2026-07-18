@@ -9,7 +9,7 @@ circular "bubble" visual language (already used on the splash page, the
 Projects grid, and the Contact bubble pool). The page title, the back-to-portfolio
 link, and the two content sections ("My Journey", "Skills & Background")
 all become physics-driven circular bubbles. `projects.html` gets the same
-title/back-button treatment and joins its existing 12 project bubbles into
+title/back-button treatment and joins its existing 9 project bubbles into
 the same physics field.
 
 ## 2. Goals
@@ -179,7 +179,7 @@ Image cards use a fixed 320px diameter with `object-fit: cover`.
 
 - New title bubble ("Projects", same treatment as §5.2) and back button
   (§5.1).
-- All 12 existing project/featured bubbles keep their current content,
+- All 9 existing project/featured bubbles keep their current content,
   links, hover tooltips, and status badges, but gain: the cycling-glow
   visual (§4.3), and membership in the page's shared physics field (draggable,
   collidable with each other and with the new title/back bubbles). Existing
