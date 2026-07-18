@@ -270,13 +270,17 @@
         b.lastHit = now;
       }
 
+      function onClick(e) {
+        if (b.suppressClick) { e.preventDefault(); e.stopPropagation(); b.suppressClick = false; }
+      }
+
       el.addEventListener('pointerdown', onPointerDown);
       el.addEventListener('pointermove', onPointerMove);
       el.addEventListener('pointerup', release);
       el.addEventListener('pointercancel', release);
-      el.addEventListener('click', function (e) {
-        if (b.suppressClick) { e.preventDefault(); e.stopPropagation(); b.suppressClick = false; }
-      }, true);
+      el.addEventListener('click', onClick, true);
+
+      b._handlers = { onPointerDown, onPointerMove, release, onClick };
     });
 
     let resizeTimer = null;
@@ -319,6 +323,15 @@
       stop();
       document.removeEventListener('visibilitychange', onVisibility);
       global.removeEventListener('resize', onResize);
+      bodies.forEach(b => {
+        const h = b._handlers;
+        if (!h) return;
+        b.el.removeEventListener('pointerdown', h.onPointerDown);
+        b.el.removeEventListener('pointermove', h.onPointerMove);
+        b.el.removeEventListener('pointerup', h.release);
+        b.el.removeEventListener('pointercancel', h.release);
+        b.el.removeEventListener('click', h.onClick, true);
+      });
       field.classList.remove('pool-active');
     }
 
