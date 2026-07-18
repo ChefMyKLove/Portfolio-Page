@@ -56,16 +56,29 @@
 
     field.classList.add('pool-active');
 
-    const bodies = els.map((el) => {
+    // Measure every body's rect BEFORE mutating any of them. When several
+    // bodies share a normal-flow container (e.g. a flex row), switching
+    // one to position:absolute reflows its still-in-flow siblings — so
+    // measuring and mutating in the same pass would corrupt every
+    // subsequent body's captured home position.
+    const fieldRectForMeasure = field.getBoundingClientRect();
+    const measured = els.map((el) => {
       const rect = el.getBoundingClientRect();
-      const fieldRect = field.getBoundingClientRect();
-      const cx = rect.left - fieldRect.left + rect.width / 2;
-      const cy = rect.top - fieldRect.top + rect.height / 2;
-      const r = Math.max(rect.width, rect.height) / 2;
-      el.style.position = 'absolute';
-      el.style.top = '0';
-      el.style.left = '0';
-      el.style.margin = '0';
+      return {
+        el,
+        cx: rect.left - fieldRectForMeasure.left + rect.width / 2,
+        cy: rect.top - fieldRectForMeasure.top + rect.height / 2,
+        r: Math.max(rect.width, rect.height) / 2
+      };
+    });
+    measured.forEach((m) => {
+      m.el.style.position = 'absolute';
+      m.el.style.top = '0';
+      m.el.style.left = '0';
+      m.el.style.margin = '0';
+    });
+
+    const bodies = measured.map(({ el, cx, cy, r }) => {
       return {
         el, r, m: r,
         x: cx, y: cy, vx: 0, vy: 0,

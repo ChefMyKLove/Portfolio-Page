@@ -17,6 +17,14 @@
     el.classList.add('bubble-cycling-glow');
   });
 
+  // Measure the field's natural (pre-absolute) flow height before
+  // createField() switches every body to position:absolute — otherwise
+  // .featured-bubbles/.project-bubbles collapse to zero height once their
+  // children leave the flow, and the footer renders on top of the bubbles
+  // instead of below them.
+  const naturalHeight = field.getBoundingClientRect().height;
+  field.style.minHeight = naturalHeight + 'px';
+
   const allBodies = [backBtn, titleBubble].concat(projectBubbles).filter(Boolean);
   window.BubblePhysics.createField({ field: field, bodies: allBodies });
 })();
