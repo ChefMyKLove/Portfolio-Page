@@ -6,6 +6,7 @@
   'use strict';
 
   const JOURNEY_SLIDES = [
+    { type: 'title', text: 'Journey' },
     { type: 'text', text: "A lifelong creative exploring media as diverse as sound sculpture, fibre art, painting, poetry, and soap making, my practice currently exists at the intersection of photography, digital manipulation, and blockchain-based community art. After three decades as a professional chef, a career-ending injury pushed me into software development—a shift that fundamentally changed my creative practice and kick-started an incredible new artistic odyssey." },
     { type: 'text', text: "I discovered that debugging code, like recipe development, is about transformation: taking ideas and raw materials and reshaping them into something new that provides a nourishing experience. Software development offered something my earlier media couldn't—the ability to create work that scales, persists, and invites participation. Code lets me turn ideas into interactive experiences. Now I work creatively in this digital realm, treating technology as both medium and collaborator in building more inclusive digital spaces." },
     { type: 'text', text: "What excites me is that this technology is a studio, a megaphone, and a toolkit all in one. It amplifies creativity, connects communities, and opens sustainable paths for artists who've been shut out of traditional systems. I'm building tools and experiences that let marginalized creators own their work, reach audiences directly, and thrive on their own terms—using code and blockchain as levers for real equity." },
@@ -15,6 +16,7 @@
   ];
 
   const SKILLS_SLIDES = [
+    { type: 'title', text: 'Skills & Background' },
     {
       type: 'list',
       intro: "My career has spanned over 30 years in culinary arts, where I honed creativity and precision under pressure. The kitchen taught me invaluable lessons that translate directly to software development.",
@@ -46,13 +48,22 @@
   }
 
   function diameterFor(slide) {
-    if (slide.type === 'image') return 320;
-    let text;
-    if (slide.type === 'list') text = [slide.intro, slide.heading].concat(slide.items).join(' ');
-    else if (slide.type === 'link') text = slide.text;
-    else text = slide.text || '';
-    const wc = wordCount(text);
-    return Math.min(440, Math.max(280, 260 + wc * 2.4));
+    const raw = (function () {
+      if (slide.type === 'image') return 480;
+      if (slide.type === 'title') return 600;
+      let text;
+      if (slide.type === 'list') text = [slide.intro, slide.heading].concat(slide.items).join(' ');
+      else if (slide.type === 'link') text = slide.text;
+      else text = slide.text || '';
+      const wc = wordCount(text);
+      return Math.min(660, Math.max(420, 390 + wc * 3.6));
+    })();
+    // Cap to the viewport so cards never overflow narrow screens — the
+    // physics/position math reads this same el.style.width value, so
+    // capping here (rather than via a CSS override) keeps rendered size
+    // and position math consistent.
+    const viewportCap = typeof window !== 'undefined' ? window.innerWidth * 0.85 : raw;
+    return Math.min(raw, viewportCap);
   }
 
   function makeStep(index, total) {
@@ -72,7 +83,17 @@
     const inner = document.createElement('div');
     inner.className = 'deck-card-inner';
 
-    if (slide.type === 'image') {
+    if (slide.type === 'title') {
+      el.classList.add('deck-card-title');
+      const h = document.createElement('span');
+      h.className = 'deck-title-heading';
+      h.textContent = slide.text;
+      inner.appendChild(h);
+      const hint = document.createElement('span');
+      hint.className = 'deck-title-hint';
+      hint.innerHTML = 'tap &rsaquo; to begin';
+      inner.appendChild(hint);
+    } else if (slide.type === 'image') {
       const img = document.createElement('img');
       img.src = slide.src;
       img.alt = slide.alt;

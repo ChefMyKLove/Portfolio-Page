@@ -351,14 +351,14 @@
 .deck-wrap {
   position: static;
   width: 100%;
-  min-height: 500px;
+  min-height: 740px;
 }
 .deck-card {
   position: absolute;
   top: 0;
   left: 0;
   border-radius: 50%;
-  background: rgba(10, 10, 15, 0.65);
+  background: #0d0d17;
   border: 1px solid var(--glass-border);
   box-shadow: var(--glow-shadow);
 }
@@ -436,13 +436,14 @@
   gap: 16px;
 }
 .deck-arrow-btn {
-  width: 44px;
-  height: 44px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  background: rgba(9, 9, 16, 0.88);
+  border: 1px solid var(--glass-border-bright);
+  box-shadow: var(--glow-shadow);
   color: #fff;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -453,11 +454,17 @@
 .deck-arrow-btn:focus-visible {
   background: var(--glass-bg-hover);
   border-color: var(--glass-border-bright);
+  box-shadow: var(--glow-shadow-hover);
   transform: scale(1.08);
 }
 .deck-slide-count {
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(9, 9, 16, 0.75);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  padding: 6px 14px;
   min-width: 3.5em;
   text-align: center;
 }
@@ -470,5 +477,26 @@
 @media (max-width: 720px) {
   .bubble-title { width: 200px; height: 200px; }
   .bubble-title h1 { font-size: 1.25rem; }
-  .deck-wrap { min-height: 380px; }
+  .deck-wrap { min-height: 560px; }
+}
+
+/* ---------- Deck title card (first card in each carousel: "Journey", "Skills & Background") ---------- */
+.deck-card-title .deck-card-inner {
+  gap: 14px;
+}
+.deck-title-heading {
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1.25;
+  max-width: 85%;
+  background: var(--rainbow);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.deck-title-hint {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.55);
 }

@@ -76,7 +76,7 @@
         const home = { x: anchor.x + offset.dx, y: anchor.y + offset.dy };
         if (cardIdx === leavingIdx) {
           const sign = direction === 'next' ? 1 : -1;
-          physics.retarget(el, home, { detour: { x: anchor.x + sign * 260, y: anchor.y - 90 } });
+          physics.retarget(el, home, { detour: { x: anchor.x + sign * 420, y: anchor.y - 140 } });
         } else {
           physics.retarget(el, home);
         }
