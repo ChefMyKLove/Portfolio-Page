@@ -12,10 +12,16 @@
      const controller = BubblePhysics.createField({
        field: document.getElementById('pageField'),   // position:relative
        bodies: [el1, el2, ...],                        // already laid out
+       shrinkTriggerEl: el1,                           // optional — see below
        constants: { ... }                              // optional overrides
      });
      controller.retarget(el, { x, y }, { detour: { x, y } });
      controller.destroy();
+
+   shrinkTriggerEl + constants.SHRINK_TO_DIAMETER: when set, every body
+   eases toward SHRINK_TO_DIAMETER (px) while shrinkTriggerEl specifically
+   is moving (drag or fling), and back to full size once it's idle again.
+   Omit shrinkTriggerEl to have ANY body's motion trigger the shrink instead.
    ============================================================ */
 (function (global) {
   'use strict';
@@ -33,7 +39,13 @@
     HIT_COOLDOWN: 900,
     DRIFT_AMP_MIN: 10,
     DRIFT_AMP_MAX: 18,
-    MIN_FIELD_WIDTH: 340
+    MIN_FIELD_WIDTH: 340,
+    // Opt-in: when set, every body shrinks toward this diameter (px)
+    // while ANY body in the field is moving (dragging/flinging/homing),
+    // then grows back to its full reading size once everything is idle
+    // again. null/0 = feature off, bodies always render at full size.
+    SHRINK_TO_DIAMETER: null,
+    SCALE_LERP: 0.15
   };
 
   function createField(options) {
@@ -81,6 +93,7 @@
       return {
         el, r, m: r,
         x: cx, y: cy, vx: 0, vy: 0,
+        scale: 1,
         home: { x: cx, y: cy },
         detour: null,
         state: 'idle',
@@ -101,8 +114,16 @@
       };
     });
 
+    const shrinkTriggerBody = options.shrinkTriggerEl
+      ? bodies.find((b) => b.el === options.shrinkTriggerEl) || null
+      : null;
+
     function render(b) {
-      b.el.style.transform = 'translate3d(' + (b.x - b.r).toFixed(1) + 'px, ' + (b.y - b.r).toFixed(1) + 'px, 0)';
+      // translate3d positions the body's own (unscaled) box so its center
+      // lands at (x,y); scale() then grows/shrinks it around that same
+      // center — transform-origin defaults to 50%/50%, so the visual
+      // anchor point never moves as scale changes.
+      b.el.style.transform = 'translate3d(' + (b.x - b.r).toFixed(1) + 'px, ' + (b.y - b.r).toFixed(1) + 'px, 0) scale(' + b.scale.toFixed(3) + ')';
     }
     bodies.forEach(render);
 
@@ -121,6 +142,23 @@
     function step(now) {
       const t = now / 1000;
 
+      // Shrink-while-moving: every body eases toward a smaller reading→
+      // in-motion size as soon as the trigger condition is active, and
+      // eases back to full size once it settles to idle again. By
+      // default the trigger is "any body is moving"; if the caller
+      // named a specific trigger body (shrinkTriggerBody), only THAT
+      // body's motion counts — grabbing something else doesn't shrink
+      // the field.
+      if (C.SHRINK_TO_DIAMETER) {
+        const anyActive = shrinkTriggerBody
+          ? shrinkTriggerBody.state !== 'idle'
+          : bodies.some((b) => b.state !== 'idle');
+        for (const b of bodies) {
+          const targetScale = anyActive ? Math.min(1, C.SHRINK_TO_DIAMETER / (2 * b.r)) : 1;
+          b.scale += (targetScale - b.scale) * C.SCALE_LERP;
+        }
+      }
+
       for (const b of bodies) {
         if (b.state === 'idle') {
           b.x = b.home.x + b.ampX * Math.sin(t * b.freqX * Math.PI * 2 + b.phaseX);
@@ -136,7 +174,7 @@
           if (a.homing || b.homing) continue;
           const dx = b.x - a.x, dy = b.y - a.y;
           const dist = Math.hypot(dx, dy) || 1;
-          const minDist = a.r + b.r;
+          const minDist = a.r * a.scale + b.r * b.scale;
           if (dist < minDist) {
             const nx = dx / dist, ny = dy / dist;
             const invA = a.state === 'drag' ? 0 : 1 / a.m;
@@ -204,10 +242,11 @@
 
         b.x += b.vx; b.y += b.vy;
 
-        if (b.x < b.r) { b.x = b.r; b.vx = Math.abs(b.vx) * C.RESTITUTION; }
-        else if (b.x > fieldW - b.r) { b.x = fieldW - b.r; b.vx = -Math.abs(b.vx) * C.RESTITUTION; }
-        if (b.y < b.r) { b.y = b.r; b.vy = Math.abs(b.vy) * C.RESTITUTION; }
-        else if (b.y > fieldH - b.r) { b.y = fieldH - b.r; b.vy = -Math.abs(b.vy) * C.RESTITUTION; }
+        const effR = b.r * b.scale;
+        if (b.x < effR) { b.x = effR; b.vx = Math.abs(b.vx) * C.RESTITUTION; }
+        else if (b.x > fieldW - effR) { b.x = fieldW - effR; b.vx = -Math.abs(b.vx) * C.RESTITUTION; }
+        if (b.y < effR) { b.y = effR; b.vy = Math.abs(b.vy) * C.RESTITUTION; }
+        else if (b.y > fieldH - effR) { b.y = fieldH - effR; b.vy = -Math.abs(b.vy) * C.RESTITUTION; }
 
         render(b);
       }
@@ -246,8 +285,9 @@
         if (b.state !== 'drag' || e.pointerId !== b.pointerId) return;
         const now = performance.now();
         const p = pointerToField(e);
-        let nx = Math.min(Math.max(p.x + b.grabDX, b.r), fieldW - b.r);
-        let ny = Math.min(Math.max(p.y + b.grabDY, b.r), fieldH - b.r);
+        const effR = b.r * b.scale;
+        let nx = Math.min(Math.max(p.x + b.grabDX, effR), fieldW - effR);
+        let ny = Math.min(Math.max(p.y + b.grabDY, effR), fieldH - effR);
         b.vx = nx - b.x; b.vy = ny - b.y;
         b.x = nx; b.y = ny;
         render(b);
@@ -306,8 +346,9 @@
           b.home.x *= sx; b.home.y *= sy;
           if (b.state === 'idle') { b.x = b.home.x; b.y = b.home.y; }
           else {
-            b.x = Math.min(Math.max(b.x * sx, b.r), fieldW - b.r);
-            b.y = Math.min(Math.max(b.y * sy, b.r), fieldH - b.r);
+            const effR = b.r * b.scale;
+            b.x = Math.min(Math.max(b.x * sx, effR), fieldW - effR);
+            b.y = Math.min(Math.max(b.y * sy, effR), fieldH - effR);
           }
           render(b);
         });

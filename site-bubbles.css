@@ -351,7 +351,7 @@
 .deck-wrap {
   position: static;
   width: 100%;
-  min-height: 740px;
+  min-height: 600px;
 }
 .deck-card {
   position: absolute;
@@ -373,6 +373,12 @@
   text-align: center;
   padding: 14%;
   transform-origin: center;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* legacy Edge */
+}
+.deck-card-inner::-webkit-scrollbar {
+  display: none; /* Chrome/Safari — content still scrolls via wheel/touch/keys */
 }
 .deck-card .deck-step {
   font-size: 0.68rem;
@@ -402,8 +408,6 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  max-height: 100%;
-  overflow-y: auto;
 }
 .deck-card-inner img {
   width: 100%;
@@ -421,10 +425,10 @@
   font-weight: 700;
   text-decoration: none;
 }
-.deck-card.wobble { animation: deckWobble 3.6s ease-in-out infinite; }
+.deck-card.wobble { animation: deckWobble 5s ease-in-out infinite; }
 @keyframes deckWobble {
   0%, 100% { margin-top: 0; }
-  50% { margin-top: -4px; }
+  50% { margin-top: -2px; }
 }
 
 .deck-controls {
@@ -477,15 +481,12 @@
 @media (max-width: 720px) {
   .bubble-title { width: 200px; height: 200px; }
   .bubble-title h1 { font-size: 1.25rem; }
-  .deck-wrap { min-height: 560px; }
+  .deck-wrap { min-height: 420px; }
 }
 
 /* ---------- Deck title card (first card in each carousel: "Journey", "Skills & Background") ---------- */
-.deck-card-title .deck-card-inner {
-  gap: 14px;
-}
 .deck-title-heading {
-  font-size: 1.7rem;
+  font-size: 1.15rem;
   font-weight: 800;
   line-height: 1.25;
   max-width: 85%;
@@ -493,10 +494,4 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-.deck-title-hint {
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  color: rgba(255, 255, 255, 0.55);
 }

@@ -48,22 +48,13 @@
   }
 
   function diameterFor(slide) {
-    const raw = (function () {
-      if (slide.type === 'image') return 480;
-      if (slide.type === 'title') return 600;
-      let text;
-      if (slide.type === 'list') text = [slide.intro, slide.heading].concat(slide.items).join(' ');
-      else if (slide.type === 'link') text = slide.text;
-      else text = slide.text || '';
-      const wc = wordCount(text);
-      return Math.min(660, Math.max(420, 390 + wc * 3.6));
-    })();
-    // Cap to the viewport so cards never overflow narrow screens — the
-    // physics/position math reads this same el.style.width value, so
-    // capping here (rather than via a CSS override) keeps rendered size
-    // and position math consistent.
-    const viewportCap = typeof window !== 'undefined' ? window.innerWidth * 0.85 : raw;
-    return Math.min(raw, viewportCap);
+    if (slide.type === 'image') return 408;
+    let text;
+    if (slide.type === 'list') text = [slide.intro, slide.heading].concat(slide.items).join(' ');
+    else if (slide.type === 'link') text = slide.text;
+    else text = slide.text || '';
+    const wc = wordCount(text);
+    return Math.min(561, Math.max(357, 332 + wc * 3.06));
   }
 
   function makeStep(index, total) {
@@ -73,10 +64,13 @@
     return step;
   }
 
-  function buildCard(slide, index, total) {
+  function buildCard(slide, index, total, fixedDiameter) {
     const el = document.createElement('div');
     el.className = 'deck-card bubble-cycling-glow';
-    const d = diameterFor(slide);
+    // A caller-provided fixedDiameter makes every card in the deck
+    // (including the title/cover card) the same uniform size — falls
+    // back to content-based sizing only if none is supplied.
+    const d = typeof fixedDiameter === 'number' ? fixedDiameter : diameterFor(slide);
     el.style.width = d + 'px';
     el.style.height = d + 'px';
 
@@ -89,10 +83,6 @@
       h.className = 'deck-title-heading';
       h.textContent = slide.text;
       inner.appendChild(h);
-      const hint = document.createElement('span');
-      hint.className = 'deck-title-hint';
-      hint.innerHTML = 'tap &rsaquo; to begin';
-      inner.appendChild(hint);
     } else if (slide.type === 'image') {
       const img = document.createElement('img');
       img.src = slide.src;
@@ -136,8 +126,8 @@
     return { dx: depth * 10, dy: depth * 14, rot: depth * -3, scale: 1 - depth * 0.04 };
   }
 
-  function buildDeck(container, slides) {
-    const cards = slides.map(function (s, i) { return buildCard(s, i, slides.length); });
+  function buildDeck(container, slides, fixedDiameter) {
+    const cards = slides.map(function (s, i) { return buildCard(s, i, slides.length, fixedDiameter); });
     cards.forEach(function (c) { container.appendChild(c); });
     const order = cards.map(function (_, i) { return i; });
 

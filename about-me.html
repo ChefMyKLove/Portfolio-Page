@@ -26,8 +26,10 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 24px 24px 60px;
-      min-height: 100vh;
+      justify-content: center;
+      padding: 10px 24px;
+      height: 100vh;
+      overflow: hidden;
       position: relative;
       z-index: 10;
     }
@@ -35,7 +37,16 @@
     .am-back-row-inline {
       width: 100%;
       max-width: 1080px;
-      margin: 0 0 20px;
+      min-height: 54px;
+      margin: 0 0 8px;
+    }
+
+    .am-title-slot {
+      min-height: 260px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .am-grid {
@@ -44,17 +55,22 @@
       gap: 120px;
       width: 100%;
       max-width: 1300px;
-      margin: -85px auto 0;
+      margin: 8px auto 0;
       justify-content: center;
     }
     @media (max-width: 720px) {
       .am-grid { grid-template-columns: 1fr; }
+      .am-title-slot { min-height: 200px; }
+      /* Two decks stack vertically here instead of sitting side-by-side —
+         forcing both onto one screen would shrink cards illegibly small,
+         so mobile scrolls normally instead of the desktop single-screen fit. */
+      .am-page { height: auto; min-height: 100vh; overflow: visible; }
     }
 
     .am-footer {
-      margin-top: 40px;
+      margin-top: 12px;
       color: var(--am-muted, #6b7099);
-      font-size: .78rem;
+      font-size: .7rem;
       text-align: center;
     }
     .am-footer a {
@@ -103,12 +119,10 @@
         </a>
       </div>
 
-      <div class="bubble-title bubble-cycling-glow" id="aboutMeTitle">
-        <h1>About Me</h1>
-      </div>
-      <div class="bubble-title-caption">
-        <span class="label">Portfolio</span>
-        <p>Developer &middot; Artist &middot; Activist</p>
+      <div class="am-title-slot">
+        <div class="bubble-title bubble-cycling-glow" id="aboutMeTitle">
+          <h1>About Me</h1>
+        </div>
       </div>
 
       <div class="am-grid">
