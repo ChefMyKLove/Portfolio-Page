@@ -953,3 +953,70 @@ footer {
     outline: 2px solid rgba(102, 126, 234, 0.9);
     outline-offset: 4px;
 }
+
+/* ============================================
+   RESUME/CV FLYOUT — two small bubbles that pop out of
+   the Resume/CV nav bubble. Deliberately not .nav-bubble:
+   that class is force-repositioned to a static grid cell
+   on mobile, which would break these fixed-position pops.
+   ============================================ */
+.flyout-bubble {
+    position: fixed;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow: 0 0 24px rgba(102, 126, 234, 0.3), 0 4px 18px rgba(0, 0, 0, 0.45);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+    z-index: 200;
+    opacity: 0;
+    transform: scale(0);
+    transition:
+        transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+        opacity   0.2s ease,
+        background 0.22s ease,
+        box-shadow 0.22s ease;
+    padding: 0;
+    font-family: inherit;
+}
+
+.flyout-bubble.visible {
+    opacity: 1;
+    transform: scale(1);
+    border-color: rgba(255, 255, 255, 0.42);
+    box-shadow:
+        0 0 26px rgba(102, 126, 234, 0.66),
+        0 0 58px rgba(102, 126, 234, 0.22),
+        0 6px 22px rgba(0, 0, 0, 0.55),
+        inset 0 0 16px rgba(255, 255, 255, 0.06);
+}
+
+.flyout-bubble.visible:hover {
+    transform: scale(1.18);
+    background: rgba(102, 126, 234, 0.35);
+    box-shadow: 0 0 28px rgba(102, 126, 234, 0.55);
+}
+
+.flyout-bubble:focus-visible {
+    outline: 2px solid rgba(102, 126, 234, 0.9);
+    outline-offset: 4px;
+}
+
+.flyout-bubble .bubble-icon {
+    font-size: 1.5rem;
+}
+
+.flyout-bubble .bubble-label {
+    font-size: 0.5rem;
+    max-width: 54px;
+}

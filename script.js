@@ -1623,6 +1623,90 @@ function closeSiteModal(modal) {
     setTimeout(() => modal.remove(), 300);
 }
 
+// ============================================
+// RESUME/CV FLYOUT — clicking the Resume/CV bubble pops two
+// smaller bubbles (Resume, CV) out above it; clicking the
+// trigger again, clicking outside, or Escape tucks them back in.
+// ============================================
+function toggleResumeCvFlyout(triggerBtn) {
+    const existing = document.getElementById('resumeCvFlyout');
+    if (existing) {
+        closeResumeCvFlyout(existing, triggerBtn);
+    } else {
+        openResumeCvFlyout(triggerBtn);
+    }
+}
+
+function openResumeCvFlyout(triggerBtn) {
+    const SUB_SIZE = 64;
+    const GAP = 14;
+    const MARGIN = 12;
+    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+    const rect = triggerBtn.getBoundingClientRect();
+    const centerX = clamp(rect.left + rect.width / 2, MARGIN + SUB_SIZE / 2, window.innerWidth - MARGIN - SUB_SIZE / 2);
+
+    const wrap = document.createElement('div');
+    wrap.id = 'resumeCvFlyout';
+
+    [
+        { label: 'Resume', icon: '📄', href: 'Michael_Needham_Resume.pdf' },
+        { label: 'CV',     icon: '🎨', href: 'Michael_Needham_CV.pdf' },
+    ].forEach((item, i) => {
+        const bubble = document.createElement('a');
+        bubble.href = item.href;
+        bubble.target = '_blank';
+        bubble.rel = 'noopener noreferrer';
+        bubble.className = 'flyout-bubble';
+        bubble.setAttribute('aria-label', item.label);
+        bubble.innerHTML = `<span class="bubble-icon" aria-hidden="true">${item.icon}</span><span class="bubble-label">${item.label}</span>`;
+
+        const y = clamp(
+            rect.top - GAP - SUB_SIZE / 2 - i * (SUB_SIZE + GAP),
+            MARGIN + SUB_SIZE / 2,
+            window.innerHeight - MARGIN - SUB_SIZE / 2
+        );
+        bubble.style.left = `${Math.round(centerX - SUB_SIZE / 2)}px`;
+        bubble.style.top  = `${Math.round(y - SUB_SIZE / 2)}px`;
+
+        wrap.appendChild(bubble);
+    });
+
+    document.body.appendChild(wrap);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+        wrap.querySelectorAll('.flyout-bubble').forEach(b => b.classList.add('visible'));
+    }));
+
+    triggerBtn.setAttribute('aria-expanded', 'true');
+
+    // Deferred so the click that opened the flyout doesn't also close it
+    // (a listener added mid-dispatch still fires for the event that's
+    // currently bubbling toward document).
+    setTimeout(() => {
+        document.addEventListener('click', onOutsideClick);
+        document.addEventListener('keydown', onEscKey);
+    }, 0);
+
+    function onOutsideClick(e) {
+        if (triggerBtn.contains(e.target) || wrap.contains(e.target)) return;
+        closeResumeCvFlyout(wrap, triggerBtn);
+    }
+    function onEscKey(e) {
+        if (e.key === 'Escape') closeResumeCvFlyout(wrap, triggerBtn);
+    }
+    wrap._cleanup = () => {
+        document.removeEventListener('click', onOutsideClick);
+        document.removeEventListener('keydown', onEscKey);
+    };
+}
+
+function closeResumeCvFlyout(wrap, triggerBtn) {
+    wrap.querySelectorAll('.flyout-bubble').forEach(b => b.classList.remove('visible'));
+    if (wrap._cleanup) wrap._cleanup();
+    if (triggerBtn) triggerBtn.setAttribute('aria-expanded', 'false');
+    setTimeout(() => wrap.remove(), 250);
+}
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     ArtCarousel.init();
