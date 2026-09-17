@@ -141,20 +141,75 @@ function setupEmailModal() {
     const modal = document.getElementById('contactModal');
     const closeBtn = document.querySelector('.close');
     let clickTimer = null;
+    let activationCount = 0;
+    let lastFocusedBeforeModal = null;
 
     if (!emailTrigger || !modal || !closeBtn) {
         logError('Email modal elements not found');
         return;
     }
 
-    // Handle single/double click on email
-    emailTrigger.addEventListener('click', function(e) {
+    function getFocusable() {
+        return Array.from(modal.querySelectorAll('button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])'))
+            .filter(el => !el.disabled && el.offsetParent !== null);
+    }
+
+    function onModalKeydown(e) {
+        if (e.key === 'Escape') {
+            closeContactModal();
+            return;
+        }
+        if (e.key !== 'Tab') return;
+        const focusable = getFocusable();
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+        }
+    }
+
+    function openContactModal() {
+        lastFocusedBeforeModal = document.activeElement;
+        modal.style.display = 'flex';
+        modal.style.opacity = '0';
+
+        // Animate modal in
+        setTimeout(() => {
+            modal.style.transition = 'opacity 0.5s ease';
+            modal.style.opacity = '1';
+        }, 10);
+
+        closeBtn.focus();
+        document.addEventListener('keydown', onModalKeydown);
+        log('Contact modal opened');
+    }
+
+    function closeContactModal() {
+        modal.style.transition = 'opacity 0.3s ease';
+        modal.style.opacity = '0';
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300);
+        document.removeEventListener('keydown', onModalKeydown);
+        if (lastFocusedBeforeModal) lastFocusedBeforeModal.focus();
+        log('Contact modal closed');
+    }
+
+    // Counting "click" activations (rather than listening for the mouse-only
+    // "dblclick" event) means this works the same from keyboard Enter/Space
+    // activation as it does from a mouse double-click: a single activation
+    // copies the email, a second activation within the window opens the form.
+    emailTrigger.addEventListener('click', function() {
         const email = this.getAttribute('data-email');
-        
-        if (clickTimer === null) {
-            // First click - set timer to copy email
+        activationCount++;
+
+        if (activationCount === 1) {
             clickTimer = setTimeout(() => {
-                // Single click - copy to clipboard
                 navigator.clipboard.writeText(email).then(() => {
                     // Bubble layout keeps icon/label spans — swap only the hint line
                     const feedbackEl = emailTrigger.querySelector('.gb-sub') || emailTrigger;
@@ -166,25 +221,13 @@ function setupEmailModal() {
                 }).catch(err => {
                     logError('Failed to copy email', err);
                 });
-                clickTimer = null;
+                activationCount = 0;
             }, 300);
+        } else {
+            clearTimeout(clickTimer);
+            activationCount = 0;
+            openContactModal();
         }
-    });
-
-    emailTrigger.addEventListener('dblclick', function(e) {
-        // Double click - clear timer and open modal
-        clearTimeout(clickTimer);
-        clickTimer = null;
-        modal.style.display = 'flex';
-        modal.style.opacity = '0';
-        
-        // Animate modal in
-        setTimeout(() => {
-            modal.style.transition = 'opacity 0.5s ease';
-            modal.style.opacity = '1';
-        }, 10);
-        
-        log('Contact modal opened');
     });
 
     // Handle click on contact animation image
@@ -231,25 +274,11 @@ function setupEmailModal() {
     }
 
     // Close modal on X button
-    closeBtn.addEventListener('click', () => {
-        modal.style.transition = 'opacity 0.3s ease';
-        modal.style.opacity = '0';
-        setTimeout(() => {
-            modal.style.display = 'none';
-        }, 300);
-        log('Contact modal closed');
-    });
+    closeBtn.addEventListener('click', closeContactModal);
 
     // Close modal when clicking outside
     window.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.style.transition = 'opacity 0.3s ease';
-            modal.style.opacity = '0';
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 300);
-            log('Contact modal closed (outside click)');
-        }
+        if (e.target === modal) closeContactModal();
     });
 
     // Handle form submission with AJAX
@@ -1537,39 +1566,43 @@ const ArtCarousel = {
 
 // Printify Modal Handler
 function openPrintifyModal(url, title) {
+    const trigger = document.activeElement;
+
     const modal = document.createElement('div');
     modal.className = 'printify-modal';
     modal.innerHTML = `
-        <div class="printify-modal-content">
+        <div class="printify-modal-content" role="dialog" aria-modal="true" aria-labelledby="printifyModalTitle">
             <div class="printify-modal-header">
-                <h2>${title}</h2>
-                <span class="printify-modal-close">&times;</span>
+                <h2 id="printifyModalTitle">${title}</h2>
+                <button type="button" class="printify-modal-close" aria-label="Close">&times;</button>
             </div>
-            <iframe src="${url}" class="printify-iframe"></iframe>
+            <iframe src="${url}" class="printify-iframe" title="${title}"></iframe>
         </div>
     `;
-    
+
     document.body.appendChild(modal);
     document.body.style.overflow = 'hidden';
-    
+
     const closeBtn = modal.querySelector('.printify-modal-close');
-    closeBtn.onclick = () => closePrintifyModal(modal);
-    
+    closeBtn.onclick = () => closePrintifyModal(modal, trigger);
+    closeBtn.focus();
+
     modal.onclick = (e) => {
-        if (e.target === modal) closePrintifyModal(modal);
+        if (e.target === modal) closePrintifyModal(modal, trigger);
     };
-    
+
     document.addEventListener('keydown', function escHandler(e) {
         if (e.key === 'Escape') {
-            closePrintifyModal(modal);
+            closePrintifyModal(modal, trigger);
             document.removeEventListener('keydown', escHandler);
         }
     });
 }
 
-function closePrintifyModal(modal) {
+function closePrintifyModal(modal, trigger) {
     modal.remove();
     document.body.style.overflow = '';
+    if (trigger) trigger.focus();
 }
 
 // ============================================
@@ -1577,16 +1610,19 @@ function closePrintifyModal(modal) {
 // Singleton: only one instance is ever open at a time.
 // ============================================
 let activeSiteModal = null;
+let siteModalTrigger = null;
 
 function openSiteModal(url, title) {
     if (activeSiteModal) return; // already open — ignore duplicate triggers
 
+    siteModalTrigger = document.activeElement;
+
     const modal = document.createElement('div');
     modal.className = 'site-modal';
     modal.innerHTML = `
-        <div class="site-modal-panel">
+        <div class="site-modal-panel" role="dialog" aria-modal="true" aria-labelledby="siteModalTitle">
             <div class="site-modal-header">
-                <h2>${title}</h2>
+                <h2 id="siteModalTitle">${title}</h2>
                 <button type="button" class="site-modal-close" aria-label="Close">&times;</button>
             </div>
             <iframe src="${url}" class="site-modal-frame" title="${title}"></iframe>
@@ -1602,24 +1638,44 @@ function openSiteModal(url, title) {
     }));
 
     const closeBtn = modal.querySelector('.site-modal-close');
+    const iframe = modal.querySelector('.site-modal-frame');
     closeBtn.onclick = () => closeSiteModal(modal);
+    closeBtn.focus();
 
     modal.onclick = (e) => {
         if (e.target === modal) closeSiteModal(modal);
     };
 
-    document.addEventListener('keydown', function escHandler(e) {
+    function keyHandler(e) {
         if (e.key === 'Escape') {
             closeSiteModal(modal);
-            document.removeEventListener('keydown', escHandler);
+        } else if (e.key === 'Tab') {
+            // The close button and the iframe are the only two things outside
+            // the iframe's own document that can hold focus, so loop between
+            // them directly instead of trying to trap focus inside cross-origin
+            // iframe content, which scripts on this page can't reach.
+            if (e.shiftKey && document.activeElement === closeBtn) {
+                e.preventDefault();
+                iframe.focus();
+            } else if (!e.shiftKey && document.activeElement === iframe) {
+                e.preventDefault();
+                closeBtn.focus();
+            }
         }
-    });
+    }
+    document.addEventListener('keydown', keyHandler);
+    modal._cleanup = () => document.removeEventListener('keydown', keyHandler);
 }
 
 function closeSiteModal(modal) {
     modal.classList.remove('active');
     document.body.style.overflow = '';
     if (activeSiteModal === modal) activeSiteModal = null;
+    if (modal._cleanup) modal._cleanup();
+    if (siteModalTrigger) {
+        siteModalTrigger.focus();
+        siteModalTrigger = null;
+    }
     setTimeout(() => modal.remove(), 300);
 }
 

@@ -151,7 +151,7 @@
 
     .ct-footer {
       margin-top: 24px;
-      color: rgba(255,255,255,0.35);
+      color: rgba(255,255,255,0.6);
       font-size: .78rem;
       text-align: center;
     }
@@ -208,10 +208,10 @@
     <div class="bubble-field" id="bubbleField" aria-label="Contact and social links">
       <button type="button" class="glass-bubble glass-bubble-xl pool-bubble" id="emailTrigger"
               data-email="chefmyklove@gmail.com"
-              aria-label="Copy email address. Double-click to open the message form.">
+              aria-label="Copy email address. Activate twice in a row to open the message form.">
         <span class="gb-icon">✉️</span>
         <span class="gb-label">chefmyklove@gmail.com</span>
-        <span class="gb-sub">click to copy · double-click to message</span>
+        <span class="gb-sub" aria-live="polite">click to copy · click again to message</span>
       </button>
       <a class="glass-bubble pool-bubble" href="https://x.com/ordinalrainbows" target="_blank" rel="noopener noreferrer" aria-label="X — @ordinalrainbows">
         <span class="gb-icon">𝕏</span>
@@ -249,10 +249,10 @@
   </div>
 
   <!-- Modal for contact form -->
-  <div id="contactModal" class="modal">
+  <div id="contactModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle">
     <div class="modal-content">
-      <span class="close">&times;</span>
-      <h3>Send me a message</h3>
+      <button type="button" class="close" aria-label="Close">&times;</button>
+      <h3 id="contactModalTitle">Send me a message</h3>
       <form id="contactForm" action="https://submit-form.com/lrddY0Mbk" method="POST">
         <input type="text" name="name" placeholder="Your Name" required>
         <input type="email" name="email" placeholder="Your Email" required>
