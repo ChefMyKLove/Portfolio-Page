@@ -257,6 +257,8 @@
         <input type="text" name="name" placeholder="Your Name" required>
         <input type="email" name="email" placeholder="Your Email" required>
         <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+        <!-- Formspark honeypot: hidden from humans; bots that fill it get silently dropped -->
+        <input type="checkbox" name="_honeypot" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
         <button type="submit">Send Message</button>
       </form>
     </div>
